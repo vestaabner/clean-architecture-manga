@@ -9,6 +9,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace IdentityServer
 {
+    using IdentityServer4;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+
     public class Startup
     {
         public IWebHostEnvironment Environment { get; }
@@ -32,8 +35,18 @@ namespace IdentityServer
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients);
 
+            services.AddAuthentication()
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddGoogle("Google", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                    options.ClientId = "556852823610-st4qd2e8v7eu3unu6copt35dse8l34c7.apps.googleusercontent.com";
+                    options.ClientSecret = "WIAHI8YIT-Rg7ywSQnmYZZir";
+                });
+
             // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            // builder.AddDeveloperSigningCredential();
         }
 
         public void Configure(IApplicationBuilder app)
