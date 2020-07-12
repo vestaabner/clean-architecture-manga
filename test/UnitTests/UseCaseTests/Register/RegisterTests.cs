@@ -18,7 +18,7 @@ namespace UnitTests.UseCaseTests.Register
             RegisterPresenterFake presenter = new RegisterPresenterFake();
             const string ssn = "8608178888";
 
-            RegisterUseCase sut = new RegisterUseCase(
+            OpenAccountUseCase sut = new OpenAccountUseCase(
                 this._fixture.TestUserService,
                 this._fixture.CustomerService,
                 this._fixture.AccountService,
@@ -28,7 +28,7 @@ namespace UnitTests.UseCaseTests.Register
                 this._fixture.CustomerRepositoryFake,
                 this._fixture.AccountRepositoryFake);
 
-            await sut.Execute(new RegisterInput(
+            await sut.Execute(new IRegisterInput(
                 ssn,
                 amount));
 

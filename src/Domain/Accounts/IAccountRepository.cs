@@ -64,5 +64,13 @@ namespace Domain.Accounts
         /// <param name="account">Account object.</param>
         /// <returns>Task.</returns>
         Task Delete(IAccount account);
+
+        /// <summary>
+        /// Finds an Account.
+        /// </summary>
+        /// <param name="accountId">Account Id.</param>
+        /// <param name="customerId">Customer Id.</param>
+        /// <returns></returns>
+        Task<IAccount> Find(AccountId accountId, CustomerId customerId);
     }
 }

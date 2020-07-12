@@ -18,38 +18,27 @@ namespace Domain.Customers
     /// </summary>
     public sealed class CustomerService
     {
-        private readonly ICustomerFactory _customerFactory;
         private readonly ICustomerRepository _customerRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CustomerService" /> class.
         /// </summary>
-        /// <param name="customerFactory">Customer Factory.</param>
         /// <param name="customerRepository">Customer Repository.</param>
         public CustomerService(
-            ICustomerFactory customerFactory,
             ICustomerRepository customerRepository)
         {
-            this._customerFactory = customerFactory;
             this._customerRepository = customerRepository;
         }
 
         /// <summary>
-        ///     Creates a Customer.
+        ///     Registers a Customer.
         /// </summary>
-        /// <param name="ssn">SSN.</param>
-        /// <param name="name">Name.</param>
         /// <returns>Created Customer.</returns>
-        public async Task<ICustomer> CreateCustomer(SSN ssn, Name name)
+        public async Task RegisterCustomer(ICustomer customer)
         {
-            ICustomer customer = this._customerFactory
-                .NewCustomer(ssn, name);
-
             await this._customerRepository
                 .Add(customer)
                 .ConfigureAwait(false);
-
-            return customer;
         }
 
         /// <summary>

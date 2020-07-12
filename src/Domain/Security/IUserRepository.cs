@@ -22,7 +22,7 @@ namespace Domain.Security
         /// </summary>
         /// <param name="externalUserId">External UserId.</param>
         /// <returns>User.</returns>
-        Task<IUser> GetUser(ExternalUserId externalUserId);
+        Task<IUser> Find(ExternalUserId externalUserId);
 
         /// <summary>
         ///     Adds the User.

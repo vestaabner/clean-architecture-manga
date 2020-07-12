@@ -4,7 +4,7 @@
 
 namespace Domain.Security
 {
-    using Customers.ValueObjects;
+    using ValueObjects;
 
     /// <summary>
     ///     User
@@ -18,18 +18,8 @@ namespace Domain.Security
     public interface IUser
     {
         /// <summary>
-        ///     Gets the CustomerId.
+        ///     Gets the ExternalUserId.
         /// </summary>
-        CustomerId? CustomerId { get; }
-
-        /// <summary>
-        ///     Gets the Name.
-        /// </summary>
-        Name Name { get; }
-
-        /// <summary>
-        /// </summary>
-        /// <param name="customerId"></param>
-        void Assign(CustomerId customerId);
+        ExternalUserId ExternalUserId { get; }
     }
 }

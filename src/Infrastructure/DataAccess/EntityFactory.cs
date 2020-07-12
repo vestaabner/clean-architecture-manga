@@ -66,7 +66,7 @@ namespace Infrastructure.DataAccess
             => new Customer(new CustomerId(Guid.NewGuid()), name, ssn);
 
         /// <inheritdoc />
-        public IUser NewUser(CustomerId? customerId, ExternalUserId externalUserId, Name name)
-            => new User(externalUserId, name, customerId);
+        public IUser NewUser(ExternalUserId externalUserId, Name name)
+            => new User(new UserId(Guid.NewGuid()), externalUserId, name);
     }
 }

@@ -41,12 +41,9 @@ namespace Domain.Accounts
         /// <summary>
         ///     Open Checking Account.
         /// </summary>
-        /// <param name="customerId">Customer Id.</param>
-        /// <param name="amount">Amount.</param>
         /// <returns>IAccount created.</returns>
-        public async Task<IAccount> OpenCheckingAccount(CustomerId customerId, PositiveMoney amount)
+        public async Task<IAccount> OpenCheckingAccount(IAccount account)
         {
-            IAccount account = this._accountFactory.NewAccount(customerId);
             ICredit credit = account.Deposit(this._accountFactory, amount);
             await this._accountRepository.Add(account, credit)
                 .ConfigureAwait(false);

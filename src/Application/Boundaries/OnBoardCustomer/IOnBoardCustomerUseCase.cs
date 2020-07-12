@@ -1,8 +1,8 @@
-// <copyright file="IRegisterUseCase.cs" company="Ivan Paulovich">
+// <copyright file="IOnBoardCustomerUseCase.cs" company="Ivan Paulovich">
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.Boundaries.Register
+namespace Application.Boundaries.OnBoardCustomer
 {
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
@@ -11,7 +11,7 @@ namespace Application.Boundaries.Register
     ///     </see>
     ///     .
     /// </summary>
-    public interface IRegisterUseCase : IUseCase<RegisterInput>
+    public interface IOnBoardCustomerUseCase : IUseCase<IOnBoardCustomerInput>
     {
     }
 }

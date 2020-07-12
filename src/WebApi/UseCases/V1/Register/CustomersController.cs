@@ -2,12 +2,11 @@ namespace WebApi.UseCases.V1.Register
 {
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using Application.Boundaries.Register;
     using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using WebApi.Modules.Common;
+    using Modules.Common;
 
     /// <summary>
     ///     Customers
@@ -41,11 +40,7 @@ namespace WebApi.UseCases.V1.Register
             [FromServices] RegisterPresenter presenter,
             [FromForm][Required] RegisterRequest request)
         {
-            var input = new RegisterInput(
-                request.SSN,
-                request.InitialAmount);
-
-            await mediator.PublishAsync(input)
+            await mediator.PublishAsync(request)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

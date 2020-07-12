@@ -9,7 +9,7 @@ namespace Application.UseCases
     using Boundaries.GetAccounts;
     using Domain.Accounts;
     using Domain.Security;
-    using Domain.Security.Services;
+    using Services;
 
     /// <summary>
     ///     Get Customer Details
@@ -56,7 +56,7 @@ namespace Application.UseCases
             }
 
             IUser user = this._userService
-                .GetUser();
+                .GetCurrentUser();
 
             List<IAccount> accounts = new List<IAccount>();
 

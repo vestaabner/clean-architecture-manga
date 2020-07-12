@@ -5,6 +5,7 @@
 namespace Domain.Customers
 {
     using System.Threading.Tasks;
+    using Security.ValueObjects;
     using ValueObjects;
 
     /// <summary>
@@ -23,6 +24,13 @@ namespace Domain.Customers
         /// <param name="customerId">CustomerId.</param>
         /// <returns>Customer.</returns>
         Task<ICustomer> GetBy(CustomerId customerId);
+
+        /// <summary>
+        ///     Finds the Customer by External User Id.
+        /// </summary>
+        /// <param name="externalUserId">CustomerId.</param>
+        /// <returns>Customer.</returns>
+        Task<ICustomer> Find(ExternalUserId externalUserId);
 
         /// <summary>
         ///     Adds the Customer.

@@ -8,7 +8,7 @@ namespace Application.UseCases
     using Boundaries.GetCustomer;
     using Domain.Customers;
     using Domain.Security;
-    using Domain.Security.Services;
+    using Services;
 
     /// <summary>
     ///     Get Customer Details
@@ -21,22 +21,22 @@ namespace Application.UseCases
     public sealed class GetCustomerUseCase : IGetCustomerUseCase
     {
         private readonly ICustomerRepository _customerRepository;
-        private readonly IGetCustomerOutputPort _getCustomerOutputPort;
+        private readonly IGetCustomerOutputPort _outputPort;
         private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetCustomerUseCase" /> class.
         /// </summary>
+        /// <param name="outputPort"></param>
         /// <param name="userService">User Service.</param>
-        /// <param name="getCustomerOutputPort">Output Port.</param>
         /// <param name="customerRepository">Customer Repository.</param>
         public GetCustomerUseCase(
+            IGetCustomerOutputPort outputPort,
             IUserService userService,
-            IGetCustomerOutputPort getCustomerOutputPort,
             ICustomerRepository customerRepository)
         {
             this._userService = userService;
-            this._getCustomerOutputPort = getCustomerOutputPort;
+            this._outputPort = outputPort;
             this._customerRepository = customerRepository;
         }
 
@@ -49,42 +49,27 @@ namespace Application.UseCases
         {
             if (input is null)
             {
-                this._getCustomerOutputPort
+                this._outputPort
                     .WriteError(Messages.InputIsNull);
                 return;
             }
 
-            IUser user = this._userService.GetUser();
+            IUser user = this._userService
+                .GetCurrentUser();
 
-            ICustomer customer;
-
-            if (user.CustomerId is { } customerId)
-            {
-                customer = await this._customerRepository
-                    .GetBy(customerId)
+            ICustomer customer = await this._customerRepository
+                    .Find(user.ExternalUserId)
                     .ConfigureAwait(false);
 
-                if (customer == null)
-                {
-                    this._getCustomerOutputPort
-                        .NotFound(Messages.CustomerDoesNotExist);
-                    return;
-                }
-            }
-            else
+            if (customer == null)
             {
-                this._getCustomerOutputPort
+                this._outputPort
                     .NotFound(Messages.CustomerDoesNotExist);
                 return;
             }
 
-            this.BuildOutput(customer);
-        }
-
-        private void BuildOutput(ICustomer customer)
-        {
             var output = new GetCustomerOutput(customer);
-            this._getCustomerOutputPort
+            this._outputPort
                 .Standard(output);
         }
     }

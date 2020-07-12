@@ -2,17 +2,19 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Security.Services
+namespace Application.Services
 {
+    using Domain.Security;
+
     /// <summary>
     ///     User Service.
     /// </summary>
     public interface IUserService
     {
         /// <summary>
-        ///     Gets the User.
+        ///     Gets the Current User.
         /// </summary>
         /// <returns>User.</returns>
-        IUser GetUser();
+        IUser GetCurrentUser();
     }
 }

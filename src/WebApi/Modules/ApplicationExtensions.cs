@@ -31,7 +31,7 @@ namespace WebApi.Modules
             services.AddScoped<IGetAccountUseCase, GetAccountUseCase>();
             services.AddScoped<IGetAccountsUseCase, GetAccountsUseCase>();
             services.AddScoped<IGetCustomerUseCase, GetCustomerUseCase>();
-            services.AddScoped<IRegisterUseCase, RegisterUseCase>();
+            services.AddScoped<IRegisterUseCase, OpenAccountUseCase>();
             services.AddScoped<IWithdrawUseCase, WithdrawUseCase>();
             services.AddScoped<ITransferUseCase, TransferUseCase>();
 

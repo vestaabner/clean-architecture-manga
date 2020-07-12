@@ -4,10 +4,10 @@
 
 namespace Infrastructure.ExternalAuthentication
 {
+    using Application.Services;
     using DataAccess;
     using Domain.Customers.ValueObjects;
     using Domain.Security;
-    using Domain.Security.Services;
     using Domain.Security.ValueObjects;
 
     /// <inheritdoc />
@@ -21,14 +21,19 @@ namespace Infrastructure.ExternalAuthentication
         public TestUserService(IUserFactory userFactory) => this._userFactory = userFactory;
 
         /// <inheritdoc />
-        public IUser GetUser()
+        public IUser GetCurrentUser()
         {
-            CustomerId customerId = new CustomerId(MangaContextFake.DefaultCustomerId.ToGuid());
-            ExternalUserId externalUserId = new ExternalUserId(Messages.ExternalUserID);
-            Name name = new Name(Messages.UserName);
+            CustomerId customerId = new CustomerId(MangaContextFake
+                .DefaultCustomerId
+                .ToGuid());
 
+            ExternalUserId externalUserId = new ExternalUserId(
+                Messages.ExternalUserID);
+
+            Name name = new Name(Messages.UserName);
             IUser user = this._userFactory
                 .NewUser(customerId, externalUserId, name);
+
             return user;
         }
     }

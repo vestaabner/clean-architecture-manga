@@ -6,6 +6,7 @@ namespace Infrastructure.DataAccess.Entities
 {
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
+    using Domain.Security.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Customer : Domain.Customers.Customer
@@ -14,11 +15,12 @@ namespace Infrastructure.DataAccess.Entities
         {
         }
 
-        public Customer(CustomerId id, Name name, SSN ssn)
+        public Customer(CustomerId id, Name name, SSN ssn, UserId userId)
         {
             this.Id = id;
             this.Name = name;
             this.SSN = ssn;
+            this.UserId = userId;
         }
 
         /// <inheritdoc />
@@ -29,6 +31,11 @@ namespace Infrastructure.DataAccess.Entities
 
         /// <inheritdoc />
         public override CustomerId Id { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public UserId UserId { get; }
 
         /// <inheritdoc />
         public override AccountCollection Accounts { get; } = new AccountCollection();

@@ -24,11 +24,6 @@ namespace Domain.Security.ValueObjects
         /// <param name="text">External User Id.</param>
         public ExternalUserId(string text)
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new ExternalUserIdShouldNotBeEmptyException(Messages.TheTextFieldIsRequired);
-            }
-
             this._text = text;
         }
 

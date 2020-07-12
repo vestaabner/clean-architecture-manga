@@ -4,7 +4,6 @@
 
 namespace Infrastructure.DataAccess.Repositories
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Domain.Security;
@@ -16,8 +15,7 @@ namespace Infrastructure.DataAccess.Repositories
     {
         private readonly MangaContext _context;
 
-        public UserRepository(MangaContext context) => this._context = context ??
-                                                                       throw new ArgumentNullException(nameof(context));
+        public UserRepository(MangaContext context) => this._context = context;
 
         public async Task Add(IUser user)
         {
@@ -25,12 +23,13 @@ namespace Infrastructure.DataAccess.Repositories
                 .Users
                 .AddAsync((User)user)
                 .ConfigureAwait(false);
+
             await this._context
                 .SaveChangesAsync()
                 .ConfigureAwait(false);
         }
 
-        public async Task<IUser> GetUser(ExternalUserId externalUserId)
+        public async Task<IUser> Find(ExternalUserId externalUserId)
         {
             User user = await this._context
                 .Users

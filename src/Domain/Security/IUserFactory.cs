@@ -4,7 +4,6 @@
 
 namespace Domain.Security
 {
-    using Customers.ValueObjects;
     using ValueObjects;
 
     /// <summary>
@@ -21,11 +20,8 @@ namespace Domain.Security
         /// <summary>
         ///     Creates new User.
         /// </summary>
-        /// s
-        /// <param name="customer">Customer object.</param>
         /// <param name="externalUserId">ExternalUserId.</param>
-        /// <param name="name">Name.</param>
         /// <returns>New User instance.</returns>
-        IUser NewUser(CustomerId? customer, ExternalUserId externalUserId, Name name);
+        IUser NewUser(ExternalUserId externalUserId);
     }
 }

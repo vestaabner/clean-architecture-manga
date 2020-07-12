@@ -33,7 +33,7 @@ namespace Domain.Accounts
         ICredit Deposit(IAccountFactory entityFactory, PositiveMoney amountToDeposit);
 
         /// <summary>
-        ///     Withdrawls from account.
+        ///     Withdraws from account.
         /// </summary>
         /// <param name="entityFactory">Factory to create new debits.</param>
         /// <param name="amountToWithdraw">Amount.</param>

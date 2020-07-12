@@ -8,7 +8,7 @@ namespace UnitTests.InputValidationTests
         [Fact]
         public void GivenValidData_InputCreated()
         {
-            RegisterInput actual = new RegisterInput(
+            IRegisterInput actual = new IRegisterInput(
                 "19860817999",
                 10);
             Assert.NotNull(actual);

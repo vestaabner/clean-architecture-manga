@@ -31,7 +31,7 @@ namespace Infrastructure.ExternalAuthentication
         }
 
         /// <inheritdoc />
-        public IUser GetUser()
+        public IUser GetCurrentUser()
         {
             ClaimsPrincipal user = this._httpContextAccessor
                 .HttpContext

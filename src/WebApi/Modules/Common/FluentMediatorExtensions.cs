@@ -42,7 +42,7 @@ namespace WebApi.Modules.Common
                         .Call<IGetCustomerUseCase>((handler, request) =>
                             handler.Execute(request));
 
-                    builder.On<RegisterInput>().PipelineAsync()
+                    builder.On<IRegisterInput>().PipelineAsync()
                         .Call<IRegisterUseCase>((handler, request) => handler.Execute(request));
 
                     builder.On<TransferInput>().PipelineAsync()
