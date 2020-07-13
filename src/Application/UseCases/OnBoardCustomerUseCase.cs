@@ -8,7 +8,6 @@ namespace Application.UseCases
     using Boundaries.OnBoardCustomer;
     using Builders;
     using Domain.Customers;
-    using Domain.Security;
     using Services;
 
     /// <summary>
@@ -21,36 +20,28 @@ namespace Application.UseCases
     /// </summary>
     public sealed class OnBoardCustomerUseCase : IOnBoardCustomerUseCase
     {
-        private readonly ISSNValidator _ssnValidator;
-        private readonly ICustomerFactory _customerFactory;
         private readonly ICustomerRepository _customerRepository;
         private readonly IOnBoardCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
+        private readonly BuilderFactory _builderFactory;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="outputPort"></param>
         /// <param name="unitOfWork"></param>
-        /// <param name="ssnValidator"></param>
-        /// <param name="customerFactory"></param>
         /// <param name="customerRepository"></param>
-        /// <param name="userService"></param>
+        /// <param name="builderFactory"></param>
         public OnBoardCustomerUseCase(
             IOnBoardCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
-            ISSNValidator ssnValidator,
-            ICustomerFactory customerFactory,
             ICustomerRepository customerRepository,
-            IUserService userService)
+            BuilderFactory builderFactory)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
-            this._ssnValidator = ssnValidator;
-            this._customerFactory = customerFactory;
             this._customerRepository = customerRepository;
-            this._userService = userService;
+            this._builderFactory = builderFactory;
         }
 
         /// <summary>
@@ -67,20 +58,14 @@ namespace Application.UseCases
                 return;
             }
 
-            var customerBuilder = new CustomerBuilder(
-                this._customerFactory,
-                this._ssnValidator,
-                this._userService,
-                this._customerRepository);
+            CustomerBuilder customerBuilder = this._builderFactory
+                .NewCustomerBuilder();
 
-            customerBuilder
+            ICustomer customer = customerBuilder
                 .FirstName(input.FirstName)
                 .LastName(input.LastName)
-                .SSN(input.SSN);
-
-            await customerBuilder
-                .AvailableExternalUserId()
-                .ConfigureAwait(false);
+                .SSN(input.SSN)
+                .Build();
 
             if (!customerBuilder.IsValid)
             {
@@ -88,9 +73,6 @@ namespace Application.UseCases
                     .Invalid(customerBuilder.ErrorMessages);
                 return;
             }
-
-            ICustomer customer = customerBuilder
-                .Build();
 
             await this._customerRepository
                 .Add(customer)

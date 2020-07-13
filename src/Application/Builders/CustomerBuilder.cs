@@ -5,7 +5,6 @@
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
     using Domain.Security;
-    using Domain.Security.ValueObjects;
     using Services;
 
     /// <summary>
@@ -18,10 +17,9 @@
         private readonly IUserService _userService;
         private readonly ICustomerRepository _customerRepository;
 
-        private SSN _ssn;
-        private Name _firstName;
-        private Name _lastName;
-        private ExternalUserId _externalUserId;
+        private string? _ssn;
+        private string? _firstName;
+        private string? _lastName;
 
         /// <summary>
         /// 
@@ -54,10 +52,8 @@
                 this.ErrorMessages
                     .Add(new ErrorMessage("Customer.SSN", Messages.InvalidSSN));
             }
-            else
-            {
-                this._ssn = new SSN(ssn);
-            }
+
+            this._ssn = ssn;
 
             return this;
         }
@@ -69,7 +65,7 @@
         /// <returns></returns>
         public CustomerBuilder FirstName(string name)
         {
-            this._firstName = new Name(name);
+            this._firstName = name;
 
             return this;
         }
@@ -81,7 +77,7 @@
         /// <returns></returns>
         public CustomerBuilder LastName(string name)
         {
-            this._lastName = new Name(name);
+            this._lastName = name;
 
             return this;
         }
@@ -92,11 +88,18 @@
         /// <returns></returns>
         public ICustomer Build()
         {
+            SSN ssn = new SSN(this._ssn!);
+            Name firstName = new Name(this._firstName!);
+            Name lastName = new Name(this._lastName!);
+
+            IUser user = this._userService
+                .GetCurrentUser();
+
             return this._customerFactory.NewCustomer(
-                this._ssn,
-                this._firstName,
-                this._lastName,
-                this._externalUserId);
+                ssn,
+                firstName,
+                lastName,
+                user.ExternalUserId);
         }
 
         /// <summary>
@@ -119,7 +122,7 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task AvailableExternalUserId()
+        public async Task<ICustomer> Update()
         {
             IUser user = this._userService
                 .GetCurrentUser();
@@ -128,29 +131,13 @@
                 .Find(user.ExternalUserId)
                 .ConfigureAwait(false);
 
-            if (existingCustomer == null)
-            {
-                this._externalUserId = user.ExternalUserId;
-            }
-        }
+            SSN ssn = new SSN(this._ssn!);
+            Name firstName = new Name(this._firstName!);
+            Name lastName = new Name(this._lastName!);
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public async Task ExistingCustomer()
-        {
-            IUser user = this._userService
-                .GetCurrentUser();
+            existingCustomer.Update(ssn, firstName, lastName);
 
-            ICustomer existingCustomer = await this._customerRepository
-                .Find(user.ExternalUserId)
-                .ConfigureAwait(false);
-
-            if (existingCustomer == null)
-            {
-                this._externalUserId = user.ExternalUserId;
-            }
+            return existingCustomer;
         }
     }
 }

@@ -33,5 +33,13 @@ namespace Domain.Customers
         /// </summary>
         /// <param name="accountId">Account Id.</param>
         void Assign(AccountId accountId);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ssn"></param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        void Update(SSN ssn, Name firstName, Name lastName);
     }
 }

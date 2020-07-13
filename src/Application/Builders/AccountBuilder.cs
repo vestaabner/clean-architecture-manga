@@ -1,5 +1,6 @@
 ﻿namespace Application.Builders
 {
+    using System;
     using System.Collections.Generic;
     using Domain.Accounts;
     using Domain.Accounts.ValueObjects;
@@ -12,15 +13,15 @@
     {
         private readonly IAccountFactory _accountFactory;
 
-        private CustomerId _customerId;
-        private PositiveMoney _initialAmount;
+        private Guid _customerId;
+        private decimal _initialAmount;
+        private string? _currency;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="accountFactory"></param>
-        public AccountBuilder(
-            IAccountFactory accountFactory)
+        public AccountBuilder(IAccountFactory accountFactory)
         {
             this._accountFactory = accountFactory;
         }
@@ -30,7 +31,7 @@
         /// </summary>
         /// <param name="customerId"></param>
         /// <returns></returns>
-        public AccountBuilder Customer(CustomerId customerId)
+        public AccountBuilder Customer(Guid customerId)
         {
             this._customerId = customerId;
 
@@ -43,7 +44,8 @@
         /// <returns></returns>
         public AccountBuilder InitialAmount(decimal initialAmount, string currency)
         {
-            this._initialAmount = new PositiveMoney(initialAmount, currency);
+            this._initialAmount = initialAmount;
+            this._currency = currency;
 
             return this;
         }
@@ -54,10 +56,13 @@
         /// <returns></returns>
         public IAccount Build()
         {
-            IAccount account = this._accountFactory
-                .NewAccount(this._customerId);
+            var customerId = new CustomerId(this._customerId);
+            var initialAmount = new PositiveMoney(this._initialAmount, this._currency);
 
-            account.Deposit(this._accountFactory, this._initialAmount);
+            IAccount account = this._accountFactory
+                .NewAccount(customerId);
+
+            account.Deposit(this._accountFactory, initialAmount);
 
             return account;
         }

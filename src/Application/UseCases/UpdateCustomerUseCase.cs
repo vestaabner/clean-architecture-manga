@@ -26,6 +26,7 @@ namespace Application.UseCases
         private readonly IUpdateCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
+        private readonly BuilderFactory _builderFactory;
 
         /// <summary>
         /// 
@@ -36,13 +37,15 @@ namespace Application.UseCases
         /// <param name="customerFactory"></param>
         /// <param name="customerRepository"></param>
         /// <param name="userService"></param>
+        /// <param name="builderFactory"></param>
         public UpdateCustomerUseCase(
             IUpdateCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
             ISSNValidator ssnValidator,
             ICustomerFactory customerFactory,
             ICustomerRepository customerRepository,
-            IUserService userService)
+            IUserService userService,
+            BuilderFactory builderFactory)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
@@ -50,6 +53,7 @@ namespace Application.UseCases
             this._customerFactory = customerFactory;
             this._customerRepository = customerRepository;
             this._userService = userService;
+            this._builderFactory = builderFactory;
         }
 
         /// <summary>
@@ -66,20 +70,15 @@ namespace Application.UseCases
                 return;
             }
 
-            var customerBuilder = new CustomerBuilder(
-                this._customerFactory,
-                this._ssnValidator,
-                this._userService,
-                this._customerRepository);
+            CustomerBuilder customerBuilder = this._builderFactory
+                .NewCustomerBuilder();
 
-            await customerBuilder
-                .ExistingCustomer()
-                .ConfigureAwait(false);
-
-            customerBuilder
+            ICustomer existingCustomer = await customerBuilder
                 .FirstName(input.FirstName)
                 .LastName(input.LastName)
-                .SSN(input.SSN);
+                .SSN(input.SSN)
+                .Update()
+                .ConfigureAwait(false);
 
             if (!customerBuilder.IsValid)
             {
@@ -88,8 +87,6 @@ namespace Application.UseCases
 
                 return;
             }
-
-            var existingCustomer = customerBuilder.Build();
 
             await this._customerRepository
                 .Update(existingCustomer)

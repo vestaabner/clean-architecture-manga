@@ -84,18 +84,16 @@ namespace Application.UseCases
                 return;
             }
 
-            if (account.IsClosingAllowed())
-            {
-                await this._accountRepository
-                    .Delete(account)
-                    .ConfigureAwait(false);
-            }
-            else
+            if (!account.IsClosingAllowed())
             {
                 this._outputPort
                     .WriteError(Messages.AccountHasFunds);
                 return;
             }
+
+            await this._accountRepository
+                    .Delete(account)
+                    .ConfigureAwait(false);
 
             var closeAccountOutput = new CloseAccountOutput(account);
             this._outputPort

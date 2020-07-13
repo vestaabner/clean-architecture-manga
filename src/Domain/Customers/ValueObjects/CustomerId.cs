@@ -24,11 +24,6 @@ namespace Domain.Customers.ValueObjects
         /// <param name="customerId">Customer Guid.</param>
         public CustomerId(Guid customerId)
         {
-            if (customerId == Guid.Empty)
-            {
-                throw new EmptyCustomerIdException(Messages.CustomerIdCannotBeEmpty);
-            }
-
             this._customerId = customerId;
         }
 
