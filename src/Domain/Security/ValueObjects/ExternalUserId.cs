@@ -16,60 +16,27 @@ namespace Domain.Security.ValueObjects
     /// </summary>
     public readonly struct ExternalUserId : IEquatable<ExternalUserId>
     {
-        private readonly string _text;
+        public Guid Id { get; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="ExternalUserId" /> struct.
-        /// </summary>
-        /// <param name="text">External User Id.</param>
-        public ExternalUserId(string text)
+        public ExternalUserId(Guid id) =>
+            (this.Id) = (id);
+
+        public override bool Equals(object? obj) =>
+            obj is ExternalUserId o && this.Equals(o);
+
+        public bool Equals(ExternalUserId other) => this.Id == other.Id;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Id);
+
+        public static bool operator ==(ExternalUserId left, ExternalUserId right)
         {
-            this._text = text;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into string.
-        /// </summary>
-        /// <returns>String.</returns>
-        public override string ToString() => this._text;
-
-        /// <summary>
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(ExternalUserId left, ExternalUserId right)
         {
-            if (obj is ExternalUserId externalUserIdObj)
-            {
-                return this.Equals(externalUserIdObj);
-            }
-
-            return false;
+            return !(left == right);
         }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => this._text.GetHashCode(StringComparison.OrdinalIgnoreCase);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(ExternalUserId left, ExternalUserId right) => left.Equals(right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(ExternalUserId left, ExternalUserId right) => !(left == right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(ExternalUserId other) => this._text == other._text;
     }
 }

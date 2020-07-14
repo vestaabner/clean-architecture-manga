@@ -50,7 +50,7 @@ namespace Application.UseCases
         }
 
         /// <summary>
-        ///     ///     Executes the Use Case.
+        ///     Executes the Use Case.
         /// </summary>
         /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
@@ -78,8 +78,13 @@ namespace Application.UseCases
                 .ConvertToUSD(input.Amount)
                 .ConfigureAwait(false);
 
+            ICredit credit = account.Deposit(this._accountFactory, amountConverted);
+
             ICredit credit = await this._accountService
                 .Deposit(account, amountConverted)
+                .ConfigureAwait(false);
+
+            await this._accountRepository.Update(account, credit)
                 .ConfigureAwait(false);
 
             await this._unitOfWork

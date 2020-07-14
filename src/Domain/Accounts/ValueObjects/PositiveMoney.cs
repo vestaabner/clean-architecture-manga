@@ -17,92 +17,40 @@ namespace Domain.Accounts.ValueObjects
     /// </summary>
     public readonly struct PositiveMoney : IEquatable<PositiveMoney>
     {
-        private readonly Money _value;
+        public decimal Amount { get; }
+        public Currency Currency { get; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="PositiveMoney" /> struct.
-        /// </summary>
-        /// <param name="value">Decimal amount.</param>
-        /// <param name="currency">Currency type.</param>
-        public PositiveMoney(decimal value, string? currency = "USD")
+        public PositiveMoney(decimal amount, Currency currency) =>
+            (this.Amount, this.Currency) = (amount, currency);
+
+        public override bool Equals(object? obj) =>
+            obj is PositiveMoney o && this.Equals(o);
+
+        public bool Equals(PositiveMoney other) =>
+            this.Amount == other.Amount &&
+            this.Currency == other.Currency;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Amount, this.Currency);
+
+        public static bool operator ==(PositiveMoney left, PositiveMoney right)
         {
-            if (value < 0)
-            {
-                throw new MoneyShouldBePositiveException(Messages.TheAmountShouldBePositive);
-            }
-
-            Currency tempCurrency = new Currency(currency);
-            this._value = new Money(value, tempCurrency);
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into Money Value Object.
-        /// </summary>
-        /// <returns>Money.</returns>
-        public Money ToMoney() => this._value;
-
-        /// <summary>
-        ///     Adds Money.
-        /// </summary>
-        /// <param name="positiveAmount">Amount to Add.</param>
-        /// <returns>New Instance.</returns>
-        internal PositiveMoney Add(PositiveMoney positiveAmount) => this._value.Add(positiveAmount._value);
-
-        /// <summary>
-        ///     Subtracts Money.
-        /// </summary>
-        /// <param name="positiveAmount">Amount to subtract.</param>
-        /// <returns>New Instance.</returns>
-        internal Money Subtract(PositiveMoney positiveAmount) => this._value.Subtract(positiveAmount._value);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(PositiveMoney left, PositiveMoney right)
         {
-            if (obj is PositiveMoney positiveMoneyObj)
-            {
-                return this.Equals(positiveMoneyObj);
-            }
-
-            return false;
+            return !(left == right);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => this._value.GetHashCode();
+        public Money Subtract(PositiveMoney totalDebits)
+        {
+            return new Money(this.Amount - totalDebits.Amount, this.Currency);
+        }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(PositiveMoney left, PositiveMoney right) => left.Equals(right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(PositiveMoney left, PositiveMoney right) => !(left == right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(PositiveMoney other) => this._value.ToDecimal() == other._value.ToDecimal();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="currency"></param>
-        /// <returns></returns>
-        public bool IsCurrencyEqualsTo(string currency) => this._value.GetCurrency().ToString() == currency;
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public Currency GetCurrency() => this._value.GetCurrency();
+        public PositiveMoney Add(PositiveMoney amount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace Domain.Accounts.Debits
         /// <returns>Total.</returns>
         public PositiveMoney GetTotal()
         {
-            PositiveMoney total = new PositiveMoney(0);
+            PositiveMoney total = new PositiveMoney(0, new Currency());
 
             return this.Aggregate(total, (current, debit) => debit.Sum(current));
         }

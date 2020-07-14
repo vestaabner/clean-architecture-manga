@@ -2,7 +2,7 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Security.ValueObjects
+namespace Domain.Accounts.ValueObjects
 {
     using System;
 
@@ -15,27 +15,27 @@ namespace Domain.Security.ValueObjects
     ///     </see>
     ///     .
     /// </summary>
-    public readonly struct UserId : IEquatable<UserId>
+    public readonly struct CreditId : IEquatable<CreditId>
     {
         public Guid Id { get; }
 
-        public UserId(Guid id) =>
+        public CreditId(Guid id) =>
             (this.Id) = (id);
 
         public override bool Equals(object? obj) =>
-            obj is UserId o && this.Equals(o);
+            obj is CreditId o && this.Equals(o);
 
-        public bool Equals(UserId other) => this.Id == other.Id;
+        public bool Equals(CreditId other) => this.Id == other.Id;
 
         public override int GetHashCode() =>
             HashCode.Combine(this.Id);
 
-        public static bool operator ==(UserId left, UserId right)
+        public static bool operator ==(CreditId left, CreditId right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(UserId left, UserId right)
+        public static bool operator !=(CreditId left, CreditId right)
         {
             return !(left == right);
         }

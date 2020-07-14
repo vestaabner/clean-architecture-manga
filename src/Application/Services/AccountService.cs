@@ -2,13 +2,17 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Accounts
+namespace Application.Services
 {
     using System;
     using System.Threading.Tasks;
     using Credits;
     using Customers.ValueObjects;
     using Debits;
+    using Domain.Accounts;
+    using Domain.Accounts.Credits;
+    using Domain.Accounts.Debits;
+    using Domain.Accounts.ValueObjects;
     using ValueObjects;
 
     /// <summary>

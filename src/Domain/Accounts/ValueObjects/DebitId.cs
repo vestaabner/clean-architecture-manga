@@ -1,13 +1,13 @@
-// <copyright file="CreditId.cs" company="Ivan Paulovich">
+// <copyright file="DebitId.cs" company="Ivan Paulovich">
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Security.ValueObjects
+namespace Domain.Accounts.ValueObjects
 {
     using System;
 
     /// <summary>
-    ///     CreditId
+    ///     Debit
     ///     <see
     ///         href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#value-object">
     ///         Value
@@ -15,27 +15,27 @@ namespace Domain.Security.ValueObjects
     ///     </see>
     ///     .
     /// </summary>
-    public readonly struct UserId : IEquatable<UserId>
+    public readonly struct DebitId : IEquatable<DebitId>
     {
         public Guid Id { get; }
 
-        public UserId(Guid id) =>
+        public DebitId(Guid id) =>
             (this.Id) = (id);
 
         public override bool Equals(object? obj) =>
-            obj is UserId o && this.Equals(o);
+            obj is DebitId o && this.Equals(o);
 
-        public bool Equals(UserId other) => this.Id == other.Id;
+        public bool Equals(DebitId other) => this.Id == other.Id;
 
         public override int GetHashCode() =>
             HashCode.Combine(this.Id);
 
-        public static bool operator ==(UserId left, UserId right)
+        public static bool operator ==(DebitId left, DebitId right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(UserId left, UserId right)
+        public static bool operator !=(DebitId left, DebitId right)
         {
             return !(left == right);
         }

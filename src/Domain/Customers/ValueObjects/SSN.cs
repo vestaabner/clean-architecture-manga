@@ -5,7 +5,6 @@
 namespace Domain.Customers.ValueObjects
 {
     using System;
-    using System.Text.RegularExpressions;
 
     /// <summary>
     ///     SSN
@@ -17,81 +16,27 @@ namespace Domain.Customers.ValueObjects
     /// </summary>
     public readonly struct SSN : IEquatable<SSN>
     {
-        private const string RegExForValidation = @"^\d{6,8}[-|(\s)]{0,1}\d{4}$";
+        public string Text { get; }
 
-        private readonly string _text;
+        public SSN(string text) =>
+            (this.Text) = (text);
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="SSN" /> struct.
-        /// </summary>
-        /// <param name="text">SSN.</param>
-        public SSN(string text)
+        public override bool Equals(object? obj) =>
+            obj is SSN o && this.Equals(o);
+
+        public bool Equals(SSN other) => this.Text == other.Text;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Text);
+
+        public static bool operator ==(SSN left, SSN right)
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new SSNShouldNotBeEmptyException(Messages.TheTextFieldIsRequired);
-            }
-
-            Regex regex = new Regex(RegExForValidation);
-            Match match = regex.Match(text);
-
-            if (!match.Success)
-            {
-                throw new InvalidSSNException(Messages.InvalidTextFormat);
-            }
-
-            this._text = text;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into string.
-        /// </summary>
-        /// <returns>string.</returns>
-        public override string ToString() => this._text;
-
-        /// <summary>
-        ///     Equals.
-        /// </summary>
-        /// <param name="obj">Other object.</param>
-        /// <returns>True when equals.</returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(SSN left, SSN right)
         {
-            if (obj is SSN ssnObj)
-            {
-                return this.Equals(ssnObj);
-            }
-
-            return false;
+            return !(left == right);
         }
-
-        /// <summary>
-        ///     Get Hash Code.
-        /// </summary>
-        /// <returns>Hash Code.</returns>
-        public override int GetHashCode() => this._text.GetHashCode(StringComparison.InvariantCulture);
-
-        /// <summary>
-        ///     Equals.
-        /// </summary>
-        /// <param name="left">Left object.</param>
-        /// <param name="right">Right object.</param>
-        /// <returns>True if equals.</returns>
-        public static bool operator ==(SSN left, SSN right) => left.Equals(right);
-
-        /// <summary>
-        ///     Different.
-        /// </summary>
-        /// <param name="left">Left object.</param>
-        /// <param name="right">Right object.</param>
-        /// <returns>True if different.</returns>
-        public static bool operator !=(SSN left, SSN right) => !(left == right);
-
-        /// <summary>
-        ///     Equals.
-        /// </summary>
-        /// <param name="other">Other object.</param>
-        /// <returns>True if equals.</returns>
-        public bool Equals(SSN other) =>
-            string.Compare(this._text, other._text, StringComparison.OrdinalIgnoreCase) == 0;
     }
 }

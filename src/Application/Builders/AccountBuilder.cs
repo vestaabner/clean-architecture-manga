@@ -1,7 +1,7 @@
 ﻿namespace Application.Builders
 {
     using System;
-    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Accounts;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers.ValueObjects;
@@ -9,9 +9,11 @@
     /// <summary>
     /// 
     /// </summary>
-    public sealed class AccountBuilder : IValidator
+    public sealed class AccountBuilder
     {
+        private readonly Notification _notification;
         private readonly IAccountFactory _accountFactory;
+        private readonly string _key;
 
         private Guid _customerId;
         private decimal _initialAmount;
@@ -21,9 +23,16 @@
         /// 
         /// </summary>
         /// <param name="accountFactory"></param>
-        public AccountBuilder(IAccountFactory accountFactory)
+        /// <param name="notification"></param>
+        /// <param name="key"></param>
+        public AccountBuilder(
+            IAccountFactory accountFactory,
+            Notification notification,
+            string key)
         {
             this._accountFactory = accountFactory;
+            this._notification = notification;
+            this._key = key;
         }
 
         /// <summary>
@@ -33,6 +42,11 @@
         /// <returns></returns>
         public AccountBuilder Customer(Guid customerId)
         {
+            if (customerId == Guid.Empty)
+            {
+                this._notification.Add($"{this._key}.Name.First", string.Format(Messages.FirstNameRequired, ssn));
+            }
+
             this._customerId = customerId;
 
             return this;
@@ -54,8 +68,13 @@
         /// 
         /// </summary>
         /// <returns></returns>
-        public IAccount Build()
+        public Task<IAccount> Build()
         {
+            if (!this._notification.IsValid)
+            {
+                return 
+            }
+
             var customerId = new CustomerId(this._customerId);
             var initialAmount = new PositiveMoney(this._initialAmount, this._currency);
 
@@ -65,22 +84,6 @@
             account.Deposit(this._accountFactory, initialAmount);
 
             return account;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public IList<ErrorMessage> ErrorMessages { get; } = new List<ErrorMessage>();
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsValid
-        {
-            get
-            {
-                return this.ErrorMessages.Count > 0;
-            }
         }
     }
 }

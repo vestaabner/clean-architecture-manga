@@ -16,96 +16,40 @@ namespace Domain.Accounts.ValueObjects
     /// </summary>
     public readonly struct Money : IEquatable<Money>
     {
-        private readonly Currency _currency;
+        public decimal Amount { get; }
+        public Currency Currency { get; }
 
-        private readonly decimal _money;
+        public Money(decimal amount, Currency currency) =>
+            (this.Amount, this.Currency) = (amount, currency);
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Money" /> struct.
-        /// </summary>
-        /// <param name="value">Decimal amount.</param>
-        /// <param name="currency">The currency used, default is USD.</param>
-        public Money(decimal value, Currency currency = default)
+        public override bool Equals(object? obj) =>
+            obj is Money o && this.Equals(o);
+
+        public bool Equals(Money other) =>
+            this.Amount == other.Amount &&
+            this.Currency == other.Currency;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Amount, this.Currency);
+
+        public static bool operator ==(Money left, Money right)
         {
-            this._currency = currency == default ? Currency.Dollar : currency;
-            this._money = value;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into decimal.
-        /// </summary>
-        /// <returns>decimal amount.</returns>
-        public decimal ToDecimal() => this._money;
-
-        /// <summary>
-        ///     Less than amount.
-        /// </summary>
-        /// <param name="amount">Amount.</param>
-        /// <returns>True if it is less.</returns>
-        internal bool LessThan(PositiveMoney amount) => this._money < amount.ToMoney()._money;
-
-        /// <summary>
-        ///     Returns true if is zero.
-        /// </summary>
-        /// <returns>True if zero.</returns>
-        internal bool IsZero() => this._money == 0;
-
-        /// <summary>
-        ///     Adds Money.
-        /// </summary>
-        /// <param name="value">Amount to check.</param>
-        /// <returns>New Instance.</returns>
-        internal PositiveMoney Add(Money value) => new PositiveMoney(this._money + value.ToDecimal());
-
-        /// <summary>
-        ///     Subtracts amount.
-        /// </summary>
-        /// <param name="value">Amount to subtract.</param>
-        /// <returns>New Instance.</returns>
-        internal Money Subtract(Money value) => new Money(this._money - value.ToDecimal());
-
-        /// <summary>
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(Money left, Money right)
         {
-            if (obj is Money moneyObj)
-            {
-                return this.Equals(moneyObj);
-            }
-
-            return false;
+            return !(left == right);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => this._money.GetHashCode();
+        public bool LessThan(PositiveMoney amountToWithdraw)
+        {
+            return this.Amount < amountToWithdraw.Amount;
+        }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(Money left, Money right) => left.Equals(right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(Money left, Money right) => !(left == right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(Money other) => this._money == other._money;
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public Currency GetCurrency() => this._currency;
+        public bool IsZero()
+        {
+            return this.Amount == 0;
+        }
     }
 }

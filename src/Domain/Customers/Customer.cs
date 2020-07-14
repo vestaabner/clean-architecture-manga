@@ -28,5 +28,8 @@ namespace Domain.Customers
 
         /// <inheritdoc />
         public void Assign(AccountId accountId) => this.Accounts.Add(accountId);
+
+        /// <inheritdoc />
+        public void Update(SSN ssn, Name firstName, Name lastName) => throw new System.NotImplementedException();
     }
 }

@@ -16,76 +16,27 @@ namespace Domain.Accounts.ValueObjects
     /// </summary>
     public readonly struct AccountId : IEquatable<AccountId>
     {
-        private readonly Guid _accountId;
+        public Guid Id { get; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="AccountId" /> struct.
-        /// </summary>
-        /// <param name="accountId">AccountId Guid.</param>
-        public AccountId(Guid accountId)
+        public AccountId(Guid id) =>
+            (this.Id) = (id);
+
+        public override bool Equals(object? obj) =>
+            obj is AccountId o && this.Equals(o);
+
+        public bool Equals(AccountId other) => this.Id == other.Id;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Id);
+
+        public static bool operator ==(AccountId left, AccountId right)
         {
-            if (accountId == Guid.Empty)
-            {
-                throw new EmptyAccountIdException(Messages.AccountIdCannotBeEmpty);
-            }
-
-            this._accountId = accountId;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into string.
-        /// </summary>
-        /// <returns>String.</returns>
-        public override string ToString() => this._accountId.ToString();
-
-        /// <summary>
-        ///     Converts into Guid.
-        /// </summary>
-        /// <returns>Guid representation.</returns>
-        public Guid ToGuid() => this._accountId;
-
-        /// <summary>
-        ///     Check if objects are equals.
-        /// </summary>
-        /// <param name="obj">Other object.</param>
-        /// <returns>Returns true when equals.</returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(AccountId left, AccountId right)
         {
-            if (obj is AccountId accountIdObj)
-            {
-                return this.Equals(accountIdObj);
-            }
-
-            return false;
+            return !(left == right);
         }
-
-        /// <summary>
-        ///     Get Hash Code.
-        /// </summary>
-        /// <returns>Hash Code.</returns>
-        public override int GetHashCode() => this._accountId.GetHashCode();
-
-        /// <summary>
-        ///     Checks if other object is equals.
-        /// </summary>
-        /// <param name="other">Other AccountId.</param>
-        /// <returns>True if equals.</returns>
-        public bool Equals(AccountId other) => this._accountId == other._accountId;
-
-        /// <summary>
-        ///     Equals.
-        /// </summary>
-        /// <param name="left">Left object.</param>
-        /// <param name="right">Right object.</param>
-        /// <returns>True if equals.</returns>
-        public static bool operator ==(AccountId left, AccountId right) => left.Equals(right);
-
-        /// <summary>
-        ///     Different.
-        /// </summary>
-        /// <param name="left">Left object.</param>
-        /// <param name="right">Right object.</param>
-        /// <returns>True if different.</returns>
-        public static bool operator !=(AccountId left, AccountId right) => !(left == right);
     }
 }

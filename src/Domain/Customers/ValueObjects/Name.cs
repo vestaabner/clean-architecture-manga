@@ -16,65 +16,27 @@ namespace Domain.Customers.ValueObjects
     /// </summary>
     public readonly struct Name : IEquatable<Name>
     {
-        private readonly string _text;
+        public string Text { get; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="Name" /> struct.
-        /// </summary>
-        /// <param name="text">Name.</param>
-        public Name(string text)
+        public Name(string text) =>
+            (this.Text) = (text);
+
+        public override bool Equals(object? obj) =>
+            obj is Name o && this.Equals(o);
+
+        public bool Equals(Name other) => this.Text == other.Text;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Text);
+
+        public static bool operator ==(Name left, Name right)
         {
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                throw new NameShouldNotBeEmptyException(Messages.TheTextFieldIsRequired);
-            }
-
-            this._text = text;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into string.
-        /// </summary>
-        /// <returns>string.</returns>
-        public override string ToString() => this._text;
-
-        /// <summary>
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(Name left, Name right)
         {
-            if (obj is Name nameObj)
-            {
-                return this.Equals(nameObj);
-            }
-
-            return false;
+            return !(left == right);
         }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => this._text.GetHashCode(StringComparison.OrdinalIgnoreCase);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(Name left, Name right) => left.Equals(right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(Name left, Name right) => !(left == right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(Name other) => this._text == other._text;
     }
 }

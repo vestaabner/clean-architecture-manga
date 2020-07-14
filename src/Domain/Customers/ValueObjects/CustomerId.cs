@@ -16,67 +16,27 @@ namespace Domain.Customers.ValueObjects
     /// </summary>
     public readonly struct CustomerId : IEquatable<CustomerId>
     {
-        private readonly Guid _customerId;
+        public Guid Id { get; }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="CustomerId" /> struct.
-        /// </summary>
-        /// <param name="customerId">Customer Guid.</param>
-        public CustomerId(Guid customerId)
+        public CustomerId(Guid id) =>
+            (this.Id) = (id);
+
+        public override bool Equals(object? obj) =>
+            obj is CustomerId o && this.Equals(o);
+
+        public bool Equals(CustomerId other) => this.Id == other.Id;
+
+        public override int GetHashCode() =>
+            HashCode.Combine(this.Id);
+
+        public static bool operator ==(CustomerId left, CustomerId right)
         {
-            this._customerId = customerId;
+            return left.Equals(right);
         }
 
-        /// <summary>
-        ///     Converts into String.
-        /// </summary>
-        /// <returns>String.</returns>
-        public override string ToString() => this._customerId.ToString();
-
-        /// <summary>
-        ///     Converts into Guid.
-        /// </summary>
-        /// <returns>Guid.</returns>
-        public Guid ToGuid() => this._customerId;
-
-        /// <summary>
-        ///     Equals.
-        /// </summary>
-        /// <param name="obj">Other object.</param>
-        /// <returns></returns>
-        public override bool Equals(object obj)
+        public static bool operator !=(CustomerId left, CustomerId right)
         {
-            if (obj is CustomerId customerIdObj)
-            {
-                return this.Equals(customerIdObj);
-            }
-
-            return false;
+            return !(left == right);
         }
-
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode() => this._customerId.GetHashCode();
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(CustomerId left, CustomerId right) => left.Equals(right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(CustomerId left, CustomerId right) => !(left == right);
-
-        /// <summary>
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public bool Equals(CustomerId other) => this._customerId == other._customerId;
     }
 }
