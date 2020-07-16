@@ -88,6 +88,15 @@ namespace Application {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amount should be positive..
+        /// </summary>
+        internal static string AmountIsNegative {
+            get {
+                return ResourceManager.GetString("AmountIsNegative", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Customer already exists..
         /// </summary>
         internal static string CustomerAlreadyExists {
@@ -102,6 +111,24 @@ namespace Application {
         internal static string CustomerDoesNotExist {
             get {
                 return ResourceManager.GetString("CustomerDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CustomerId is required..
+        /// </summary>
+        internal static string CustomerIdRequired {
+            get {
+                return ResourceManager.GetString("CustomerIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First name is required..
+        /// </summary>
+        internal static string FirstNameRequired {
+            get {
+                return ResourceManager.GetString("FirstNameRequired", resourceCulture);
             }
         }
         
@@ -129,6 +156,24 @@ namespace Application {
         internal static string InvalidSSN {
             get {
                 return ResourceManager.GetString("InvalidSSN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Last name is required..
+        /// </summary>
+        internal static string LastNameRequired {
+            get {
+                return ResourceManager.GetString("LastNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSN is required..
+        /// </summary>
+        internal static string SSNRequired {
+            get {
+                return ResourceManager.GetString("SSNRequired", resourceCulture);
             }
         }
     }

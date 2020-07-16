@@ -9,7 +9,7 @@ namespace Application.UseCases
     using Domain.Accounts;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     Withdraw

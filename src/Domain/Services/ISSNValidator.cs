@@ -1,8 +1,9 @@
-﻿namespace Application.Services
+﻿namespace Domain.Services
 {
     /// <summary>
     /// 
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>")]
     public interface ISSNValidator
     {
         /// <summary>

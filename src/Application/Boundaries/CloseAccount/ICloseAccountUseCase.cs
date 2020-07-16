@@ -4,6 +4,9 @@
 
 namespace Application.Boundaries.CloseAccount
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     Close Account
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
@@ -12,7 +15,8 @@ namespace Application.Boundaries.CloseAccount
     ///     </see>
     ///     .
     /// </summary>
-    public interface ICloseAccountUseCase : IUseCase<CloseAccountInput>
+    public interface ICloseAccountUseCase
     {
+        Task Execute(Guid accountId);
     }
 }

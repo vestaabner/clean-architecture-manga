@@ -6,6 +6,7 @@ namespace Domain.Customers.ValueObjects
 {
     using System;
 
+
     /// <summary>
     ///     SSN
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#entity">
@@ -14,6 +15,7 @@ namespace Domain.Customers.ValueObjects
     ///     </see>
     ///     .
     /// </summary>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>")]
     public readonly struct SSN : IEquatable<SSN>
     {
         public string Text { get; }

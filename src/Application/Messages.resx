@@ -141,4 +141,19 @@
   <data name="InvalidSSN" xml:space="preserve">
     <value>SSN must be valid.</value>
   </data>
+  <data name="AmountIsNegative" xml:space="preserve">
+    <value>Amount should be positive.</value>
+  </data>
+  <data name="CustomerIdRequired" xml:space="preserve">
+    <value>CustomerId is required.</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>First name is required.</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Last name is required.</value>
+  </data>
+  <data name="SSNRequired" xml:space="preserve">
+    <value>SSN is required.</value>
+  </data>
 </root>

@@ -4,12 +4,14 @@
 
 namespace Application.UseCases
 {
+    using System;
     using System.Threading.Tasks;
     using Boundaries.CloseAccount;
     using Domain.Accounts;
+    using Domain.Accounts.ValueObjects;
     using Domain.Customers;
     using Domain.Security;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     Close Account
@@ -25,6 +27,7 @@ namespace Application.UseCases
         private readonly IAccountRepository _accountRepository;
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserService _userService;
+        private readonly IUnitOfWork _unitOfWork;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CloseAccountUseCase" /> class.
@@ -33,32 +36,24 @@ namespace Application.UseCases
         /// <param name="accountRepository">Account Repository.</param>
         /// <param name="customerRepository">Customer Repository.</param>
         /// <param name="userService">User Service.</param>
+        /// <param name="unitOfWork"></param>
         public CloseAccountUseCase(
             ICloseAccountOutputPort outputPort,
             IAccountRepository accountRepository,
             ICustomerRepository customerRepository,
-            IUserService userService)
+            IUserService userService,
+            IUnitOfWork unitOfWork)
         {
             this._outputPort = outputPort;
             this._accountRepository = accountRepository;
             this._customerRepository = customerRepository;
             this._userService = userService;
+            this._unitOfWork = unitOfWork;
         }
 
-        /// <summary>
-        ///     Executes the Use Case.
-        /// </summary>
-        /// <param name="input">Input Message.</param>
-        /// <returns>Task.</returns>
-        public async Task Execute(CloseAccountInput input)
+        /// <inheritdoc />
+        public async Task Execute(Guid accountId)
         {
-            if (input is null)
-            {
-                this._outputPort
-                    .WriteError(Messages.InputIsNull);
-                return;
-            }
-
             IUser currentUser = this._userService
                 .GetCurrentUser();
 
@@ -66,38 +61,35 @@ namespace Application.UseCases
                 .Find(currentUser.ExternalUserId)
                 .ConfigureAwait(false);
 
-            if (customer is null)
+            if (customer is CustomerNull)
             {
-                this._outputPort
-                    .NotFound(Messages.CustomerDoesNotExist);
+                this._outputPort.NotFound();
                 return;
             }
 
             IAccount account = await this._accountRepository
-                .Find(input.AccountId, customer.Id)
+                .Find(new AccountId(accountId), customer.Id)
                 .ConfigureAwait(false);
 
-            if (account is null)
+            if (account is AccountNull)
             {
-                this._outputPort
-                    .NotFound(Messages.AccountDoesNotExist);
+                this._outputPort.NotFound();
                 return;
             }
 
             if (!account.IsClosingAllowed())
             {
-                this._outputPort
-                    .WriteError(Messages.AccountHasFunds);
+                this._outputPort.HasFunds(account);
                 return;
             }
 
-            await this._accountRepository
-                    .Delete(account)
-                    .ConfigureAwait(false);
+            await this._accountRepository.Delete(account)
+                .ConfigureAwait(false);
 
-            var closeAccountOutput = new CloseAccountOutput(account);
-            this._outputPort
-                .Standard(closeAccountOutput);
+            await this._unitOfWork.Save()
+                .ConfigureAwait(false);
+
+            this._outputPort.ClosedSuccessful(account);
         }
     }
 }

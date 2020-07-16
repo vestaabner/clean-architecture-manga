@@ -7,7 +7,7 @@ namespace Application.UseCases
     using System.Threading.Tasks;
     using Boundaries.SignUp;
     using Domain.Security;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     SignUp

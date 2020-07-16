@@ -11,18 +11,20 @@ namespace Domain.Customers
     /// <inheritdoc />
     public sealed class CustomerNull : ICustomer
     {
+        public static CustomerNull Instance { get; } = new CustomerNull();
+
         public CustomerId Id => new CustomerId(Guid.Empty);
 
         public AccountCollection Accounts => new AccountCollection();
 
         public void Assign(AccountId accountId)
         {
-
+            // Null Pattern.
         }
 
         public void Update(SSN ssn, Name firstName, Name lastName)
         {
-
+            // Null Pattern.
         }
     }
 }

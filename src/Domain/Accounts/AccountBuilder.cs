@@ -1,10 +1,7 @@
-﻿namespace Application.Builders
+﻿namespace Domain.Accounts
 {
     using System;
-    using System.Threading.Tasks;
-    using Domain.Accounts;
-    using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
+    using Customers.ValueObjects;
 
     /// <summary>
     /// 
@@ -16,8 +13,6 @@
         private readonly string _key;
 
         private Guid _customerId;
-        private decimal _initialAmount;
-        private string? _currency;
 
         /// <summary>
         /// 
@@ -42,46 +37,36 @@
         /// <returns></returns>
         public AccountBuilder Customer(Guid customerId)
         {
-            if (customerId == Guid.Empty)
-            {
-                this._notification.Add($"{this._key}.Name.First", string.Format(Messages.FirstNameRequired, ssn));
-            }
-
             this._customerId = customerId;
 
             return this;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public AccountBuilder InitialAmount(decimal initialAmount, string currency)
+        private void Validate()
         {
-            this._initialAmount = initialAmount;
-            this._currency = currency;
-
-            return this;
+            if (this._customerId == Guid.Empty)
+            {
+                this._notification.Add($"{this._key}.Account.CustomerId", Messages.CustomerIdRequired);
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public Task<IAccount> Build()
+        public IAccount Build()
         {
+            this.Validate();
+
             if (!this._notification.IsValid)
             {
-                return 
+                return AccountNull.Instance;
             }
 
             var customerId = new CustomerId(this._customerId);
-            var initialAmount = new PositiveMoney(this._initialAmount, this._currency);
 
             IAccount account = this._accountFactory
                 .NewAccount(customerId);
-
-            account.Deposit(this._accountFactory, initialAmount);
 
             return account;
         }

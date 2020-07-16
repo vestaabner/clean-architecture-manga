@@ -12,6 +12,8 @@ namespace Domain.Accounts
     /// <inheritdoc />
     public sealed class AccountNull : IAccount
     {
+        public static AccountNull Instance { get; } = new AccountNull();
+
         /// <inheritdoc />
         public AccountId Id => new AccountId(Guid.Empty);
 
@@ -25,6 +27,6 @@ namespace Domain.Accounts
         public bool IsClosingAllowed() => false;
 
         /// <inheritdoc />
-        public Money GetCurrentBalance() => throw new NotImplementedException();
+        public Money GetCurrentBalance() => new Money(0, new Currency());
     }
 }

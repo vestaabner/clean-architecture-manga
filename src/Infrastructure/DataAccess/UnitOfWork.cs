@@ -6,7 +6,7 @@ namespace Infrastructure.DataAccess
 {
     using System;
     using System.Threading.Tasks;
-    using Application.Services;
+    using Domain.Services;
 
     /// <inheritdoc />
     public sealed class UnitOfWork : IUnitOfWork, IDisposable

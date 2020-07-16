@@ -8,7 +8,7 @@ namespace Application.UseCases
     using Boundaries.GetCustomer;
     using Domain.Customers;
     using Domain.Security;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     Get Customer Details

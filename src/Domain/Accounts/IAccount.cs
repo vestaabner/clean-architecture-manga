@@ -27,18 +27,14 @@ namespace Domain.Accounts
         /// <summary>
         ///     Deposits into account.
         /// </summary>
-        /// <param name="entityFactory">Factory to create new credits.</param>
-        /// <param name="amountToDeposit">Amount.</param>
         /// <returns>Credit created.</returns>
-        ICredit Deposit(IAccountFactory entityFactory, PositiveMoney amountToDeposit);
+        void Deposit(ICredit credit);
 
         /// <summary>
         ///     Withdraws from account.
         /// </summary>
-        /// <param name="entityFactory">Factory to create new debits.</param>
-        /// <param name="amountToWithdraw">Amount.</param>
         /// <returns>Debit created.</returns>
-        IDebit Withdraw(IAccountFactory entityFactory, PositiveMoney amountToWithdraw);
+        void Withdraw(IDebit debit);
 
         /// <summary>
         ///     Check if closing account is allowed.

@@ -2,9 +2,9 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.Services
+namespace Domain.Services
 {
-    using Domain.Security;
+    using Security;
 
     /// <summary>
     ///     User Service.

@@ -6,9 +6,9 @@ namespace Application.UseCases
 {
     using System.Threading.Tasks;
     using Boundaries.UpdateCustomer;
-    using Builders;
+    using Domain;
     using Domain.Customers;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     On-board Customer

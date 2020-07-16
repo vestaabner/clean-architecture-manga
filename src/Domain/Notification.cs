@@ -1,4 +1,4 @@
-﻿namespace Application.Builders
+﻿namespace Domain
 {
     using System.Collections.Generic;
 

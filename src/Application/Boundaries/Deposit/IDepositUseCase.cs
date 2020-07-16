@@ -4,6 +4,9 @@
 
 namespace Application.Boundaries.Deposit
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     Deposit
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
@@ -12,7 +15,8 @@ namespace Application.Boundaries.Deposit
     ///     </see>
     ///     .
     /// </summary>
-    public interface IDepositUseCase : IUseCase<DepositInput>
+    public interface IDepositUseCase
     {
+        Task Execute(Guid accountId, decimal amount, string currency);
     }
 }

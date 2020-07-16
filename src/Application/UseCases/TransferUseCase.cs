@@ -8,7 +8,7 @@ namespace Application.UseCases
     using Boundaries.Transfer;
     using Domain.Accounts;
     using Domain.Accounts.Debits;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     Transfer

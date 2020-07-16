@@ -3,8 +3,8 @@
     using System;
     using System.Net.Http;
     using System.Threading.Tasks;
-    using Application.Services;
     using Domain.Accounts.ValueObjects;
+    using Domain.Services;
     using Newtonsoft.Json.Linq;
 
     /// <summary>

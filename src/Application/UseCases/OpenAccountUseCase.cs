@@ -6,10 +6,9 @@ namespace Application.UseCases
 {
     using System.Threading.Tasks;
     using Boundaries.OpenAccount;
-    using Builders;
     using Domain.Accounts;
     using Domain.Customers;
-    using Services;
+    using Domain.Services;
 
     /// <summary>
     ///     OpenAccount

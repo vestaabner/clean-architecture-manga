@@ -4,11 +4,31 @@
 
 namespace Application.Boundaries.CloseAccount
 {
+    using Domain.Accounts;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
     public interface ICloseAccountOutputPort
-        : IOutputPortStandard<CloseAccountOutput>, IOutputPortNotFound, IOutputPortError
     {
+        /// <summary>
+        ///     Invalid request.
+        /// </summary>
+        void Invalid();
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void ClosedSuccessful(IAccount account);
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void NotFound();
+
+        /// <summary>
+        ///     Account has funds.
+        /// </summary>
+        void HasFunds(IAccount account);
     }
 }

@@ -4,9 +4,6 @@
 
 namespace Application.Boundaries
 {
-    using System.Collections.Generic;
-    using Builders;
-
     /// <summary>
     ///     Invalid Output Port.
     /// </summary>
@@ -15,7 +12,6 @@ namespace Application.Boundaries
         /// <summary>
         ///     Informs an error happened.
         /// </summary>
-        /// <param name="errorMessages">Text description.</param>
-        void Invalid(IEnumerable<ErrorMessage> errorMessages);
+        void Invalid();
     }
 }
