@@ -4,6 +4,9 @@
 
 namespace Application.Boundaries.GetAccount
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
     ///         Use
@@ -11,7 +14,8 @@ namespace Application.Boundaries.GetAccount
     ///     </see>
     ///     .
     /// </summary>
-    public interface IGetAccountUseCase : IUseCase<GetAccountInput>
+    public interface IGetAccountUseCase
     {
+        Task Execute(Guid accountId);
     }
 }

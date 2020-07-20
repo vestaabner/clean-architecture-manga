@@ -30,7 +30,7 @@ namespace Infrastructure.DataAccess
     public sealed class EntityFactory : IUserFactory, ICustomerFactory, IAccountFactory
     {
         /// <inheritdoc />
-        public IAccount NewAccount(CustomerId customerId)
+        public IAccount NewAccount(Guid customerId)
             => new Account(new AccountId(Guid.NewGuid()), customerId);
 
         /// <inheritdoc />

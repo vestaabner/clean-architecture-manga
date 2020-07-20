@@ -4,6 +4,8 @@
 
 namespace Application.Boundaries.SignUp
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
     ///         Use
@@ -11,7 +13,8 @@ namespace Application.Boundaries.SignUp
     ///     </see>
     ///     .
     /// </summary>
-    public interface ISignUpUseCase : IUseCase<ISignUpInput>
+    public interface ISignUpUseCase
     {
+        Task Execute();
     }
 }

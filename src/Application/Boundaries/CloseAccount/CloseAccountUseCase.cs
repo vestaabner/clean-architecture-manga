@@ -2,11 +2,11 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.CloseAccount
 {
     using System;
     using System.Threading.Tasks;
-    using Boundaries.CloseAccount;
+    using Domain;
     using Domain.Accounts;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers;
@@ -28,6 +28,7 @@ namespace Application.UseCases
         private readonly ICustomerRepository _customerRepository;
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly Notification _notification;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CloseAccountUseCase" /> class.
@@ -37,28 +38,39 @@ namespace Application.UseCases
         /// <param name="customerRepository">Customer Repository.</param>
         /// <param name="userService">User Service.</param>
         /// <param name="unitOfWork"></param>
+        /// <param name="notification"></param>
         public CloseAccountUseCase(
             ICloseAccountOutputPort outputPort,
             IAccountRepository accountRepository,
             ICustomerRepository customerRepository,
             IUserService userService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            Notification notification)
         {
             this._outputPort = outputPort;
             this._accountRepository = accountRepository;
             this._customerRepository = customerRepository;
             this._userService = userService;
             this._unitOfWork = unitOfWork;
+            this._notification = notification;
         }
 
         /// <inheritdoc />
         public async Task Execute(Guid accountId)
         {
+            AccountId? closingAccountId = AccountId.Create(this._notification, accountId);
+
+            if (!closingAccountId.HasValue)
+            {
+                this._outputPort.Invalid();
+                return;
+            }
+
             IUser currentUser = this._userService
                 .GetCurrentUser();
 
             ICustomer customer = await this._customerRepository
-                .Find(currentUser.ExternalUserId)
+                .Find(currentUser.ExternalUserId.Text)
                 .ConfigureAwait(false);
 
             if (customer is CustomerNull)
@@ -68,7 +80,7 @@ namespace Application.UseCases
             }
 
             IAccount account = await this._accountRepository
-                .Find(new AccountId(accountId), customer.Id)
+                .Find(closingAccountId!.Value, customer.Id.Id)
                 .ConfigureAwait(false);
 
             if (account is AccountNull)
@@ -80,6 +92,12 @@ namespace Application.UseCases
             if (!account.IsClosingAllowed())
             {
                 this._outputPort.HasFunds(account);
+                return;
+            }
+
+            if (!this._notification.IsValid)
+            {
+                this._outputPort.Invalid();
                 return;
             }
 

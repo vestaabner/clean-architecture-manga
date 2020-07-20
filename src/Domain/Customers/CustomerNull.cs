@@ -5,7 +5,6 @@
 namespace Domain.Customers
 {
     using System;
-    using Accounts.ValueObjects;
     using ValueObjects;
 
     /// <inheritdoc />
@@ -17,7 +16,7 @@ namespace Domain.Customers
 
         public AccountCollection Accounts => new AccountCollection();
 
-        public void Assign(AccountId accountId)
+        public void Assign(Guid accountId)
         {
             // Null Pattern.
         }

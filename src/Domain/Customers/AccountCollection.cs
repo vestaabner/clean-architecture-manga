@@ -4,9 +4,9 @@
 
 namespace Domain.Customers
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using Accounts.ValueObjects;
 
     /// <summary>
     ///     Accounts
@@ -16,15 +16,15 @@ namespace Domain.Customers
     ///     </see>
     ///     .
     /// </summary>
-    public sealed class AccountCollection : List<AccountId>
+    public sealed class AccountCollection : List<Guid>
     {
         /// <summary>
         ///     Gets the AccountIds.
         /// </summary>
         /// <returns>ReadOnlyCollection.</returns>
-        public IEnumerable<AccountId> GetAccountIds()
+        public IEnumerable<Guid> GetAccountIds()
         {
-            var accountIds = new ReadOnlyCollection<AccountId>(this);
+            var accountIds = new ReadOnlyCollection<Guid>(this);
             return accountIds;
         }
     }

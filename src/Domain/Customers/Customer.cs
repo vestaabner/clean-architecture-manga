@@ -4,7 +4,7 @@
 
 namespace Domain.Customers
 {
-    using Accounts.ValueObjects;
+    using System;
     using ValueObjects;
 
     /// <inheritdoc />
@@ -27,7 +27,7 @@ namespace Domain.Customers
         public abstract AccountCollection Accounts { get; }
 
         /// <inheritdoc />
-        public void Assign(AccountId accountId) => this.Accounts.Add(accountId);
+        public void Assign(Guid accountId) => this.Accounts.Add(accountId);
 
         /// <inheritdoc />
         public void Update(SSN ssn, Name firstName, Name lastName) => throw new System.NotImplementedException();

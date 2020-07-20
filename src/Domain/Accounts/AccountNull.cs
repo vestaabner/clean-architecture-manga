@@ -1,4 +1,4 @@
-// <copyright file="Account.cs" company="Ivan Paulovich">
+// <copyright file="AccountNull.cs" company="Ivan Paulovich">
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
@@ -18,10 +18,16 @@ namespace Domain.Accounts
         public AccountId Id => new AccountId(Guid.Empty);
 
         /// <inheritdoc />
-        public ICredit Deposit(IAccountFactory entityFactory, PositiveMoney amountToDeposit) => CreditNull.Instance;
+        public void Deposit(ICredit credit)
+        {
+            // Null Pattern
+        }
 
         /// <inheritdoc />
-        public IDebit Withdraw(IAccountFactory entityFactory, PositiveMoney amountToWithdraw) => DebitNull.Instance;
+        public void Withdraw(Notification notification, IDebit debit)
+        {
+            // Null Pattern
+        }
 
         /// <inheritdoc />
         public bool IsClosingAllowed() => false;

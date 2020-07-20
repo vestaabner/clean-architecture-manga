@@ -48,9 +48,20 @@ namespace Domain.Accounts.ValueObjects
             return new Money(this.Amount - totalDebits.Amount, this.Currency);
         }
 
-        public PositiveMoney Add(PositiveMoney amount)
+        public Money Add(Money amount)
         {
-            throw new NotImplementedException();
+            return new Money(this.Amount + amount.Amount, this.Currency);
+        }
+
+        public static PositiveMoney? Create(Notification notification, decimal amount, Currency currency)
+        {
+            if (amount > 0)
+            {
+                return new PositiveMoney(amount, currency);
+            }
+
+            notification.Add("Amount", "Amount is required.");
+            return null;
         }
     }
 }

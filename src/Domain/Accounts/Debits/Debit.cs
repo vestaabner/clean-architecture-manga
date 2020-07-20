@@ -42,6 +42,6 @@ namespace Domain.Accounts.Debits
         /// </summary>
         /// <param name="amount">Positive amount.</param>
         /// <returns>The positive sum.</returns>
-        public PositiveMoney Sum(PositiveMoney amount) => this.Amount.Add(amount);
+        public Money Sum(Money amount) => this.Amount.Add(amount);
     }
 }

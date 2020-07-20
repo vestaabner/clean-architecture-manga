@@ -4,6 +4,9 @@
 
 namespace Application.Boundaries.Transfer
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     Transfer
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
@@ -12,7 +15,8 @@ namespace Application.Boundaries.Transfer
     ///     </see>
     ///     .
     /// </summary>
-    public interface ITransferUseCase : IUseCase<TransferInput>
+    public interface ITransferUseCase
     {
+        Task Execute(Guid originAccountId, Guid destinationAccountId, decimal amount, string currency);
     }
 }

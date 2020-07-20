@@ -1,6 +1,7 @@
 ﻿namespace Domain.Accounts.Credits
 {
     using System;
+    using System.Threading.Tasks;
     using Services;
     using ValueObjects;
 
@@ -10,37 +11,53 @@
     public sealed class CreditBuilder
     {
         private readonly IAccountFactory _accountFactory;
-        private readonly ICurrencyExchange _currencyExchange;
         private readonly Notification _notification;
-        private readonly string _key;
+        private readonly ICurrencyExchange _currencyExchange;
 
-        private decimal? _amount;
-        private string? _currency;
+        private IAccount? _account;
+        private Currency? _currency;
+        private PositiveMoney? _positiveMoney;
+        private DateTime? _transactionDate;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="accountFactory"></param>
-        /// <param name="currencyExchange"></param>
         /// <param name="notification"></param>
-        /// <param name="key"></param>
+        /// <param name="currencyExchange"></param>
         public CreditBuilder(
             IAccountFactory accountFactory,
-            ICurrencyExchange currencyExchange,
             Notification notification,
-            string key)
+            ICurrencyExchange currencyExchange)
         {
             this._accountFactory = accountFactory;
-            this._currencyExchange = currencyExchange;
             this._notification = notification;
-            this._key = key;
+            this._currencyExchange = currencyExchange;
         }
 
-        public CreditBuilder PositiveMoney(decimal amount, string currency)
+        public CreditBuilder Account(IAccount account)
         {
-            this._amount = amount;
-            this._currency = currency;
+            this._account = account;
+            return this;
+        }
 
+        public CreditBuilder Amount(decimal amount, string currencyCode)
+        {
+            this._currency = Currency.Create(this._notification, currencyCode);
+            if (this._currency != null)
+            {
+                this._positiveMoney = PositiveMoney.Create(
+                    this._notification,
+                    amount,
+                    this._currency.Value);
+            }
+
+            return this;
+        }
+
+        public CreditBuilder Timestamp()
+        {
+            this._transactionDate = DateTime.Now;
             return this;
         }
 
@@ -48,40 +65,31 @@
         /// 
         /// </summary>
         /// <returns>ICredit</returns>
-        public ICredit Build(IAccount account)
+        public async Task<ICredit> Build()
         {
-            this.Validate();
-
-            if (!this._notification.IsValid)
+            if (this._account is AccountNull ||
+                !this._currency.HasValue ||
+                !this._positiveMoney.HasValue ||
+                !this._transactionDate.HasValue ||
+                !this._notification.IsValid)
             {
                 return CreditNull.Instance;
             }
 
-            Currency currency = new Currency(this._currency!);
-            PositiveMoney positiveMoney = new PositiveMoney(this._amount!.Value, currency);
-            DateTime transactionDate = DateTime.Today;
+            if (!await this._currencyExchange
+                .IsCurrencyAllowed(this._currency.Value)
+                .ConfigureAwait(false))
+            {
+                return CreditNull.Instance;
+            }
 
-            return this._accountFactory.NewCredit(
-                account,
-                positiveMoney,
-                transactionDate);
+            return this.BuildInternal();
         }
 
-        private void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(this._currency))
-            {
-                this._notification.Add($"{this._key}.Credit.Currency", Messages.AmountIsNegative);
-            }
-            else if (!this._currencyExchange.IsCurrencyAllowed(this._currency))
-            {
-                this._notification.Add($"{this._key}.Credit.Amount", Messages.AmountIsNegative);
-            }
-
-            if (this._amount <= 0)
-            {
-                this._notification.Add($"{this._key}.Credit.Amount", Messages.AmountIsNegative);
-            }
-        }
+        private ICredit BuildInternal() =>
+            this._accountFactory.NewCredit(
+                this._account!,
+                this._positiveMoney!.Value,
+                this._transactionDate!.Value);
     }
 }

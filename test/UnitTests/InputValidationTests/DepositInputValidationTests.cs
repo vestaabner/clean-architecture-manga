@@ -11,14 +11,14 @@ namespace UnitTests.InputValidationTests
         public void GivenEmptyAccountId_InputNotCreated_ThrowsInputValidationException()
         {
             EmptyAccountIdException actualEx = Assert.Throws<EmptyAccountIdException>(
-                () => new DepositInput(Guid.Empty, 10));
+                () => new CloseAccountInput(Guid.Empty, 10));
             Assert.Contains("accountId", actualEx.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
         public void GivenValidData_InputCreated()
         {
-            DepositInput actual = new DepositInput(Guid.NewGuid(), 10);
+            CloseAccountInput actual = new CloseAccountInput(Guid.NewGuid(), 10);
             Assert.NotNull(actual);
         }
     }

@@ -34,7 +34,7 @@ namespace Domain.Accounts
         ///     Withdraws from account.
         /// </summary>
         /// <returns>Debit created.</returns>
-        void Withdraw(IDebit debit);
+        void Withdraw(Notification notification, IDebit debit);
 
         /// <summary>
         ///     Check if closing account is allowed.

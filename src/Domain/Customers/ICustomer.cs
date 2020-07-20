@@ -4,7 +4,7 @@
 
 namespace Domain.Customers
 {
-    using Accounts.ValueObjects;
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -32,7 +32,7 @@ namespace Domain.Customers
         ///     Register the Account into the Customer.
         /// </summary>
         /// <param name="accountId">Account Id.</param>
-        void Assign(AccountId accountId);
+        void Assign(Guid accountId);
 
         /// <summary>
         /// 

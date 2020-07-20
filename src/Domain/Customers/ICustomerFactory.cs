@@ -4,7 +4,7 @@
 
 namespace Domain.Customers
 {
-    using Security.ValueObjects;
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -26,6 +26,6 @@ namespace Domain.Customers
         /// <param name="lastName">Last Name.</param>
         /// <param name="externalUserId"></param>
         /// <returns>New Customer instance.</returns>
-        ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, ExternalUserId externalUserId);
+        ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, Guid externalUserId);
     }
 }

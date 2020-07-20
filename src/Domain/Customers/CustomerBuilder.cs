@@ -1,7 +1,6 @@
 ﻿namespace Domain.Customers
 {
-    using Security;
-    using Services;
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -10,32 +9,25 @@
     public sealed class CustomerBuilder
     {
         private readonly ICustomerFactory _customerFactory;
-        private readonly ISSNValidator _ssnValidator;
         private readonly Notification _notification;
-        private readonly string _key;
 
-        private string? _ssn;
-        private string? _firstName;
-        private string? _lastName;
-        private IUser? _user;
+        private SSN? _ssn;
+        private Name? _firstName;
+        private Name? _lastName;
+
+        private Guid _userId;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="customerFactory"></param>
-        /// <param name="ssnValidator"></param>
         /// <param name="notification"></param>
-        /// <param name="key"></param>
         public CustomerBuilder(
             ICustomerFactory customerFactory,
-            ISSNValidator ssnValidator,
-            Notification notification,
-            string key)
+            Notification notification)
         {
             this._customerFactory = customerFactory;
-            this._ssnValidator = ssnValidator;
             this._notification = notification;
-            this._key = key;
         }
 
         /// <summary>
@@ -45,7 +37,7 @@
         /// <returns></returns>
         public CustomerBuilder SSN(string ssn)
         {
-            this._ssn = ssn;
+            this._ssn = ValueObjects.SSN.Create(this._notification, ssn);
 
             return this;
         }
@@ -53,11 +45,11 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="firstName"></param>
         /// <returns></returns>
-        public CustomerBuilder FirstName(string name)
+        public CustomerBuilder FirstName(string firstName)
         {
-            this._firstName = name;
+            this._firstName = Name.Create(this._notification, firstName);
 
             return this;
         }
@@ -65,18 +57,18 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="lastName"></param>
         /// <returns></returns>
-        public CustomerBuilder LastName(string name)
+        public CustomerBuilder LastName(string lastName)
         {
-            this._lastName = name;
+            this._lastName = Name.Create(this._notification, lastName);
 
             return this;
         }
 
-        public CustomerBuilder User(IUser user)
+        public CustomerBuilder UserId(Guid userId)
         {
-            this._user = user;
+            this._userId = userId;
 
             return this;
         }
@@ -84,49 +76,27 @@
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>ICredit</returns>
         public ICustomer Build()
         {
-            this.Validate();
-
-            if (!this._notification.IsValid)
+            if (!this._ssn.HasValue ||
+                !this._firstName.HasValue ||
+                !this._lastName.HasValue ||
+                !this._notification.IsValid)
             {
                 return CustomerNull.Instance;
             }
 
-            SSN ssn = new SSN(this._ssn!);
-            Name firstName = new Name(this._firstName!);
-            Name lastName = new Name(this._lastName!);
-
-            return this._customerFactory.NewCustomer(
-                ssn,
-                firstName,
-                lastName,
-                this._user!.ExternalUserId);
-
+            return this.BuildInternal();
         }
 
-        private void Validate()
-        {
-            if (string.IsNullOrWhiteSpace(this._ssn))
-            {
-                this._notification.Add($"{this._key}.Customer.SSN", Messages.SSNRequired);
-            }
-            else if (!this._ssnValidator.IsValid(this._ssn))
-            {
-                this._notification.Add($"{this._key}.Customer.SSN", Messages.InvalidSSN);
-            }
+        private ICustomer BuildInternal() =>
+            this._customerFactory.NewCustomer(
+                this._ssn!.Value,
+                this._firstName!.Value,
+                this._lastName!.Value,
+                this._userId);
 
-            if (string.IsNullOrWhiteSpace(this._firstName))
-            {
-                this._notification.Add($"{this._key}.Customer.FirstName", Messages.FirstNameRequired);
-            }
-
-            if (string.IsNullOrWhiteSpace(this._lastName))
-            {
-                this._notification.Add($"{this._key}.Customer.LastName", Messages.LastNameRequired);
-            }
-        }
 
         /// <summary>
         /// 
@@ -134,19 +104,20 @@
         /// <returns></returns>
         public ICustomer Update(ICustomer existingCustomer)
         {
-            this.Validate();
-
-            if (!this._notification.IsValid)
+            if (!this._ssn.HasValue ||
+                !this._firstName.HasValue ||
+                !this._lastName.HasValue ||
+                !this._notification.IsValid)
             {
                 return CustomerNull.Instance;
             }
 
-            SSN ssn = new SSN(this._ssn!);
-            Name firstName = new Name(this._firstName!);
-            Name lastName = new Name(this._lastName!);
+            return this.UpdateInternal(existingCustomer);
+        }
 
-            existingCustomer.Update(ssn, firstName, lastName);
-
+        private ICustomer UpdateInternal(ICustomer existingCustomer)
+        {
+            existingCustomer.Update(this._ssn!.Value, this._firstName!.Value, this._lastName!.Value);
             return existingCustomer;
         }
     }

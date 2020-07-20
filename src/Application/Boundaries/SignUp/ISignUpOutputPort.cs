@@ -4,15 +4,21 @@
 
 namespace Application.Boundaries.SignUp
 {
+    using Domain.Security;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
-    public interface ISignUpOutputPort : IOutputPortStandard<SignUpOutput>
+    public interface ISignUpOutputPort
     {
         /// <summary>
-        ///     Informs the user is already signed up.
+        ///     User.
         /// </summary>
-        /// <param name="output">Details.</param>
-        void UserAlreadyExists(SignUpOutput output);
+        void UserAlreadyExists(IUser user);
+
+        /// <summary>
+        ///     User.
+        /// </summary>
+        void Successful(IUser user);
     }
 }

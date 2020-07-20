@@ -4,16 +4,21 @@
 
 namespace Application.Boundaries.OnBoardCustomer
 {
+    using Domain.Customers;
+
     /// <summary>
     ///     OnBoard Customer Output Port.
     /// </summary>
     public interface IOnBoardCustomerOutputPort
-        : IOutputPortStandard<OnBoardCustomerOutput>, IOutputPortInvalid, IOutputPortError
     {
         /// <summary>
-        /// 
+        ///     Invalid request.
         /// </summary>
-        /// <param name="existingCustomerOutput"></param>
-        void ExternalIdAlreadyIsUse(OnBoardCustomerOutput existingCustomerOutput);
+        void Invalid();
+
+        /// <summary>
+        ///     Customer on-boarded.
+        /// </summary>
+        void OnBoardedSuccessful(ICustomer customer);
     }
 }

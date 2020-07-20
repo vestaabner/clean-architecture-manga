@@ -4,6 +4,9 @@
 
 namespace Application.Boundaries.Withdraw
 {
+    using System;
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     Withdraw
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
@@ -12,7 +15,8 @@ namespace Application.Boundaries.Withdraw
     ///     </see>
     ///     .
     /// </summary>
-    public interface IWithdrawUseCase : IUseCase<WithdrawInput>
+    public interface IWithdrawUseCase
     {
+        Task Execute(Guid accountId, decimal amount, string currency);
     }
 }

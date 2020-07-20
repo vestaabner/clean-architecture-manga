@@ -35,5 +35,16 @@
         {
             return !(left == right);
         }
+
+        public static Currency? Create(Notification notification, string code)
+        {
+            if (code == "USD" || code == "EUR" || code == "BRL")
+            {
+                return new Currency(code);
+            }
+
+            notification.Add("Currency", "Currency is required.");
+            return null;
+        }
     }
 }

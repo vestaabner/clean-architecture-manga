@@ -4,6 +4,7 @@
 
 namespace Infrastructure.DataAccess.Repositories
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Infrastructure.DataAccess.Repositories
         public AccountRepositoryFake(MangaContextFake context) => this._context = context;
 
         /// <inheritdoc />
-        public async Task<IList<IAccount>> GetBy(CustomerId customerId)
+        public async Task<IList<IAccount>> GetBy(Guid customerId)
         {
             var accounts = this._context
                 .Accounts

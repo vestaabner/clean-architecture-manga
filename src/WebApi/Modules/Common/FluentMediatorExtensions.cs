@@ -27,7 +27,7 @@ namespace WebApi.Modules.Common
                     builder.On<CloseAccountInput>().PipelineAsync()
                         .Call<ICloseAccountUseCase>((handler, request) => handler.Execute(request));
 
-                    builder.On<DepositInput>().PipelineAsync()
+                    builder.On<CloseAccountInput>().PipelineAsync()
                         .Call<IDepositUseCase>((handler, request) => handler.Execute(request));
 
                     builder.On<GetAccountInput>().PipelineAsync()

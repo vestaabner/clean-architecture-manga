@@ -2,12 +2,13 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.GetAccounts
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Boundaries.GetAccounts;
     using Domain.Accounts;
+    using Domain.Customers;
     using Domain.Security;
     using Domain.Services;
 
@@ -22,54 +23,57 @@ namespace Application.UseCases
     public sealed class GetAccountsUseCase : IGetAccountsUseCase
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IGetAccountsOutputPort _getAccountsOutputPort;
+        private readonly IGetAccountsOutputPort _outputPort;
         private readonly IUserService _userService;
+        private readonly ICustomerRepository _customerRepository;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="GetCustomerUseCase" /> class.
+        ///     Initializes a new instance of the <see cref="GetAccountsUseCase" /> class.
         /// </summary>
         /// <param name="userService">User Service.</param>
         /// <param name="getAccountsOutputPort">Output Port.</param>
         /// <param name="accountRepository">Customer Repository.</param>
+        /// <param name="customerRepository"></param>
         public GetAccountsUseCase(
             IUserService userService,
             IGetAccountsOutputPort getAccountsOutputPort,
-            IAccountRepository accountRepository)
+            IAccountRepository accountRepository,
+            ICustomerRepository customerRepository)
         {
             this._userService = userService;
-            this._getAccountsOutputPort = getAccountsOutputPort;
+            this._outputPort = getAccountsOutputPort;
             this._accountRepository = accountRepository;
+            this._customerRepository = customerRepository;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(GetAccountsInput input)
+        public async Task Execute()
         {
-            if (input is null)
-            {
-                this._getAccountsOutputPort
-                    .WriteError(Messages.InputIsNull);
-                return;
-            }
-
             IUser user = this._userService
                 .GetCurrentUser();
 
+            ICustomer customer = await this._customerRepository
+                .Find(user.ExternalUserId.Text)
+                .ConfigureAwait(false);
+
+            if (customer is CustomerNull)
+            {
+                this._outputPort.NotFound();
+            }
+
             List<IAccount> accounts = new List<IAccount>();
 
-            if (user.CustomerId is { } customerId)
+            foreach (Guid accountId in customer.Accounts)
             {
                 accounts.AddRange(await this._accountRepository
-                    .GetBy(customerId)
+                    .GetBy(accountId)
                     .ConfigureAwait(false));
             }
 
-            var output = new GetAccountsOutput(accounts);
-            this._getAccountsOutputPort
-                .Standard(output);
+            this._outputPort.Successful(accounts);
         }
     }
 }

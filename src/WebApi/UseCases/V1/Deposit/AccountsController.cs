@@ -39,7 +39,7 @@ namespace WebApi.UseCases.V1.Deposit
             [FromServices] IMediator mediator, [FromServices] DepositPresenter presenter,
             [FromForm][Required] DepositRequest request)
         {
-            var input = new DepositInput(
+            var input = new CloseAccountInput(
                 request.AccountId,
                 request.Amount,
                 request.Currency);

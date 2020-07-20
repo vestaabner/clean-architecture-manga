@@ -4,16 +4,34 @@
 
 namespace Application.Boundaries.Withdraw
 {
+    using Domain.Accounts;
+    using Domain.Accounts.Debits;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
     public interface IWithdrawOutputPort
-        : IOutputPortStandard<WithdrawOutput>, IOutputPortNotFound, IOutputPortError
     {
         /// <summary>
         ///     Informs it is out of balance.
         /// </summary>
-        /// <param name="message">Custom message.</param>
-        void OutOfBalance(string message);
+        void OutOfFunds();
+
+        /// <summary>
+        ///     Invalid request.
+        /// </summary>
+        void Invalid();
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void NotFound();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="debit"></param>
+        /// <param name="account"></param>
+        void SuccessfulWithdraw(IDebit debit, IAccount account);
     }
 }

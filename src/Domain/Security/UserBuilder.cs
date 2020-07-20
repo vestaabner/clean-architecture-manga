@@ -8,22 +8,26 @@
     public sealed class UserBuilder
     {
         private readonly IUserFactory _userFactory;
+        private readonly Notification _notification;
 
-        private ExternalUserId _externalUserId;
+        private ExternalUserId? _externalUserId;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userFactory"></param>
+        /// <param name="notification"></param>
         public UserBuilder(
-            IUserFactory userFactory)
+            IUserFactory userFactory,
+            Notification notification)
         {
             this._userFactory = userFactory;
+            this._notification = notification;
         }
 
-        public UserBuilder ExternalUserId(ExternalUserId externalUserId)
+        public UserBuilder ExternalUserId(string externalUserId)
         {
-            this._externalUserId = externalUserId;
+            this._externalUserId = ValueObjects.ExternalUserId.Create(this._notification, externalUserId);
             return this;
         }
 
@@ -33,8 +37,17 @@
         /// <returns></returns>
         public IUser Build()
         {
-            return this._userFactory.NewUser(
-                this._externalUserId);
+            if (!this._externalUserId.HasValue ||
+                !this._notification.IsValid)
+            {
+                return UserNull.Instance;
+            }
+
+            return this.BuildInternal();
         }
+
+        private IUser BuildInternal() =>
+            this._userFactory
+                .NewUser(this._externalUserId!.Value);
     }
 }

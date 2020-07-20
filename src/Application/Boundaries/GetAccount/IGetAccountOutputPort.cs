@@ -4,11 +4,26 @@
 
 namespace Application.Boundaries.GetAccount
 {
+    using Domain.Accounts;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
     public interface IGetAccountOutputPort
-        : IOutputPortStandard<GetAccountOutput>, IOutputPortNotFound, IOutputPortError
     {
+        /// <summary>
+        ///     Invalid request.
+        /// </summary>
+        void Invalid();
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void Successful(IAccount account);
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void NotFound();
     }
 }

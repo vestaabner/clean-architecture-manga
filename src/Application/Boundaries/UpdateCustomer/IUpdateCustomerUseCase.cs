@@ -4,6 +4,8 @@
 
 namespace Application.Boundaries.UpdateCustomer
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
     ///         Use
@@ -11,7 +13,8 @@ namespace Application.Boundaries.UpdateCustomer
     ///     </see>
     ///     .
     /// </summary>
-    public interface IUpdateCustomerUseCase : IUseCase<IUpdateCustomerInput>
+    public interface IUpdateCustomerUseCase
     {
+        Task Execute(string firstName, string lastName, string ssn);
     }
 }

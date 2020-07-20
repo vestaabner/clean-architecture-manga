@@ -2,10 +2,9 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.GetCustomer
 {
     using System.Threading.Tasks;
-    using Boundaries.GetCustomer;
     using Domain.Customers;
     using Domain.Security;
     using Domain.Services;
@@ -43,34 +42,23 @@ namespace Application.UseCases
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(GetCustomerInput input)
+        public async Task Execute()
         {
-            if (input is null)
-            {
-                this._outputPort
-                    .WriteError(Messages.InputIsNull);
-                return;
-            }
-
             IUser user = this._userService
                 .GetCurrentUser();
 
             ICustomer customer = await this._customerRepository
-                    .Find(user.ExternalUserId)
+                    .Find(user.ExternalUserId.Text)
                     .ConfigureAwait(false);
 
-            if (customer == null)
+            if (customer is CustomerNull)
             {
-                this._outputPort
-                    .NotFound(Messages.CustomerDoesNotExist);
+                this._outputPort.NotFound();
                 return;
             }
 
-            var output = new GetCustomerOutput(customer);
-            this._outputPort
-                .Standard(output);
+            this._outputPort.Successful(customer);
         }
     }
 }

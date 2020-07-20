@@ -11,11 +11,11 @@ namespace Domain.Accounts.Credits
     /// </summary>
     public interface ICredit
     {
+        CreditId Id { get; }
+
         /// <summary>
-        ///     Calculates the sum between positive amounts.
+        ///     Gets the Amount.
         /// </summary>
-        /// <param name="amount">Positive amount.</param>
-        /// <returns>The positive sum.</returns>
-        PositiveMoney Sum(PositiveMoney amount);
+        PositiveMoney Amount { get; }
     }
 }

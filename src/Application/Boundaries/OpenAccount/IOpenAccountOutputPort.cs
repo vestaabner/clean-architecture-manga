@@ -4,11 +4,21 @@
 
 namespace Application.Boundaries.OpenAccount
 {
+    using Domain.Accounts;
+
     /// <summary>
     ///     Open Account Output Port.
     /// </summary>
     public interface IOpenAccountOutputPort
-        : IOutputPortStandard<OpenAccountOutput>, IOutputPortError
     {
+        /// <summary>
+        ///     Account.
+        /// </summary>
+        void Successful(IAccount account);
+
+        /// <summary>
+        ///     Customer not found.
+        /// </summary>
+        void NotFound();
     }
 }

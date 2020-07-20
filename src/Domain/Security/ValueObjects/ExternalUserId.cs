@@ -16,18 +16,18 @@ namespace Domain.Security.ValueObjects
     /// </summary>
     public readonly struct ExternalUserId : IEquatable<ExternalUserId>
     {
-        public Guid Id { get; }
+        public string Text { get; }
 
-        public ExternalUserId(Guid id) =>
-            (this.Id) = (id);
+        public ExternalUserId(string text) =>
+            (this.Text) = (text);
 
         public override bool Equals(object? obj) =>
             obj is ExternalUserId o && this.Equals(o);
 
-        public bool Equals(ExternalUserId other) => this.Id == other.Id;
+        public bool Equals(ExternalUserId other) => this.Text == other.Text;
 
         public override int GetHashCode() =>
-            HashCode.Combine(this.Id);
+            HashCode.Combine(this.Text);
 
         public static bool operator ==(ExternalUserId left, ExternalUserId right)
         {
@@ -37,6 +37,17 @@ namespace Domain.Security.ValueObjects
         public static bool operator !=(ExternalUserId left, ExternalUserId right)
         {
             return !(left == right);
+        }
+
+        public static ExternalUserId? Create(Notification notification, string externalUserId)
+        {
+            if (!string.IsNullOrWhiteSpace(externalUserId))
+            {
+                return new ExternalUserId(externalUserId);
+            }
+
+            notification.Add("ExternalUserId", "ExternalUserId is required.");
+            return null;
         }
     }
 }

@@ -4,6 +4,7 @@
 
 namespace Domain.Accounts.Credits
 {
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -16,8 +17,8 @@ namespace Domain.Accounts.Credits
     /// </summary>
     public sealed class CreditNull : ICredit
     {
-        public PositiveMoney Sum(PositiveMoney amount) => new PositiveMoney(0, new Currency());
-
         public static CreditNull Instance { get; } = new CreditNull();
+        public CreditId Id { get; } = new CreditId(Guid.Empty);
+        public PositiveMoney Amount { get; } = new PositiveMoney(0, new Currency(string.Empty));
     }
 }

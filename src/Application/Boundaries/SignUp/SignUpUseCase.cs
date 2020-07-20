@@ -2,10 +2,9 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.SignUp
 {
     using System.Threading.Tasks;
-    using Boundaries.SignUp;
     using Domain.Security;
     using Domain.Services;
 
@@ -46,9 +45,8 @@ namespace Application.UseCases
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(ISignUpInput input)
+        public async Task Execute()
         {
             IUser user = this._userService
                 .GetCurrentUser();
@@ -57,27 +55,23 @@ namespace Application.UseCases
                 .Find(user.ExternalUserId)
                 .ConfigureAwait(false);
 
-            if (existingUser != null)
+            if (existingUser is UserNull)
             {
-                var existingUserOutput = new SignUpOutput(user);
+                await this._userRepository
+                    .Add(user)
+                    .ConfigureAwait(false);
 
-                this._outputPort
-                    .UserAlreadyExists(existingUserOutput);
+                await this._unitOfWork
+                    .Save()
+                    .ConfigureAwait(false);
 
-                return;
+                this._outputPort.Successful(user);
             }
-
-            await this._userRepository
-                .Add(user)
-                .ConfigureAwait(false);
-
-            await this._unitOfWork
-                .Save()
-                .ConfigureAwait(false);
-
-            var output = new SignUpOutput(user);
-            this._outputPort
-                .Standard(output);
+            else
+            {
+                this._outputPort
+                    .UserAlreadyExists(existingUser);
+            }
         }
     }
 }

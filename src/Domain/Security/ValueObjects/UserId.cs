@@ -39,5 +39,16 @@ namespace Domain.Security.ValueObjects
         {
             return !(left == right);
         }
+
+        public static UserId? Create(Notification notification, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return new UserId(id);
+            }
+
+            notification.Add("UserId", "UserId is required.");
+            return null;
+        }
     }
 }

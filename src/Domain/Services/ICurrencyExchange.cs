@@ -10,13 +10,13 @@
         /// <summary>
         /// </summary>
         /// <returns></returns>
-        Task<PositiveMoney> ConvertToUSD(decimal amount, string currency);
+        Task<PositiveMoney> ConvertToUSD(PositiveMoney positiveMoney);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="currency"></param>
         /// <returns></returns>
-        bool IsCurrencyAllowed(string currency);
+        Task<bool> IsCurrencyAllowed(Currency currency);
     }
 }

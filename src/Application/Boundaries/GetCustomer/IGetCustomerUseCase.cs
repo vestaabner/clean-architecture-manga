@@ -4,6 +4,8 @@
 
 namespace Application.Boundaries.GetCustomer
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
     ///         Use
@@ -11,7 +13,8 @@ namespace Application.Boundaries.GetCustomer
     ///     </see>
     ///     .
     /// </summary>
-    public interface IGetCustomerUseCase : IUseCase<GetCustomerInput>
+    public interface IGetCustomerUseCase
     {
+        Task Execute();
     }
 }

@@ -11,11 +11,11 @@ namespace Domain.Accounts.Debits
     /// </summary>
     public interface IDebit
     {
+        DebitId Id { get; }
+
         /// <summary>
-        ///     Calculates the sum of two positive amounts.
+        ///     Gets the Amount.
         /// </summary>
-        /// <param name="amount">Positive amount.</param>
-        /// <returns>The sum.</returns>
-        PositiveMoney Sum(PositiveMoney amount);
+        PositiveMoney Amount { get; }
     }
 }

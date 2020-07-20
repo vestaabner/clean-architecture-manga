@@ -4,6 +4,7 @@
 
 namespace Domain.Accounts.Debits
 {
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -16,8 +17,8 @@ namespace Domain.Accounts.Debits
     /// </summary>
     public sealed class DebitNull : IDebit
     {
-        public PositiveMoney Sum(PositiveMoney amount) => new PositiveMoney(0, new Currency());
-
         public static DebitNull Instance { get; } = new DebitNull();
+        public DebitId Id { get; } = new DebitId(Guid.Empty);
+        public PositiveMoney Amount { get; } = new PositiveMoney(0, new Currency(string.Empty));
     }
 }

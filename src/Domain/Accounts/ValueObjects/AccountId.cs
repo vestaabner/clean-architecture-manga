@@ -38,5 +38,16 @@ namespace Domain.Accounts.ValueObjects
         {
             return !(left == right);
         }
+
+        public static AccountId? Create(Notification notification, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return new AccountId(id);
+            }
+
+            notification.Add("AccountId", "AccountId is required.");
+            return null;
+        }
     }
 }

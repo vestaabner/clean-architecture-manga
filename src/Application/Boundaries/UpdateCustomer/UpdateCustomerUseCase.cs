@@ -2,12 +2,12 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.UpdateCustomer
 {
     using System.Threading.Tasks;
-    using Boundaries.UpdateCustomer;
     using Domain;
     using Domain.Customers;
+    using Domain.Security;
     using Domain.Services;
 
     /// <summary>
@@ -20,71 +20,67 @@ namespace Application.UseCases
     /// </summary>
     public sealed class UpdateCustomerUseCase : IUpdateCustomerUseCase
     {
-        private readonly ISSNValidator _ssnValidator;
-        private readonly ICustomerFactory _customerFactory;
         private readonly ICustomerRepository _customerRepository;
         private readonly IUpdateCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly BuilderFactory _builderFactory;
+        private readonly Notification _notification;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="outputPort"></param>
         /// <param name="unitOfWork"></param>
-        /// <param name="ssnValidator"></param>
-        /// <param name="customerFactory"></param>
         /// <param name="customerRepository"></param>
         /// <param name="userService"></param>
         /// <param name="builderFactory"></param>
+        /// <param name="notification"></param>
         public UpdateCustomerUseCase(
             IUpdateCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
-            ISSNValidator ssnValidator,
-            ICustomerFactory customerFactory,
             ICustomerRepository customerRepository,
             IUserService userService,
-            BuilderFactory builderFactory)
+            BuilderFactory builderFactory,
+            Notification notification)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
-            this._ssnValidator = ssnValidator;
-            this._customerFactory = customerFactory;
             this._customerRepository = customerRepository;
             this._userService = userService;
             this._builderFactory = builderFactory;
+            this._notification = notification;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(IUpdateCustomerInput input)
+        public async Task Execute(string firstName, string lastName, string ssn)
         {
-            if (input is null)
+            IUser user = this._userService
+                .GetCurrentUser();
+
+            ICustomer existingCustomer = await this._customerRepository
+                .Find(user.ExternalUserId.Text)
+                .ConfigureAwait(false);
+
+            if (existingCustomer is CustomerNull)
             {
-                this._outputPort
-                    .WriteError(Messages.InputIsNull);
+                this._outputPort.NotFound();
                 return;
             }
 
-            CustomerBuilder customerBuilder = this._builderFactory
-                .NewCustomerBuilder();
+            this._builderFactory
+                .NewCustomerBuilder()
+                .FirstName(firstName)
+                .LastName(lastName)
+                .SSN(ssn)
+                .Update(existingCustomer);
 
-            ICustomer existingCustomer = await customerBuilder
-                .FirstName(input.FirstName)
-                .LastName(input.LastName)
-                .SSN(input.SSN)
-                .Update()
-                .ConfigureAwait(false);
-
-            if (!customerBuilder.IsValid)
+            if (!this._notification.IsValid)
             {
-                this._outputPort
-                    .Invalid(customerBuilder.ErrorMessages);
-
+                this._outputPort.Invalid();
                 return;
             }
 
@@ -92,10 +88,11 @@ namespace Application.UseCases
                 .Update(existingCustomer)
                 .ConfigureAwait(false);
 
-            var existingCustomerOutput = new UpdateCustomerOutput(existingCustomer);
+            await this._unitOfWork
+                .Save()
+                .ConfigureAwait(false);
 
-            this._outputPort
-                .Standard(existingCustomerOutput);
+            this._outputPort.CustomerUpdatedSuccessful(existingCustomer);
         }
     }
 }

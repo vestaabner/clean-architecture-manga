@@ -4,11 +4,26 @@
 
 namespace Application.Boundaries.Deposit
 {
+    using Domain.Accounts;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
     public interface IDepositOutputPort
-        : IOutputPortStandard<DepositOutput>, IOutputPortNotFound, IOutputPortError
     {
+        /// <summary>
+        ///     Invalid request.
+        /// </summary>
+        void Invalid();
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void DepositedSuccessful(IAccount account);
+
+        /// <summary>
+        ///     Account closed.
+        /// </summary>
+        void NotFound();
     }
 }

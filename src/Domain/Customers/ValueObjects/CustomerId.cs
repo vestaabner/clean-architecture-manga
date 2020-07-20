@@ -38,5 +38,16 @@ namespace Domain.Customers.ValueObjects
         {
             return !(left == right);
         }
+
+        public static CustomerId? Create(Notification notification, Guid id)
+        {
+            if (id != Guid.Empty)
+            {
+                return new CustomerId(id);
+            }
+
+            notification.Add("CustomerId", "CustomerId is required.");
+            return null;
+        }
     }
 }

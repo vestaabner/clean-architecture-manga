@@ -28,7 +28,7 @@ namespace UnitTests.UseCaseTests.Deposit
                 this._fixture.UnitOfWork);
 
             await sut.Execute(
-                new DepositInput(
+                new CloseAccountInput(
                     MangaContextFake.DefaultAccountId.ToGuid(),
                     amount));
 
@@ -51,7 +51,7 @@ namespace UnitTests.UseCaseTests.Deposit
 
             await Assert.ThrowsAsync<MoneyShouldBePositiveException>(() =>
                 sut.Execute(
-                    new DepositInput(
+                    new CloseAccountInput(
                         MangaContextFake.DefaultAccountId.ToGuid(),
                         amount)));
         }

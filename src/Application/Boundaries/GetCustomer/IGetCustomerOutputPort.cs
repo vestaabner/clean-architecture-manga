@@ -4,11 +4,21 @@
 
 namespace Application.Boundaries.GetCustomer
 {
+    using Domain.Customers;
+
     /// <summary>
     ///     Output Port.
     /// </summary>
     public interface IGetCustomerOutputPort
-        : IOutputPortStandard<GetCustomerOutput>, IOutputPortNotFound, IOutputPortError
     {
+        /// <summary>
+        ///     Customer.
+        /// </summary>
+        void Successful(ICustomer customer);
+
+        /// <summary>
+        ///     Customer not found.
+        /// </summary>
+        void NotFound();
     }
 }

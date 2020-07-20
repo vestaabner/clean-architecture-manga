@@ -4,8 +4,10 @@
 
 namespace Application.UseCases
 {
+    using System;
     using System.Threading.Tasks;
     using Boundaries.Withdraw;
+    using Domain;
     using Domain.Accounts;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
@@ -21,81 +23,83 @@ namespace Application.UseCases
     /// </summary>
     public sealed class WithdrawUseCase : IWithdrawUseCase
     {
+        private readonly BuilderFactory _builderFactory;
         private readonly IAccountRepository _accountRepository;
-        private readonly AccountService _accountService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWithdrawOutputPort _withdrawOutputPort;
+        private readonly Notification _notification;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WithdrawUseCase" /> class.
         /// </summary>
-        /// <param name="accountService">Account Service.</param>
         /// <param name="withdrawOutputPort">Output Port.</param>
         /// <param name="accountRepository">Account Repository.</param>
         /// <param name="unitOfWork">Unit Of Work.</param>
+        /// <param name="notification"></param>
+        /// <param name="builderFactory"></param>
         public WithdrawUseCase(
-            AccountService accountService,
             IWithdrawOutputPort withdrawOutputPort,
             IAccountRepository accountRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            Notification notification,
+            BuilderFactory builderFactory)
         {
-            this._accountService = accountService;
             this._withdrawOutputPort = withdrawOutputPort;
             this._accountRepository = accountRepository;
             this._unitOfWork = unitOfWork;
+            this._notification = notification;
+            this._builderFactory = builderFactory;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(WithdrawInput input)
+        public async Task Execute(Guid accountId, decimal amount, string currency)
         {
-            if (input is null)
+            AccountId? withdrawAccountId = AccountId.Create(this._notification, accountId);
+
+            if (withdrawAccountId == null)
             {
-                this._withdrawOutputPort
-                    .WriteError(Messages.InputIsNull);
+                this._withdrawOutputPort.Invalid();
                 return;
             }
 
             IAccount account = await this._accountRepository
-                .GetAccount(input.AccountId)
+                .GetAccount(withdrawAccountId.Value)
                 .ConfigureAwait(false);
 
             if (account is null)
             {
-                this._withdrawOutputPort
-                    .NotFound(Messages.AccountDoesNotExist);
+                this._withdrawOutputPort.NotFound();
                 return;
             }
 
-            try
+            IDebit debit = await this._builderFactory
+                .NewDebitBuilder()
+                .Account(account)
+                .Timestamp()
+                .Amount(amount, currency)
+                .Build()
+                .ConfigureAwait(false);
+
+            if (debit is DebitNull)
             {
-                IDebit debit = await this._accountService
-                    .Withdraw(account, input.Amount)
-                    .ConfigureAwait(false);
-
-                await this._unitOfWork
-                    .Save()
-                    .ConfigureAwait(false);
-
-                this.BuildOutput(debit, account);
+                this._withdrawOutputPort.Invalid();
+                return;
             }
-            catch (MoneyShouldBePositiveException outOfBalanceEx)
-            {
-                this._withdrawOutputPort
-                    .OutOfBalance(outOfBalanceEx.Message);
-            }
-        }
 
-        private void BuildOutput(IDebit debit, IAccount account)
-        {
-            var output = new WithdrawOutput(
-                debit,
-                account.GetCurrentBalance());
+            account.Withdraw(this._notification, debit);
 
-            this._withdrawOutputPort.Standard(output);
+            await this._accountRepository
+                .Update(account, debit)
+                .ConfigureAwait(false);
+
+            await this._unitOfWork
+                .Save()
+                .ConfigureAwait(false);
+
+            this._withdrawOutputPort.SuccessfulWithdraw(debit, account);
         }
     }
 }

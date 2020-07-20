@@ -2,10 +2,9 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.OnBoardCustomer
 {
     using System.Threading.Tasks;
-    using Boundaries.OnBoardCustomer;
     using Domain;
     using Domain.Customers;
     using Domain.Services;
@@ -24,6 +23,7 @@ namespace Application.UseCases
         private readonly IOnBoardCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
         private readonly BuilderFactory _builderFactory;
+        private readonly Notification _notification;
 
         /// <summary>
         /// 
@@ -32,45 +32,37 @@ namespace Application.UseCases
         /// <param name="unitOfWork"></param>
         /// <param name="customerRepository"></param>
         /// <param name="builderFactory"></param>
+        /// <param name="notification"></param>
         public OnBoardCustomerUseCase(
             IOnBoardCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
             ICustomerRepository customerRepository,
-            BuilderFactory builderFactory)
+            BuilderFactory builderFactory,
+            Notification notification)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
             this._customerRepository = customerRepository;
             this._builderFactory = builderFactory;
+            this._notification = notification;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(IOnBoardCustomerInput input)
+        public async Task Execute(string firstName, string lastName, string ssn)
         {
-            if (input is null)
-            {
-                this._outputPort
-                    .WriteError(Messages.InputIsNull);
-                return;
-            }
-
-            CustomerBuilder customerBuilder = this._builderFactory
-                .NewCustomerBuilder();
-
-            ICustomer customer = customerBuilder
-                .FirstName(input.FirstName)
-                .LastName(input.LastName)
-                .SSN(input.SSN)
+            ICustomer customer = this._builderFactory
+                .NewCustomerBuilder()
+                .FirstName(firstName)
+                .LastName(lastName)
+                .SSN(ssn)
                 .Build();
 
-            if (!customerBuilder.IsValid)
+            if (!this._notification.IsValid)
             {
-                this._outputPort
-                    .Invalid(customerBuilder.ErrorMessages);
+                this._outputPort.Invalid();
                 return;
             }
 
@@ -81,10 +73,7 @@ namespace Application.UseCases
             await this._unitOfWork.Save()
                 .ConfigureAwait(false);
 
-            var customerOutput = new OnBoardCustomerOutput(customer);
-
-            this._outputPort
-                .Standard(customerOutput);
+            this._outputPort.OnBoardedSuccessful(customer);
         }
     }
 }

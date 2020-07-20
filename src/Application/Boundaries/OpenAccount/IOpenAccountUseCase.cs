@@ -4,6 +4,8 @@
 
 namespace Application.Boundaries.OpenAccount
 {
+    using System.Threading.Tasks;
+
     /// <summary>
     ///     <see href="https://github.com/ivanpaulovich/clean-architecture-manga/wiki/Domain-Driven-Design-Patterns#use-case">
     ///         Use
@@ -11,7 +13,8 @@ namespace Application.Boundaries.OpenAccount
     ///     </see>
     ///     .
     /// </summary>
-    public interface IOpenAccountUseCase : IUseCase<IOpenAccountInput>
+    public interface IOpenAccountUseCase
     {
+        Task Execute(decimal amount, string currency);
     }
 }

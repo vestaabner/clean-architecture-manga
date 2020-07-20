@@ -2,11 +2,13 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Application.UseCases
+namespace Application.Boundaries.GetAccount
 {
+    using System;
     using System.Threading.Tasks;
-    using Boundaries.GetAccount;
+    using Domain;
     using Domain.Accounts;
+    using Domain.Accounts.ValueObjects;
 
     /// <summary>
     ///     Get Account Details
@@ -19,53 +21,50 @@ namespace Application.UseCases
     public sealed class GetAccountUseCase : IGetAccountUseCaseV2
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IGetAccountOutputPort _getAccountOutputPort;
+        private readonly IGetAccountOutputPort _outputPort;
+        private readonly Notification _notification;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetAccountUseCase" /> class.
         /// </summary>
         /// <param name="getAccountOutputPort">Output Port.</param>
         /// <param name="accountRepository">Account Repository.</param>
+        /// <param name="notification"></param>
         public GetAccountUseCase(
             IGetAccountOutputPort getAccountOutputPort,
-            IAccountRepository accountRepository)
+            IAccountRepository accountRepository,
+            Notification notification)
         {
-            this._getAccountOutputPort = getAccountOutputPort;
+            this._outputPort = getAccountOutputPort;
             this._accountRepository = accountRepository;
+            this._notification = notification;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
-        /// <param name="input">Input Message.</param>
         /// <returns>Task.</returns>
-        public async Task Execute(GetAccountInput input)
+        public async Task Execute(Guid accountId)
         {
-            if (input is null)
+            AccountId? getAccountId = AccountId.Create(this._notification, accountId);
+
+            if (getAccountId == null)
             {
-                this._getAccountOutputPort.WriteError(Messages.InputIsNull);
+                this._outputPort.Invalid();
                 return;
             }
 
             IAccount account = await this._accountRepository
-                .GetAccount(input.AccountId)
+                .GetAccount(getAccountId.Value)
                 .ConfigureAwait(false);
 
             if (account is null)
             {
-                this._getAccountOutputPort
-                    .NotFound(Messages.AccountDoesNotExist);
+                this._outputPort.NotFound();
                 return;
             }
 
-            this.BuildOutput(account);
-        }
-
-        private void BuildOutput(IAccount account)
-        {
-            var output = new GetAccountOutput(account);
-            this._getAccountOutputPort
-                .Standard(output);
+            this._outputPort.Successful(account);
         }
     }
 }

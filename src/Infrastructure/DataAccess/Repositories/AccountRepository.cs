@@ -32,7 +32,7 @@ namespace Infrastructure.DataAccess.Repositories
                                                                               nameof(context));
 
         /// <inheritdoc />
-        public async Task<IList<IAccount>> GetBy(CustomerId customerId)
+        public async Task<IList<IAccount>> GetBy(Guid customerId)
         {
             var accounts = this._context
                 .Accounts

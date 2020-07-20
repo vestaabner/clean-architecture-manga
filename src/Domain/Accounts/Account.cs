@@ -4,7 +4,6 @@
 
 namespace Domain.Accounts
 {
-    using System;
     using Credits;
     using Debits;
     using ValueObjects;
@@ -26,34 +25,20 @@ namespace Domain.Accounts
         public abstract AccountId Id { get; }
 
         /// <inheritdoc />
-        public ICredit Deposit(IAccountFactory entityFactory, PositiveMoney amountToDeposit)
+        public void Deposit(ICredit credit)
         {
-            if (entityFactory is null)
-            {
-                throw new ArgumentNullException(nameof(entityFactory));
-            }
-
-            ICredit credit = entityFactory.NewCredit(this, amountToDeposit, DateTime.UtcNow);
             this.Credits.Add(credit);
-            return credit;
         }
 
         /// <inheritdoc />
-        public IDebit Withdraw(IAccountFactory entityFactory, PositiveMoney amountToWithdraw)
+        public void Withdraw(Notification notification, IDebit debit)
         {
-            if (entityFactory is null)
+            if (this.GetCurrentBalance().Amount - debit.Amount.Amount < 0)
             {
-                throw new ArgumentNullException(nameof(entityFactory));
+                notification.Add("Balance", Messages.AccountHasNotEnoughFunds);
             }
 
-            if (this.GetCurrentBalance().LessThan(amountToWithdraw))
-            {
-                return null!;
-            }
-
-            IDebit debit = entityFactory.NewDebit(this, amountToWithdraw, DateTime.UtcNow);
             this.Debits.Add(debit);
-            return debit;
         }
 
         /// <inheritdoc />

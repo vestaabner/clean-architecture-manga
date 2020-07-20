@@ -4,10 +4,10 @@
 
 namespace Domain.Accounts
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Credits;
-    using Customers.ValueObjects;
     using Debits;
     using ValueObjects;
 
@@ -32,7 +32,7 @@ namespace Domain.Accounts
         /// </summary>
         /// <param name="customerId">CustomerId.</param>
         /// <returns>An Account instance.</returns>
-        Task<IList<IAccount>> GetBy(CustomerId customerId);
+        Task<IList<IAccount>> GetBy(Guid customerId);
 
         /// <summary>
         ///     Adds an Account.
@@ -71,6 +71,6 @@ namespace Domain.Accounts
         /// <param name="accountId">Account Id.</param>
         /// <param name="customerId">Customer Id.</param>
         /// <returns></returns>
-        Task<IAccount> Find(AccountId accountId, CustomerId customerId);
+        Task<IAccount> Find(AccountId accountId, Guid customerId);
     }
 }

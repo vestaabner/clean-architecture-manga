@@ -6,7 +6,6 @@ namespace Domain.Accounts
 {
     using System;
     using Credits;
-    using Customers.ValueObjects;
     using Debits;
     using ValueObjects;
 
@@ -26,7 +25,7 @@ namespace Domain.Accounts
         /// </summary>
         /// <param name="customerId">CustomerId.</param>
         /// <returns>New Account instance.</returns>
-        IAccount NewAccount(CustomerId customerId);
+        IAccount NewAccount(Guid customerId);
 
         /// <summary>
         ///     Creates a new Credit.
