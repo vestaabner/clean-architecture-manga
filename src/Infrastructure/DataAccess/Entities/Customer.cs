@@ -4,9 +4,9 @@
 
 namespace Infrastructure.DataAccess.Entities
 {
+    using System;
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
-    using Domain.Security.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Customer : Domain.Customers.Customer
@@ -15,16 +15,20 @@ namespace Infrastructure.DataAccess.Entities
         {
         }
 
-        public Customer(CustomerId id, Name name, SSN ssn, UserId userId)
+        public Customer(CustomerId id, Name firstName, Name lastName, SSN ssn, Guid userId)
         {
             this.Id = id;
-            this.Name = name;
+            this.FirstName = firstName;
+            this.LastName = lastName;
             this.SSN = ssn;
             this.UserId = userId;
         }
 
         /// <inheritdoc />
-        public override Name Name { get; }
+        public override Name FirstName { get; }
+
+        /// <inheritdoc />
+        public override Name LastName { get; }
 
         /// <inheritdoc />
         public override SSN SSN { get; }
@@ -35,7 +39,7 @@ namespace Infrastructure.DataAccess.Entities
         /// <summary>
         /// 
         /// </summary>
-        public UserId UserId { get; }
+        public Guid UserId { get; }
 
         /// <inheritdoc />
         public override AccountCollection Accounts { get; } = new AccountCollection();

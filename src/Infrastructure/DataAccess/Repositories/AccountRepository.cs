@@ -12,7 +12,6 @@ namespace Infrastructure.DataAccess.Repositories
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
     using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Account = Entities.Account;
@@ -34,13 +33,13 @@ namespace Infrastructure.DataAccess.Repositories
         /// <inheritdoc />
         public async Task<IList<IAccount>> GetBy(Guid customerId)
         {
-            var accounts = this._context
+            var account = this._context
                 .Accounts
                 .Where(e => e.CustomerId.Equals(customerId))
                 .Select(e => (IAccount)e)
                 .ToList();
 
-            return await Task.FromResult(accounts)
+            return await Task.FromResult(account)
                 .ConfigureAwait(false);
         }
 
@@ -61,12 +60,7 @@ namespace Infrastructure.DataAccess.Repositories
         /// <inheritdoc />
         public async Task Delete(IAccount account)
         {
-            if (account is null)
-            {
-                throw new ArgumentNullException(nameof(account));
-            }
-
-            const string deleteSQL = @"DELETE FROM Credit WHERE AccountId = @Id;
+            const string deleteSql = @"DELETE FROM Credit WHERE AccountId = @Id;
                       DELETE FROM Debit WHERE AccountId = @Id;
                       DELETE FROM Account WHERE Id = @Id;";
 
@@ -75,16 +69,16 @@ namespace Infrastructure.DataAccess.Repositories
             await this._context
                 .Database
                 .ExecuteSqlRawAsync(
-                    deleteSQL, id)
+                    deleteSql, id)
                 .ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public async Task<IAccount> GetAccount(AccountId id)
+        public async Task<IAccount> GetAccount(AccountId accountId)
         {
             Account account = await this._context
                 .Accounts
-                .Where(a => a.Id.Equals(id))
+                .Where(a => a.Id.Equals(accountId))
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
@@ -95,12 +89,12 @@ namespace Infrastructure.DataAccess.Repositories
 
             var credits = this._context
                 .Credits
-                .Where(e => e.AccountId.Equals(id))
+                .Where(e => e.AccountId.Equals(accountId))
                 .ToList();
 
             var debits = this._context
                 .Debits
-                .Where(e => e.AccountId.Equals(id))
+                .Where(e => e.AccountId.Equals(accountId))
                 .ToList();
 
             account.Credits
@@ -122,5 +116,22 @@ namespace Infrastructure.DataAccess.Repositories
             .Debits
             .AddAsync((Debit)debit)
             .ConfigureAwait(false);
+
+        public async Task<IAccount> Find(AccountId accountId, Guid customerId)
+        {
+            var account = this._context
+                .Accounts
+                .Where(e => e.CustomerId.Equals(customerId) && e.Id.Equals(accountId))
+                .Select(e => (IAccount)e)
+                .SingleOrDefault();
+
+            if (account == null)
+            {
+                return AccountNull.Instance;
+            }
+
+            return await Task.FromResult(account)
+                .ConfigureAwait(false);
+        }
     }
 }

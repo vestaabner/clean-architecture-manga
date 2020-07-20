@@ -11,9 +11,14 @@ namespace Domain.Customers
     public abstract class Customer : ICustomer
     {
         /// <summary>
-        ///     Gets or sets Name.
+        ///     Gets or sets First Name.
         /// </summary>
-        public abstract Name Name { get; }
+        public abstract Name FirstName { get; }
+
+        /// <summary>
+        ///     Gets or sets Last Name.
+        /// </summary>
+        public abstract Name LastName { get; }
 
         /// <summary>
         ///     Gets or sets SSN.

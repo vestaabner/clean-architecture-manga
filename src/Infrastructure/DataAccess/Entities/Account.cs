@@ -4,10 +4,10 @@
 
 namespace Infrastructure.DataAccess.Entities
 {
+    using System;
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Account : Domain.Accounts.Account
@@ -16,7 +16,7 @@ namespace Infrastructure.DataAccess.Entities
         {
         }
 
-        public Account(AccountId id, CustomerId customerId)
+        public Account(AccountId id, Guid customerId)
         {
             this.Id = id;
             this.CustomerId = customerId;
@@ -34,6 +34,6 @@ namespace Infrastructure.DataAccess.Entities
         /// <summary>
         ///     Gets or sets CustomerId.
         /// </summary>
-        public CustomerId CustomerId { get; }
+        public Guid CustomerId { get; }
     }
 }

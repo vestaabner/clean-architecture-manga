@@ -69,6 +69,11 @@ namespace Infrastructure.DataAccess.Repositories
                 .ConfigureAwait(false);
         }
 
+        public async Task<IAccount> Find(AccountId accountId, Guid customerId)
+        {
+
+        }
+
         /// <inheritdoc />
         public async Task<IAccount> GetAccount(AccountId accountId)
         {

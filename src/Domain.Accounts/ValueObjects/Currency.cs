@@ -38,7 +38,12 @@
 
         public static Currency? Create(Notification notification, string code)
         {
-            if (code == "USD" || code == "EUR" || code == "BRL")
+            if (code == Dollar.Code ||
+                code == Euro.Code ||
+                code == BritishPound.Code ||
+                code == Canadian.Code ||
+                code == Real.Code ||
+                code == Krona.Code)
             {
                 return new Currency(code);
             }
@@ -46,5 +51,41 @@
             notification.Add("Currency", "Currency is required.");
             return null;
         }
+
+        /// <summary>
+        ///     Dollar.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency Dollar = new Currency("USD");
+
+        /// <summary>
+        ///     Euro.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency Euro = new Currency("EUR");
+
+        /// <summary>
+        ///     British Pound.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency BritishPound = new Currency("GBP");
+
+        /// <summary>
+        ///     Canadian Dollar.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency Canadian = new Currency("CAD");
+
+        /// <summary>
+        ///     Brazilian Real.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency Real = new Currency("BRL");
+
+        /// <summary>
+        ///     Swedish Krona.
+        /// </summary>
+        /// <returns>Currency.</returns>
+        public static readonly Currency Krona = new Currency("SEK");
     }
 }

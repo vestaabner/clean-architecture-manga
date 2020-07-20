@@ -39,11 +39,6 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToDeposit,
             DateTime transactionDate)
         {
-            if (account is null)
-            {
-                throw new ArgumentNullException(nameof(account));
-            }
-
             return new Credit(new CreditId(Guid.NewGuid()), account.Id, amountToDeposit, transactionDate);
         }
 
@@ -53,20 +48,13 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToWithdraw,
             DateTime transactionDate)
         {
-            if (account is null)
-            {
-                throw new ArgumentNullException(nameof(account));
-            }
-
             return new Debit(new DebitId(Guid.NewGuid()), account.Id, amountToWithdraw, transactionDate);
         }
 
-        /// <inheritdoc />
-        public ICustomer NewCustomer(SSN ssn, Name name)
-            => new Customer(new CustomerId(Guid.NewGuid()), name, ssn);
+        public IUser NewUser(ExternalUserId externalUserId) =>
+            new User(new UserId(Guid.NewGuid()),  externalUserId);
 
-        /// <inheritdoc />
-        public IUser NewUser(ExternalUserId externalUserId, Name name)
-            => new User(new UserId(Guid.NewGuid()), externalUserId, name);
+        public ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, Guid externalUserId) =>
+            new Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, externalUserId);
     }
 }
