@@ -117,67 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TheAmountShouldBePositive" xml:space="preserve">
-    <value>The 'Amount' should be positive.</value>
-  </data>
-  <data name="CreditIdCannotBeEmpty" xml:space="preserve">
-    <value>CreditId cannot be empty.</value>
-  </data>
-  <data name="TheTextFieldIsRequired" xml:space="preserve">
-    <value>The text field is required.</value>
-  </data>
-  <data name="DebitIdCannotBeEmpty" xml:space="preserve">
-    <value>DebitId cannot be empty.</value>
-  </data>
-  <data name="InvalidTextFormat" xml:space="preserve">
-    <value>Invalid text format. Use YYMMDDNNNN.</value>
-  </data>
-  <data name="AccountIdCannotBeEmpty" xml:space="preserve">
-    <value>AccountId cannot be empty.</value>
-  </data>
-  <data name="CustomerIdCannotBeEmpty" xml:space="preserve">
-    <value>CustomerId cannot be empty.</value>
-  </data>
   <data name="AccountHasNotEnoughFunds" xml:space="preserve">
     <value>Account has not enough funds.</value>
-  </data>
-  <data name="AccountDoesNotExist" xml:space="preserve">
-    <value>Account does not exist.</value>
-  </data>
-  <data name="AccountHasFunds" xml:space="preserve">
-    <value>Account can't be closed because it has funds.</value>
-  </data>
-  <data name="AccountHasNotEnoughFunds1" xml:space="preserve">
-    <value>Account has not enough funds.</value>
-  </data>
-  <data name="AmountIsNegative" xml:space="preserve">
-    <value>Amount should be positive.</value>
-  </data>
-  <data name="CustomerAlreadyExists" xml:space="preserve">
-    <value>Customer already exists.</value>
-  </data>
-  <data name="CustomerDoesNotExist" xml:space="preserve">
-    <value>Customer does not exist.</value>
-  </data>
-  <data name="CustomerIdRequired" xml:space="preserve">
-    <value>CustomerId is required.</value>
-  </data>
-  <data name="FirstNameRequired" xml:space="preserve">
-    <value>First name is required.</value>
-  </data>
-  <data name="InputIsNull" xml:space="preserve">
-    <value>Input is null.</value>
-  </data>
-  <data name="InvalidName" xml:space="preserve">
-    <value>Name is not valid.</value>
-  </data>
-  <data name="InvalidSSN" xml:space="preserve">
-    <value>SSN must be valid.</value>
-  </data>
-  <data name="LastNameRequired" xml:space="preserve">
-    <value>Last name is required.</value>
-  </data>
-  <data name="SSNRequired" xml:space="preserve">
-    <value>SSN is required.</value>
   </data>
 </root>
