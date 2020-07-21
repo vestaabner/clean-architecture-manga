@@ -101,7 +101,7 @@ namespace Application.Boundaries.CloseAccount
                 return;
             }
 
-            await this._accountRepository.Delete(account)
+            await this._accountRepository.Delete(account.Id)
                 .ConfigureAwait(false);
 
             await this._unitOfWork.Save()

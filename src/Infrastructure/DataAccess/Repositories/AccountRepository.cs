@@ -31,19 +31,6 @@ namespace Infrastructure.DataAccess.Repositories
                                                                               nameof(context));
 
         /// <inheritdoc />
-        public async Task<IList<IAccount>> GetBy(Guid customerId)
-        {
-            var account = this._context
-                .Accounts
-                .Where(e => e.CustomerId.Equals(customerId))
-                .Select(e => (IAccount)e)
-                .ToList();
-
-            return await Task.FromResult(account)
-                .ConfigureAwait(false);
-        }
-
-        /// <inheritdoc />
         public async Task Add(IAccount account, ICredit credit)
         {
             await this._context
@@ -58,13 +45,13 @@ namespace Infrastructure.DataAccess.Repositories
         }
 
         /// <inheritdoc />
-        public async Task Delete(IAccount account)
+        public async Task Delete(AccountId accountId)
         {
             const string deleteSql = @"DELETE FROM Credit WHERE AccountId = @Id;
                       DELETE FROM Debit WHERE AccountId = @Id;
                       DELETE FROM Account WHERE Id = @Id;";
 
-            var id = new SqlParameter("@Id", account.Id);
+            var id = new SqlParameter("@Id", accountId.Id);
 
             await this._context
                 .Database
@@ -84,7 +71,7 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (account is null)
             {
-                return null!;
+                return AccountNull.Instance;
             }
 
             var credits = this._context

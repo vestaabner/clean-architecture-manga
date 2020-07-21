@@ -53,9 +53,9 @@ namespace Domain.Accounts
         /// <summary>
         ///     Deletes the Account.
         /// </summary>
-        /// <param name="account">Account object.</param>
+        /// <param name="accountId">Account Id.</param>
         /// <returns>Task.</returns>
-        Task Delete(IAccount account);
+        Task Delete(AccountId accountId);
 
         /// <summary>
         /// Finds an Account.

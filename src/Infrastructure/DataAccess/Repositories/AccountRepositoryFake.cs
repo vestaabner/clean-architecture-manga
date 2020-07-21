@@ -42,11 +42,11 @@ namespace Infrastructure.DataAccess.Repositories
         }
 
         /// <inheritdoc />
-        public async Task Delete(IAccount account)
+        public async Task Delete(AccountId accountId)
         {
             Account accountOld = this._context
                 .Accounts
-                .SingleOrDefault(e => e.Id.Equals(account.Id));
+                .SingleOrDefault(e => e.Id.Equals(accountId));
 
             this._context
                 .Accounts
