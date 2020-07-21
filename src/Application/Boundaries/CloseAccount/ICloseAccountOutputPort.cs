@@ -17,12 +17,12 @@ namespace Application.Boundaries.CloseAccount
         void Invalid();
 
         /// <summary>
-        ///     Account closed.
+        ///     Account closed successfully.
         /// </summary>
         void ClosedSuccessful(IAccount account);
 
         /// <summary>
-        ///     Account closed.
+        ///     Account not found.
         /// </summary>
         void NotFound();
 

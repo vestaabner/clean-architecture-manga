@@ -20,6 +20,8 @@ namespace Infrastructure.DataAccess.Repositories
                                                                            throw new ArgumentNullException(
                                                                                nameof(context));
 
+        public Task<ICustomer> Find(string externalUserId) => throw new NotImplementedException();
+
         public async Task Add(ICustomer customer) =>
             await this._context
                 .Customers
@@ -36,13 +38,13 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (customer is null)
             {
-                return null!;
+                return CustomerNull.Instance;
             }
 
             var accounts = this._context
                 .Accounts
-                .Where(e => e.CustomerId.Equals(customer.Id))
-                .Select(e => e.Id)
+                .Where(e => e.CustomerId.Equals(customerId.Id))
+                .Select(e => e.Id.Id)
                 .ToList();
 
             customer.Accounts

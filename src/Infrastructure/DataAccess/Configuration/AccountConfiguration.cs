@@ -6,7 +6,6 @@ namespace Infrastructure.DataAccess.Configuration
 {
     using System;
     using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
     using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -31,18 +30,15 @@ namespace Infrastructure.DataAccess.Configuration
 
             builder.Property(b => b.Id)
                 .HasConversion(
-                    v => v.ToGuid(),
+                    v => v.Id,
                     v => new AccountId(v))
                 .IsRequired();
 
             builder.Property(b => b.CustomerId)
-                .HasConversion(
-                    v => v.ToGuid(),
-                    v => new CustomerId(v))
                 .IsRequired();
 
-            builder.Ignore(p => p.Credits)
-                .Ignore(p => p.Debits);
+            builder.Ignore(p => p.Credits);
+            builder.Ignore(p => p.Debits);
         }
     }
 }

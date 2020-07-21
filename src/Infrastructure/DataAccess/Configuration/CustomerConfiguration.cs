@@ -31,19 +31,28 @@ namespace Infrastructure.DataAccess.Configuration
 
             builder.Property(b => b.SSN)
                 .HasConversion(
-                    v => v.ToString(),
+                    v => v.Text,
                     v => new SSN(v))
                 .IsRequired();
 
-            builder.Property(b => b.Name)
+            builder.Property(b => b.FirstName)
                 .HasConversion(
-                    v => v.ToString(),
+                    v => v.Text,
                     v => new Name(v))
+                .IsRequired();
+
+            builder.Property(b => b.LastName)
+                .HasConversion(
+                    v => v.Text,
+                    v => new Name(v))
+                .IsRequired();
+
+            builder.Property(b => b.UserId)
                 .IsRequired();
 
             builder.Property(b => b.Id)
                 .HasConversion(
-                    v => v.ToGuid(),
+                    v => v.Id,
                     v => new CustomerId(v))
                 .IsRequired();
 

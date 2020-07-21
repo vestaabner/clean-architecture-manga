@@ -21,11 +21,11 @@
             var serviceProvider = serviceCollection.BuildServiceProvider();
             var sut = serviceProvider.GetRequiredService<CurrencyExchangeService>();
 
-            PositiveMoney usdMoney = new PositiveMoney(100, "EUR");
+            PositiveMoney usdMoney = new PositiveMoney(100, Currency.Euro);
             PositiveMoney actual = await sut.ConvertToUSD(usdMoney);
 
-            Assert.True(actual.ToMoney().ToDecimal() > 100);
-            Assert.Equal("USD", actual.GetCurrency().ToString());
+            Assert.True(actual.Amount > 100);
+            Assert.Equal("USD", actual.Currency.Code);
         }
     }
 }

@@ -12,10 +12,6 @@ namespace Infrastructure.DataAccess.Entities
     /// <inheritdoc />
     public sealed class Account : Domain.Accounts.Account
     {
-        public Account()
-        {
-        }
-
         public Account(AccountId id, Guid customerId)
         {
             this.Id = id;

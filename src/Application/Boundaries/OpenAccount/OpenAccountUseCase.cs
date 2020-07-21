@@ -70,13 +70,12 @@ namespace Application.UseCases
                 .Customer(customer.Id.Id)
                 .Build();
 
-            ICredit credit = await this._builderFactory
+            ICredit credit = this._builderFactory
                 .NewCreditBuilder()
                 .Amount(amount, currency)
                 .Timestamp()
                 .Account(account)
-                .Build()
-                .ConfigureAwait(false);
+                .Build();
 
             account.Deposit(credit);
 

@@ -16,6 +16,8 @@ namespace Infrastructure.DataAccess.Repositories
 
         public UserRepositoryFake(MangaContextFake context) => this._context = context;
 
+        public Task<IUser> Find(ExternalUserId externalUserId) => throw new System.NotImplementedException();
+
         public async Task Add(IUser user)
         {
             this._context
@@ -28,7 +30,7 @@ namespace Infrastructure.DataAccess.Repositories
 
         public async Task<IUser> GetUser(ExternalUserId externalUserId)
         {
-            Domain.Security.User user = this._context
+            User user = this._context
                 .Users
                 .SingleOrDefault(e => e.ExternalUserId.Equals(externalUserId));
 

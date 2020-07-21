@@ -39,7 +39,7 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToDeposit,
             DateTime transactionDate)
         {
-            return new Credit(new CreditId(Guid.NewGuid()), account.Id, amountToDeposit, transactionDate);
+            return new Credit(new CreditId(Guid.NewGuid()), account.Id, transactionDate, amountToDeposit.Amount, amountToDeposit.Currency.Code);
         }
 
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToWithdraw,
             DateTime transactionDate)
         {
-            return new Debit(new DebitId(Guid.NewGuid()), account.Id, amountToWithdraw, transactionDate);
+            return new Debit(new DebitId(Guid.NewGuid()), account.Id, transactionDate, amountToWithdraw.Amount, amountToWithdraw.Currency.Code);
         }
 
         public IUser NewUser(ExternalUserId externalUserId) =>

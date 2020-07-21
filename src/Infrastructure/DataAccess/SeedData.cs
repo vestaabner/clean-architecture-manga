@@ -5,8 +5,6 @@
 namespace Infrastructure.DataAccess
 {
     using System;
-    using Domain.Accounts.Credits;
-    using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
@@ -36,11 +34,22 @@ namespace Infrastructure.DataAccess
 
             builder.Entity<Customer>()
                 .HasData(
-                    new {Id = DefaultCustomerId, Name = new Name(Messages.UserName), SSN = new SSN(Messages.UserSSN)});
+                    new
+                    {
+                        Id = DefaultCustomerId,
+                        FirstName = new Name(Messages.UserName),
+                        LastName = new Name(Messages.UserName),
+                        SSN = new SSN(Messages.UserSSN),
+                        UserId = Guid.NewGuid()
+                    });
 
             builder.Entity<Account>()
                 .HasData(
-                    new {Id = s_defaultAccountId, CustomerId = DefaultCustomerId});
+                    new
+                    {
+                        Id = s_defaultAccountId,
+                        CustomerId = DefaultCustomerId.Id
+                    });
 
             builder.Entity<Credit>()
                 .HasData(
@@ -48,9 +57,9 @@ namespace Infrastructure.DataAccess
                     {
                         Id = new CreditId(new Guid("f5117315-e789-491a-b662-958c37237f9b")),
                         AccountId = s_defaultAccountId,
-                        Amount = new PositiveMoney(400),
-                        Description = "Credit",
-                        TransactionDate = DateTime.UtcNow
+                        TransactionDate = DateTime.UtcNow,
+                        Value = 400m,
+                        Currency = Currency.Dollar.Code
                     });
 
             builder.Entity<Debit>()
@@ -59,18 +68,17 @@ namespace Infrastructure.DataAccess
                     {
                         Id = new DebitId(new Guid("3d6032df-7a3b-46e6-8706-be971e3d539f")),
                         AccountId = s_defaultAccountId,
-                        Amount = new PositiveMoney(400),
-                        Description = "Debit",
-                        TransactionDate = DateTime.UtcNow
+                        TransactionDate = DateTime.UtcNow,
+                        Value = 400m,
+                        Currency = Currency.Dollar.Code
                     });
 
             builder.Entity<User>()
                 .HasData(
                     new
                     {
-                        CustomerId = DefaultCustomerId,
-                        ExternalUserId = new ExternalUserId(Messages.UserName),
-                        Name = new Name(Messages.UserSSN)
+                        UserId = new UserId(Guid.NewGuid()),
+                        ExternalUserId = new ExternalUserId(Messages.UserName)
                     });
         }
     }

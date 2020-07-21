@@ -13,17 +13,17 @@ namespace Domain.Customers
         /// <summary>
         ///     Gets or sets First Name.
         /// </summary>
-        public abstract Name FirstName { get; }
+        public Name FirstName { get; set; }
 
         /// <summary>
         ///     Gets or sets Last Name.
         /// </summary>
-        public abstract Name LastName { get; }
+        public Name LastName { get; set; }
 
         /// <summary>
         ///     Gets or sets SSN.
         /// </summary>
-        public abstract SSN SSN { get; }
+        public SSN SSN { get; set; }
 
         /// <inheritdoc />
         public abstract CustomerId Id { get; }
@@ -35,6 +35,11 @@ namespace Domain.Customers
         public void Assign(Guid accountId) => this.Accounts.Add(accountId);
 
         /// <inheritdoc />
-        public void Update(SSN ssn, Name firstName, Name lastName) => throw new System.NotImplementedException();
+        public void Update(SSN ssn, Name firstName, Name lastName)
+        {
+            this.SSN = ssn;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+        }
     }
 }

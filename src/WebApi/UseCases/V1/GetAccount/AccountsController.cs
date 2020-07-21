@@ -3,11 +3,10 @@ namespace WebApi.UseCases.V1.GetAccount
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.GetAccount;
-    using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using WebApi.Modules.Common;
+    using Modules.Common;
 
     /// <summary>
     ///     Accounts
@@ -26,7 +25,7 @@ namespace WebApi.UseCases.V1.GetAccount
         /// </summary>
         /// <response code="200">The Account.</response>
         /// <response code="404">Not Found.</response>
-        /// <param name="mediator">Mediator.</param>
+        /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
         /// <param name="request">A <see cref="GetAccountRequest"></see>.</param>
         /// <returns>An asynchronous <see cref="IActionResult" />.</returns>
@@ -35,13 +34,11 @@ namespace WebApi.UseCases.V1.GetAccount
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetAccountResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Find))]
         public async Task<IActionResult> Get(
-            [FromServices] IMediator mediator,
+            [FromServices] IGetAccountUseCase useCase,
             [FromServices] GetAccountPresenter presenter,
             [FromRoute][Required] GetAccountRequest request)
         {
-            var input = new GetAccountInput(request.AccountId);
-
-            await mediator.PublishAsync(input)
+            await useCase.Execute(request.AccountId)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

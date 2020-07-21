@@ -5,7 +5,6 @@
 namespace Domain.Accounts
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Credits;
     using Debits;
@@ -26,13 +25,6 @@ namespace Domain.Accounts
         /// <param name="accountId"></param>
         /// <returns></returns>
         Task<IAccount> GetAccount(AccountId accountId);
-
-        /// <summary>
-        ///     Gets an Account.
-        /// </summary>
-        /// <param name="customerId">CustomerId.</param>
-        /// <returns>An Account instance.</returns>
-        Task<IList<IAccount>> GetBy(Guid customerId);
 
         /// <summary>
         ///     Adds an Account.

@@ -4,8 +4,6 @@
 
 namespace Infrastructure.ExternalAuthentication
 {
-    using DataAccess;
-    using Domain.Customers.ValueObjects;
     using Domain.Security;
     using Domain.Security.ValueObjects;
     using Domain.Services;
@@ -23,16 +21,11 @@ namespace Infrastructure.ExternalAuthentication
         /// <inheritdoc />
         public IUser GetCurrentUser()
         {
-            CustomerId customerId = new CustomerId(MangaContextFake
-                .DefaultCustomerId
-                .ToGuid());
-
             ExternalUserId externalUserId = new ExternalUserId(
                 Messages.ExternalUserID);
 
-            Name name = new Name(Messages.UserName);
             IUser user = this._userFactory
-                .NewUser(customerId, externalUserId, name);
+                .NewUser(externalUserId);
 
             return user;
         }

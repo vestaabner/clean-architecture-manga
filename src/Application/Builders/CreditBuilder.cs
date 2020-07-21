@@ -1,8 +1,6 @@
 ﻿namespace Domain.Accounts.Credits
 {
     using System;
-    using System.Threading.Tasks;
-    using Services;
     using ValueObjects;
 
     /// <summary>
@@ -12,7 +10,6 @@
     {
         private readonly IAccountFactory _accountFactory;
         private readonly Notification _notification;
-        private readonly ICurrencyExchange _currencyExchange;
 
         private IAccount? _account;
         private Currency? _currency;
@@ -24,15 +21,12 @@
         /// </summary>
         /// <param name="accountFactory"></param>
         /// <param name="notification"></param>
-        /// <param name="currencyExchange"></param>
         public CreditBuilder(
             IAccountFactory accountFactory,
-            Notification notification,
-            ICurrencyExchange currencyExchange)
+            Notification notification)
         {
             this._accountFactory = accountFactory;
             this._notification = notification;
-            this._currencyExchange = currencyExchange;
         }
 
         public CreditBuilder Account(IAccount account)
@@ -65,20 +59,13 @@
         /// 
         /// </summary>
         /// <returns>ICredit</returns>
-        public async Task<ICredit> Build()
+        public ICredit Build()
         {
             if (this._account is AccountNull ||
                 !this._currency.HasValue ||
                 !this._positiveMoney.HasValue ||
                 !this._transactionDate.HasValue ||
                 !this._notification.IsValid)
-            {
-                return CreditNull.Instance;
-            }
-
-            if (!await this._currencyExchange
-                .IsCurrencyAllowed(this._currency.Value)
-                .ConfigureAwait(false))
             {
                 return CreditNull.Instance;
             }

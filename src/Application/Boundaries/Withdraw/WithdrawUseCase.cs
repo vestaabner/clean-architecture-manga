@@ -75,13 +75,12 @@ namespace Application.UseCases
                 return;
             }
 
-            IDebit debit = await this._builderFactory
+            IDebit debit = this._builderFactory
                 .NewDebitBuilder()
                 .Account(account)
                 .Timestamp()
                 .Amount(amount, currency)
-                .Build()
-                .ConfigureAwait(false);
+                .Build();
 
             if (debit is DebitNull)
             {

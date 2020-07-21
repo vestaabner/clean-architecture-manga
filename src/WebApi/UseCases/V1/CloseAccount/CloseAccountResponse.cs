@@ -2,7 +2,7 @@ namespace WebApi.UseCases.V1.CloseAccount
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Application.Boundaries.CloseAccount;
+    using Domain.Accounts;
 
     /// <summary>
     ///     The response Close an Account.
@@ -12,12 +12,12 @@ namespace WebApi.UseCases.V1.CloseAccount
         /// <summary>
         ///     Close Account Response constructor.
         /// </summary>
-        public CloseAccountResponse(CloseAccountOutput output) => this.AccountId = output.Account.Id.ToGuid();
+        public CloseAccountResponse(IAccount account) => this.AccountId = account.Id.Id;
 
         /// <summary>
         ///     Gets account ID.
         /// </summary>
         [Required]
-        public Guid AccountId { get; } = Guid.Empty;
+        public Guid AccountId { get; }
     }
 }

@@ -4,10 +4,12 @@
 
 namespace Application.Boundaries.GetAccounts
 {
-    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Domain;
     using Domain.Accounts;
+    using Domain.Accounts.ValueObjects;
     using Domain.Customers;
     using Domain.Security;
     using Domain.Services;
@@ -22,6 +24,7 @@ namespace Application.Boundaries.GetAccounts
     /// </summary>
     public sealed class GetAccountsUseCase : IGetAccountsUseCase
     {
+        private readonly Notification _notification;
         private readonly IAccountRepository _accountRepository;
         private readonly IGetAccountsOutputPort _outputPort;
         private readonly IUserService _userService;
@@ -31,19 +34,22 @@ namespace Application.Boundaries.GetAccounts
         ///     Initializes a new instance of the <see cref="GetAccountsUseCase" /> class.
         /// </summary>
         /// <param name="userService">User Service.</param>
-        /// <param name="getAccountsOutputPort">Output Port.</param>
+        /// <param name="outputPort">Output Port.</param>
         /// <param name="accountRepository">Customer Repository.</param>
         /// <param name="customerRepository"></param>
+        /// <param name="notification"></param>
         public GetAccountsUseCase(
             IUserService userService,
-            IGetAccountsOutputPort getAccountsOutputPort,
+            IGetAccountsOutputPort outputPort,
             IAccountRepository accountRepository,
-            ICustomerRepository customerRepository)
+            ICustomerRepository customerRepository,
+            Notification notification)
         {
             this._userService = userService;
-            this._outputPort = getAccountsOutputPort;
+            this._outputPort = outputPort;
             this._accountRepository = accountRepository;
             this._customerRepository = customerRepository;
+            this._notification = notification;
         }
 
         /// <summary>
@@ -62,15 +68,32 @@ namespace Application.Boundaries.GetAccounts
             if (customer is CustomerNull)
             {
                 this._outputPort.NotFound();
+                return;
             }
 
             List<IAccount> accounts = new List<IAccount>();
 
-            foreach (Guid accountId in customer.Accounts)
+            foreach (AccountId? getAccountId in customer
+                .Accounts
+                .Select(accountId => AccountId.Create(this._notification, accountId)))
             {
-                accounts.AddRange(await this._accountRepository
-                    .GetBy(accountId)
-                    .ConfigureAwait(false));
+                if (!getAccountId.HasValue)
+                {
+                    this._outputPort.NotFound();
+                    return;
+                }
+
+                IAccount account = await this._accountRepository
+                    .GetAccount(getAccountId.Value)
+                    .ConfigureAwait(false);
+
+                if (account is AccountNull)
+                {
+                    this._outputPort.NotFound();
+                    return;
+                }
+
+                accounts.Add(account);
             }
 
             this._outputPort.Successful(accounts);

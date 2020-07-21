@@ -13,6 +13,7 @@ namespace Infrastructure.DataAccess.Entities
     {
         public Customer()
         {
+            
         }
 
         public Customer(CustomerId id, Name firstName, Name lastName, SSN ssn, Guid userId)
@@ -23,15 +24,6 @@ namespace Infrastructure.DataAccess.Entities
             this.SSN = ssn;
             this.UserId = userId;
         }
-
-        /// <inheritdoc />
-        public override Name FirstName { get; }
-
-        /// <inheritdoc />
-        public override Name LastName { get; }
-
-        /// <inheritdoc />
-        public override SSN SSN { get; }
 
         /// <inheritdoc />
         public override CustomerId Id { get; }

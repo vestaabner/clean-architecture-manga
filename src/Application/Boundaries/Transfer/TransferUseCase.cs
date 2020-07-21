@@ -80,21 +80,19 @@ namespace Application.Boundaries.Transfer
                 return;
             }
 
-            IDebit debit = await this._builderFactory
+            IDebit debit = this._builderFactory
                 .NewDebitBuilder()
                 .Amount(amount, currency)
                 .Timestamp()
                 .Account(originAccount)
-                .Build()
-                .ConfigureAwait(false);
+                .Build();
 
-            ICredit credit = await this._builderFactory
+            ICredit credit = this._builderFactory
                 .NewCreditBuilder()
                 .Amount(amount, currency)
                 .Timestamp()
                 .Account(destinationAccount)
-                .Build()
-                .ConfigureAwait(false);
+                .Build();
 
             if (debit is DebitNull || credit is CreditNull)
             {

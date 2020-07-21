@@ -4,7 +4,6 @@
     using Accounts.Credits;
     using Accounts.Debits;
     using Customers;
-    using Services;
 
     /// <summary>
     /// 
@@ -15,7 +14,6 @@
 
         private readonly ICustomerFactory _customerFactory;
         private readonly Notification _notification;
-        private readonly ICurrencyExchange _currencyExchange;
 
         /// <summary>
         /// 
@@ -23,17 +21,14 @@
         /// <param name="accountFactory"></param>
         /// <param name="customerFactory"></param>
         /// <param name="notification"></param>
-        /// <param name="currencyExchange"></param>
         public BuilderFactory(
             IAccountFactory accountFactory,
             ICustomerFactory customerFactory,
-            Notification notification,
-            ICurrencyExchange currencyExchange)
+            Notification notification)
         {
             this._accountFactory = accountFactory;
             this._customerFactory = customerFactory;
             this._notification = notification;
-            this._currencyExchange = currencyExchange;
         }
 
         /// <summary>
@@ -51,16 +46,14 @@
         {
             return new CreditBuilder(
                 this._accountFactory,
-                this._notification,
-                this._currencyExchange);
+                this._notification);
         }
 
         public DebitBuilder NewDebitBuilder()
         {
             return new DebitBuilder(
                 this._accountFactory,
-                this._notification,
-                this._currencyExchange);
+                this._notification);
         }
 
         /// <summary>

@@ -16,6 +16,8 @@ namespace Infrastructure.DataAccess.Repositories
 
         public CustomerRepositoryFake(MangaContextFake context) => this._context = context;
 
+        public Task<ICustomer> Find(string externalUserId) => throw new System.NotImplementedException();
+
         public async Task Add(ICustomer customer)
         {
             this._context
@@ -38,11 +40,16 @@ namespace Infrastructure.DataAccess.Repositories
 
         public async Task Update(ICustomer customer)
         {
-            Domain.Customers.Customer customerOld = this._context
+            Customer customerOld = this._context
                 .Customers
                 .SingleOrDefault(e => e.Id.Equals(customer.Id));
 
-            customerOld = (Domain.Customers.Customer)customer;
+            if (customerOld != null)
+            {
+                this._context.Customers.Remove(customerOld);
+                this._context.Customers.Add((Customer) customer);
+            }
+
             await Task.CompletedTask
                 .ConfigureAwait(false);
         }

@@ -6,8 +6,6 @@ namespace Infrastructure.DataAccess
 {
     using System;
     using System.Collections.ObjectModel;
-    using Domain.Accounts.Credits;
-    using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
@@ -23,59 +21,58 @@ namespace Infrastructure.DataAccess
         /// </summary>
         public MangaContextFake()
         {
+            var user1 = new User(
+                new UserId(Guid.NewGuid()),
+                new ExternalUserId(Messages.ExternalUserID));
+
             var customer = new Customer(
                 DefaultCustomerId,
                 new Name(Messages.UserName),
-                new SSN(Messages.UserSSN));
-
-            customer.Accounts
-                .AddRange(new[] {DefaultAccountId});
-
-            var user1 = new User(
-                new ExternalUserId(Messages.ExternalUserID),
-                customer.Name,
-                customer.Id);
+                new Name(Messages.UserName),
+                new SSN(Messages.UserSSN),
+                user1.UserId.Id);
 
             var credit = new Credit(
                 new CreditId(Guid.NewGuid()),
                 DefaultAccountId,
-                new PositiveMoney(800),
-                DateTime.Now);
+                DateTime.Now,
+                800,
+                Currency.Dollar.Code);
 
             var debit = new Debit(
                 new DebitId(Guid.NewGuid()),
                 DefaultAccountId,
-                new PositiveMoney(300),
-                DateTime.Now);
+                DateTime.Now,
+                300,
+                Currency.Dollar.Code);
 
             var account = new Account(
                 DefaultAccountId,
-                DefaultCustomerId);
+                DefaultCustomerId.Id);
 
             account.Credits.Add(credit);
             account.Debits.Add(debit);
 
+            this.Users.Add(user1);
             this.Customers.Add(customer);
             this.Accounts.Add(account);
             this.Credits.Add(credit);
             this.Debits.Add(debit);
-            this.Users.Add(user1);
+
+            var secondUser = new User(
+                new UserId(Guid.NewGuid()), 
+                new ExternalUserId(Messages.ExternalUserID1));
 
             var secondCustomer = new Customer(
                 SecondCustomerId,
                 new Name(Messages.UserName1),
-                new SSN(Messages.UserSSN1));
-
-            secondCustomer.Accounts.Add(SecondAccountId);
-
-            var secondUser = new User(
-                new ExternalUserId(Messages.ExternalUserID1),
-                secondCustomer.Name,
-                secondCustomer.Id);
+                new Name(Messages.UserName1),
+                new SSN(Messages.UserSSN1),
+                secondUser.UserId.Id);
 
             var secondAccount = new Account(
                 SecondAccountId,
-                SecondCustomerId);
+                SecondCustomerId.Id);
 
             this.Customers.Add(secondCustomer);
             this.Accounts.Add(secondAccount);
@@ -105,7 +102,7 @@ namespace Infrastructure.DataAccess
         /// <summary>
         ///     Gets or sets Debits.
         /// </summary>
-        private Collection<Debit> Debits { get; } = new Collection<Debit>();
+        public Collection<Debit> Debits { get; } = new Collection<Debit>();
 
         /// <summary>
         ///     Gets or sets DefaultCustomerId.

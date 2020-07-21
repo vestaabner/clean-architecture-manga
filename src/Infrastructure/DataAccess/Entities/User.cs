@@ -11,10 +11,6 @@ namespace Infrastructure.DataAccess.Entities
     /// </summary>
     public sealed class User : Domain.Security.IUser
     {
-        public User()
-        {
-        }
-
         public User(UserId userId, ExternalUserId externalUserId)
         {
             this.UserId = userId;

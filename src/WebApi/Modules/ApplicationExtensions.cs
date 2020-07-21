@@ -5,13 +5,18 @@ namespace WebApi.Modules
     using Application.Boundaries.GetAccount;
     using Application.Boundaries.GetAccounts;
     using Application.Boundaries.GetCustomer;
+    using Application.Boundaries.OnBoardCustomer;
+    using Application.Boundaries.OpenAccount;
     using Application.Boundaries.Register;
+    using Application.Boundaries.SignUp;
     using Application.Boundaries.Transfer;
+    using Application.Boundaries.UpdateCustomer;
     using Application.Boundaries.Withdraw;
     using Application.UseCases;
     using Domain.Accounts;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Services;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -31,13 +36,12 @@ namespace WebApi.Modules
             services.AddScoped<IGetAccountUseCase, GetAccountUseCase>();
             services.AddScoped<IGetAccountsUseCase, GetAccountsUseCase>();
             services.AddScoped<IGetCustomerUseCase, GetCustomerUseCase>();
-            services.AddScoped<IRegisterUseCase, OpenAccountUseCase>();
-            services.AddScoped<IWithdrawUseCase, WithdrawUseCase>();
+            services.AddScoped<IOnBoardCustomerUseCase, OnBoardCustomerUseCase>();
+            services.AddScoped<IOpenAccountUseCase, OpenAccountUseCase>();
+            services.AddScoped<ISignUpUseCase, SignUpUseCase>();
             services.AddScoped<ITransferUseCase, TransferUseCase>();
-
-            services.AddScoped<CustomerService>();
-            services.AddScoped<SecurityService>();
-            services.AddScoped<AccountService>();
+            services.AddScoped<IUpdateCustomerUseCase, UpdateCustomerUseCase>();
+            services.AddScoped<IWithdrawUseCase, WithdrawUseCase>();
 
             return services;
         }
