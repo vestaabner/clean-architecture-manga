@@ -26,15 +26,16 @@ namespace IntegrationTests.EntityFrameworkTests
                 .EnsureCreatedAsync()
                 .ConfigureAwait(false);
 
+            CustomerRepository customerRepository = new CustomerRepository(context);
+
             Customer customer = new Customer(
                 new CustomerId(Guid.NewGuid()),
-                new Name("Ivan"),
+                    new Name("Ivan"),
                 new Name("Paulovich"),
                 new SSN("1234567890"),
                 Guid.NewGuid()
             );
 
-            CustomerRepository customerRepository = new CustomerRepository(context);
             await customerRepository
                 .Add(customer)
                 .ConfigureAwait(false);
@@ -83,6 +84,8 @@ namespace IntegrationTests.EntityFrameworkTests
                 .EnsureCreatedAsync()
                 .ConfigureAwait(false);
 
+            CustomerRepository customerRepository = new CustomerRepository(context);
+
             Customer customer = new Customer(
                 new CustomerId(Guid.NewGuid()),
                 new Name("Ivan"),
@@ -91,7 +94,6 @@ namespace IntegrationTests.EntityFrameworkTests
                 Guid.NewGuid()
             );
 
-            CustomerRepository customerRepository = new CustomerRepository(context);
             await customerRepository
                 .Add(customer)
                 .ConfigureAwait(false);
