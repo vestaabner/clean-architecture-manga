@@ -17,7 +17,7 @@ namespace IntegrationTests.EntityFrameworkTests
         public async Task Add()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB01;Server=.")
+                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
                 .Options;
 
             await using MangaContext context = new MangaContext(options);
@@ -33,7 +33,7 @@ namespace IntegrationTests.EntityFrameworkTests
                     new Name("Ivan"),
                 new Name("Paulovich"),
                 new SSN("1234567890"),
-                Guid.NewGuid()
+                SeedData.DefaultUserId
             );
 
             await customerRepository
@@ -54,7 +54,7 @@ namespace IntegrationTests.EntityFrameworkTests
         public async Task GetBy()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB01;Server=.")
+                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
                 .Options;
 
             await using MangaContext context = new MangaContext(options);
@@ -75,7 +75,7 @@ namespace IntegrationTests.EntityFrameworkTests
         public async Task Update()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB01;Server=.")
+                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
                 .Options;
 
             await using MangaContext context = new MangaContext(options);
@@ -91,7 +91,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 new Name("Ivan"),
                 new Name("Paulovich"),
                 new SSN("1234567890"),
-                Guid.NewGuid()
+                SeedData.DefaultUserId
             );
 
             await customerRepository

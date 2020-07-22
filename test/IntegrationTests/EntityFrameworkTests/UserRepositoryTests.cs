@@ -17,7 +17,7 @@ namespace IntegrationTests.EntityFrameworkTests
         public async Task Add()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB01;Server=.")
+                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
                 .Options;
 
             await using MangaContext context = new MangaContext(options);
@@ -30,7 +30,7 @@ namespace IntegrationTests.EntityFrameworkTests
 
             User user = new User(
                 new UserId(Guid.NewGuid()),
-                new ExternalUserId("github/ivanpaulovich")
+                new ExternalUserId(Guid.NewGuid().ToString())
             );
 
             await userRepository
@@ -48,10 +48,10 @@ namespace IntegrationTests.EntityFrameworkTests
         }
 
         [Fact]
-        public async Task GetBy()
+        public async Task Find()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB01;Server=.")
+                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
                 .Options;
 
             await using MangaContext context = new MangaContext(options);
@@ -63,7 +63,7 @@ namespace IntegrationTests.EntityFrameworkTests
             UserRepository userRepository = new UserRepository(context);
 
             IUser? user = await userRepository
-                .Find(new ExternalUserId("github/ivanpaulovich"))
+                .Find(SeedData.DefaultExternalUserId)
                 .ConfigureAwait(false);
 
             Assert.IsType<User>(user);

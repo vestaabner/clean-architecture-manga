@@ -5,14 +5,12 @@
 namespace Infrastructure.DataAccess.Repositories
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Domain.Accounts;
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Microsoft.Data.SqlClient;
     using Microsoft.EntityFrameworkCore;
     using Account = Entities.Account;
     using Credit = Entities.Credit;
@@ -47,17 +45,15 @@ namespace Infrastructure.DataAccess.Repositories
         /// <inheritdoc />
         public async Task Delete(AccountId accountId)
         {
-            const string deleteSql = @"DELETE FROM Credit WHERE AccountId = @Id;
-                      DELETE FROM Debit WHERE AccountId = @Id;
-                      DELETE FROM Account WHERE Id = @Id;";
-
-            var id = new SqlParameter("@Id", accountId.Id);
-
-            await this._context
-                .Database
-                .ExecuteSqlRawAsync(
-                    deleteSql, id)
+            Account account = await this._context
+                .Accounts
+                .FindAsync(accountId)
                 .ConfigureAwait(false);
+
+            if (account != null)
+            {
+                this._context.Accounts.Remove(account);
+            }
         }
 
         /// <inheritdoc />
