@@ -19,7 +19,7 @@ namespace WebApi.ViewModels
         public AccountDetailsModel(IAccount account)
         {
             var accountEntity = (Account)account;
-            this.AccountId = accountEntity.Id.ToGuid();
+            this.AccountId = accountEntity.AccountId.ToGuid();
             this.CurrentBalance = accountEntity.GetCurrentBalance().ToDecimal();
             this.Credits = accountEntity
                 .Credits

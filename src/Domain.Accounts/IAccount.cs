@@ -22,7 +22,7 @@ namespace Domain.Accounts
         /// <summary>
         ///     Gets Id.
         /// </summary>
-        AccountId Id { get; }
+        AccountId AccountId { get; }
 
         /// <summary>
         ///     Deposits into account.

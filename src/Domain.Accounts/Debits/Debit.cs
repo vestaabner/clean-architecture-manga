@@ -20,7 +20,7 @@ namespace Domain.Accounts.Debits
         /// <summary>
         ///     Gets or sets Id.
         /// </summary>
-        public abstract DebitId Id { get; }
+        public abstract DebitId DebitId { get; }
 
         /// <summary>
         ///     Gets or sets Amount.

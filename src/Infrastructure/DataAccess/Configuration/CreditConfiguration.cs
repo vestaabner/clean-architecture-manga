@@ -36,7 +36,7 @@ namespace Infrastructure.DataAccess.Configuration
             builder.Property(credit => credit.Currency)
                 .IsRequired();
 
-            builder.Property(credit => credit.Id)
+            builder.Property(credit => credit.CreditId)
                 .HasConversion(
                     value => value.Id,
                     value => new CreditId(value))

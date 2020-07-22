@@ -46,7 +46,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Account accountOld = this._context
                 .Accounts
-                .SingleOrDefault(e => e.Id.Equals(accountId));
+                .SingleOrDefault(e => e.AccountId.Equals(accountId));
 
             this._context
                 .Accounts
@@ -60,7 +60,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             IAccount account = this._context
                 .Accounts
-                .Where(e => e.CustomerId.Equals(customerId) && e.Id.Equals(accountId))
+                .Where(e => e.CustomerId.Equals(customerId) && e.AccountId.Equals(accountId))
                 .Select(e => (IAccount)e)
                 .SingleOrDefault();
 
@@ -78,7 +78,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Account account = this._context
                 .Accounts
-                .SingleOrDefault(e => e.Id.Equals(accountId));
+                .SingleOrDefault(e => e.AccountId.Equals(accountId));
 
             if (account == null)
             {
@@ -94,7 +94,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Account accountOld = this._context
                 .Accounts
-                .SingleOrDefault(e => e.Id.Equals(account.Id));
+                .SingleOrDefault(e => e.AccountId.Equals(account.AccountId));
 
             if (accountOld != null)
             {
@@ -113,7 +113,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Account accountOld = this._context
                 .Accounts
-                .SingleOrDefault(e => e.Id.Equals(account.Id));
+                .SingleOrDefault(e => e.AccountId.Equals(account.AccountId));
 
             if (accountOld != null)
             {

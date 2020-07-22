@@ -36,7 +36,7 @@ namespace Infrastructure.DataAccess.Configuration
             builder.Property(debit => debit.Currency)
                 .IsRequired();
 
-            builder.Property(debit => debit.Id)
+            builder.Property(debit => debit.DebitId)
                 .HasConversion(
                     value => value.Id,
                     value => new DebitId(value))

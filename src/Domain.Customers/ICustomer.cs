@@ -4,7 +4,6 @@
 
 namespace Domain.Customers
 {
-    using System;
     using ValueObjects;
 
     /// <summary>
@@ -21,18 +20,12 @@ namespace Domain.Customers
         /// <summary>
         ///     Gets the CustomerId.
         /// </summary>
-        CustomerId Id { get; }
+        CustomerId CustomerId { get; }
 
         /// <summary>
         ///     Gets the Accounts.
         /// </summary>
         AccountCollection Accounts { get; }
-
-        /// <summary>
-        ///     Register the Account into the Customer.
-        /// </summary>
-        /// <param name="accountId">Account Id.</param>
-        void Assign(Guid accountId);
 
         /// <summary>
         /// 

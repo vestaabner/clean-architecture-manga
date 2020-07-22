@@ -1,6 +1,7 @@
 ﻿namespace Domain.Customers
 {
     using System;
+    using Security.ValueObjects;
     using ValueObjects;
 
     /// <summary>
@@ -15,7 +16,7 @@
         private Name? _firstName;
         private Name? _lastName;
 
-        private Guid _userId;
+        private UserId? _userId;
 
         /// <summary>
         /// 
@@ -68,7 +69,7 @@
 
         public CustomerBuilder UserId(Guid userId)
         {
-            this._userId = userId;
+            this._userId = Security.ValueObjects.UserId.Create(this._notification, userId);
 
             return this;
         }
@@ -82,6 +83,7 @@
             if (!this._ssn.HasValue ||
                 !this._firstName.HasValue ||
                 !this._lastName.HasValue ||
+                !this._userId.HasValue ||
                 !this._notification.IsValid)
             {
                 return CustomerNull.Instance;
@@ -95,7 +97,7 @@
                 this._ssn!.Value,
                 this._firstName!.Value,
                 this._lastName!.Value,
-                this._userId);
+                this._userId!.Value);
 
 
         /// <summary>

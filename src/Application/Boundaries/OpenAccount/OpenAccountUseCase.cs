@@ -67,7 +67,7 @@ namespace Application.UseCases
 
             IAccount account = this._builderFactory
                 .NewAccountBuilder()
-                .Customer(customer.Id.Id)
+                .Customer(customer.CustomerId.Id)
                 .Build();
 
             ICredit credit = this._builderFactory

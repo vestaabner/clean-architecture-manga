@@ -14,7 +14,7 @@ namespace WebApi.ViewModels
         /// </summary>
         public CustomerModel(Customer customer)
         {
-            this.CustomerId = customer.Id.ToGuid();
+            this.CustomerId = customer.CustomerId.ToGuid();
             this.SSN = customer.SSN.ToString();
             this.Name = customer.Name.ToString();
         }

@@ -12,7 +12,7 @@ namespace WebApi.UseCases.V1.CloseAccount
         /// <summary>
         ///     Close Account Response constructor.
         /// </summary>
-        public CloseAccountResponse(IAccount account) => this.AccountId = account.Id.Id;
+        public CloseAccountResponse(IAccount account) => this.AccountId = account.AccountId.Id;
 
         /// <summary>
         ///     Gets account ID.

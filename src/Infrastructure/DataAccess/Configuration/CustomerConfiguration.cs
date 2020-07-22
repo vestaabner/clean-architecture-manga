@@ -6,6 +6,7 @@ namespace Infrastructure.DataAccess.Configuration
 {
     using System;
     using Domain.Customers.ValueObjects;
+    using Domain.Security.ValueObjects;
     using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -48,9 +49,12 @@ namespace Infrastructure.DataAccess.Configuration
                 .IsRequired();
 
             builder.Property(b => b.UserId)
+                .HasConversion(
+                    v => v.Id,
+                    v => new UserId(v))
                 .IsRequired();
 
-            builder.Property(b => b.Id)
+            builder.Property(b => b.CustomerId)
                 .HasConversion(
                     v => v.Id,
                     v => new CustomerId(v))

@@ -32,7 +32,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Customer customer = await this._context
                 .Customers
-                .Where(c => c.Id.Equals(customerId))
+                .Where(c => c.CustomerId.Equals(customerId))
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
@@ -44,7 +44,7 @@ namespace Infrastructure.DataAccess.Repositories
             var accounts = this._context
                 .Accounts
                 .Where(e => e.CustomerId.Equals(customerId.Id))
-                .Select(e => e.Id.Id)
+                .Select(e => e.AccountId)
                 .ToList();
 
             customer.Accounts

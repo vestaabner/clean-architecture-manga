@@ -30,7 +30,7 @@ namespace Infrastructure.DataAccess
     public sealed class EntityFactory : IUserFactory, ICustomerFactory, IAccountFactory
     {
         /// <inheritdoc />
-        public IAccount NewAccount(Guid customerId)
+        public IAccount NewAccount(CustomerId customerId)
             => new Account(new AccountId(Guid.NewGuid()), customerId);
 
         /// <inheritdoc />
@@ -39,7 +39,7 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToDeposit,
             DateTime transactionDate)
         {
-            return new Credit(new CreditId(Guid.NewGuid()), account.Id, transactionDate, amountToDeposit.Amount, amountToDeposit.Currency.Code);
+            return new Credit(new CreditId(Guid.NewGuid()), account.AccountId, transactionDate, amountToDeposit.Amount, amountToDeposit.Currency.Code);
         }
 
         /// <inheritdoc />
@@ -48,13 +48,13 @@ namespace Infrastructure.DataAccess
             PositiveMoney amountToWithdraw,
             DateTime transactionDate)
         {
-            return new Debit(new DebitId(Guid.NewGuid()), account.Id, transactionDate, amountToWithdraw.Amount, amountToWithdraw.Currency.Code);
+            return new Debit(new DebitId(Guid.NewGuid()), account.AccountId, transactionDate, amountToWithdraw.Amount, amountToWithdraw.Currency.Code);
         }
 
         public IUser NewUser(ExternalUserId externalUserId) =>
             new User(new UserId(Guid.NewGuid()),  externalUserId);
 
-        public ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, Guid externalUserId) =>
-            new Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, externalUserId);
+        public ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId) =>
+            new Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, userId);
     }
 }

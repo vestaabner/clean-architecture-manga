@@ -42,6 +42,11 @@ namespace Infrastructure.DataAccess.Configuration
 
             builder.HasKey(
                 c => new {c.UserId});
+
+            builder.HasMany(x => x.CustomersCollection)
+                .WithOne(b => b.User!)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -80,7 +80,7 @@ namespace Application.Boundaries.CloseAccount
             }
 
             IAccount account = await this._accountRepository
-                .Find(closingAccountId!.Value, customer.Id.Id)
+                .Find(closingAccountId!.Value, customer.CustomerId.Id)
                 .ConfigureAwait(false);
 
             if (account is AccountNull)
@@ -101,7 +101,7 @@ namespace Application.Boundaries.CloseAccount
                 return;
             }
 
-            await this._accountRepository.Delete(account.Id)
+            await this._accountRepository.Delete(account.AccountId)
                 .ConfigureAwait(false);
 
             await this._unitOfWork.Save()

@@ -31,13 +31,13 @@ namespace WebApi.UseCases.V2.GetAccount
 
             var account = (Account)output.Account;
 
-            dataTable.Rows.Add(account.Id.ToGuid(), account.GetCurrentBalance().ToDecimal());
+            dataTable.Rows.Add(account.AccountId.ToGuid(), account.GetCurrentBalance().ToDecimal());
 
             byte[] fileContents;
 
             using (ExcelPackage pck = new ExcelPackage())
             {
-                ExcelWorksheet ws = pck.Workbook.Worksheets.Add(account.Id.ToString());
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add(account.AccountId.ToString());
                 ws.Cells["A1"].LoadFromDataTable(dataTable, true);
                 ws.Row(1).Style.Font.Bold = true;
                 ws.Column(3).Style.Numberformat.Format = "dd/MM/yyyy HH:mm";

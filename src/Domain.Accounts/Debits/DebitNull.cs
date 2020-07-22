@@ -18,7 +18,7 @@ namespace Domain.Accounts.Debits
     public sealed class DebitNull : IDebit
     {
         public static DebitNull Instance { get; } = new DebitNull();
-        public DebitId Id { get; } = new DebitId(Guid.Empty);
+        public DebitId DebitId { get; } = new DebitId(Guid.Empty);
         public PositiveMoney Amount { get; } = new PositiveMoney(0, new Currency(string.Empty));
     }
 }

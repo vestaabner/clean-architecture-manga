@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Domain.Accounts\Domain.Accounts.csproj" />
   </ItemGroup>
 
 </Project>

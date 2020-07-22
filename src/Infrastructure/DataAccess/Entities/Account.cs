@@ -4,17 +4,18 @@
 
 namespace Infrastructure.DataAccess.Entities
 {
-    using System;
+    using System.Collections.Generic;
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
+    using Domain.Customers.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Account : Domain.Accounts.Account
     {
-        public Account(AccountId id, Guid customerId)
+        public Account(AccountId accountId, CustomerId customerId)
         {
-            this.Id = id;
+            this.AccountId = accountId;
             this.CustomerId = customerId;
         }
 
@@ -25,11 +26,16 @@ namespace Infrastructure.DataAccess.Entities
         public override DebitsCollection Debits { get; } = new DebitsCollection();
 
         /// <inheritdoc />
-        public override AccountId Id { get; }
+        public override AccountId AccountId { get; }
 
         /// <summary>
         ///     Gets or sets CustomerId.
         /// </summary>
-        public Guid CustomerId { get; }
+        public CustomerId CustomerId { get; }
+
+        public Customer? Customer { get; set; }
+
+        public ICollection<Credit> CreditsCollection { get; } = new List<Credit>();
+        public ICollection<Debit> DebitsCollection { get; } = new List<Debit>();
     }
 }

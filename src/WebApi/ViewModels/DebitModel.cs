@@ -14,7 +14,7 @@ namespace WebApi.ViewModels
         /// </summary>
         public DebitModel(Debit credit)
         {
-            this.TransactionId = credit.Id.ToGuid();
+            this.TransactionId = credit.DebitId.ToGuid();
             this.Amount = credit.Amount.ToMoney().ToDecimal();
             this.Description = "Debit";
             this.TransactionDate = credit.TransactionDate;

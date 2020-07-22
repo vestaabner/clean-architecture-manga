@@ -4,12 +4,14 @@
 
 namespace Domain.Customers
 {
-    using System;
     using ValueObjects;
 
     /// <inheritdoc />
     public abstract class Customer : ICustomer
     {
+        /// <inheritdoc />
+        public abstract CustomerId CustomerId { get; }
+
         /// <summary>
         ///     Gets or sets First Name.
         /// </summary>
@@ -26,13 +28,7 @@ namespace Domain.Customers
         public SSN SSN { get; set; }
 
         /// <inheritdoc />
-        public abstract CustomerId Id { get; }
-
-        /// <inheritdoc />
         public abstract AccountCollection Accounts { get; }
-
-        /// <inheritdoc />
-        public void Assign(Guid accountId) => this.Accounts.Add(accountId);
 
         /// <inheritdoc />
         public void Update(SSN ssn, Name firstName, Name lastName)

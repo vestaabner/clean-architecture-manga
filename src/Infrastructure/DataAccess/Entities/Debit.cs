@@ -12,15 +12,15 @@ namespace Infrastructure.DataAccess.Entities
     /// </summary>
     public sealed class Debit : Domain.Accounts.Debits.Debit
     {
-        public Debit(DebitId id, AccountId accountId, DateTime transactionDate, decimal value, string currency)
+        public Debit(DebitId debitId, AccountId accountId, DateTime transactionDate, decimal value, string currency)
         {
-            this.Id = id;
+            this.DebitId = debitId;
             this.AccountId = accountId;
             this.TransactionDate = transactionDate;
             this.Amount = new PositiveMoney(value, new Currency(currency));
         }
 
-        public override DebitId Id { get; }
+        public override DebitId DebitId { get; }
 
         /// <summary>
         ///     Gets or sets AccountId.
@@ -46,5 +46,7 @@ namespace Infrastructure.DataAccess.Entities
         }
 
         public override DateTime TransactionDate { get; }
+
+        public Account? Account { get; set; }
     }
 }

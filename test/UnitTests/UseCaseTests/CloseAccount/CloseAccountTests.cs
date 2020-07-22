@@ -27,7 +27,7 @@ namespace UnitTests.UseCaseTests.CloseAccount
                 new SSN("198608178899"),
                 new Name("Ivan Paulovich"));
 
-            IAccount account = this._fixture.EntityFactory.NewAccount(customer.Id);
+            IAccount account = this._fixture.EntityFactory.NewAccount(customer.CustomerId);
 
             account.Deposit(this._fixture.EntityFactory, new PositiveMoney(amount));
 
@@ -79,7 +79,7 @@ namespace UnitTests.UseCaseTests.CloseAccount
                 new SSN("198608178899"),
                 new Name("Ivan Paulovich"));
 
-            IAccount account = this._fixture.EntityFactory.NewAccount(customer.Id);
+            IAccount account = this._fixture.EntityFactory.NewAccount(customer.CustomerId);
             bool actual = account.IsClosingAllowed();
 
             Assert.True(actual);

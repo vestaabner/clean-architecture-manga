@@ -1,6 +1,7 @@
 ﻿namespace Domain.Accounts
 {
     using System;
+    using Customers.ValueObjects;
 
     /// <summary>
     /// 
@@ -10,7 +11,7 @@
         private readonly IAccountFactory _accountFactory;
         private readonly Notification _notification;
 
-        private Guid? _customerId;
+        private CustomerId? _customerId;
 
         /// <summary>
         /// 
@@ -26,7 +27,7 @@
 
         public AccountBuilder Customer(Guid customerId)
         {
-            this._customerId = customerId;
+            this._customerId = CustomerId.Create(this._notification, customerId);
             return this;
         }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.DataAccess.Migrations
 {
     [DbContext(typeof(MangaContext))]
-    [Migration("20200721210117_InitialCreate")]
+    [Migration("20200722141311_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,27 +23,29 @@ namespace Infrastructure.DataAccess.Migrations
 
             modelBuilder.Entity("Infrastructure.DataAccess.Entities.Account", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("AccountId");
+
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Account");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
+                            AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
                             CustomerId = new Guid("197d0438-e04b-453d-b5de-eca05960c6ae")
                         });
                 });
 
             modelBuilder.Entity("Infrastructure.DataAccess.Entities.Credit", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("CreditId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AccountId")
@@ -59,24 +61,26 @@ namespace Infrastructure.DataAccess.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CreditId");
+
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Credit");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f5117315-e789-491a-b662-958c37237f9b"),
+                            CreditId = new Guid("7bf066ba-379a-4e72-a59b-9755fda432ce"),
                             AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
                             Currency = "USD",
-                            TransactionDate = new DateTime(2020, 7, 21, 21, 1, 17, 178, DateTimeKind.Utc).AddTicks(6204),
+                            TransactionDate = new DateTime(2020, 7, 22, 14, 13, 10, 752, DateTimeKind.Utc).AddTicks(5459),
                             Value = 400m
                         });
                 });
 
             modelBuilder.Entity("Infrastructure.DataAccess.Entities.Customer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -94,24 +98,26 @@ namespace Infrastructure.DataAccess.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Customer");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("197d0438-e04b-453d-b5de-eca05960c6ae"),
+                            CustomerId = new Guid("197d0438-e04b-453d-b5de-eca05960c6ae"),
                             FirstName = "Ivan Paulovich",
                             LastName = "Ivan Paulovich",
                             SSN = "8608179999",
-                            UserId = new Guid("b6c5c4ff-b850-41d1-9e3a-89be72476835")
+                            UserId = new Guid("e278ee65-6c41-42d6-9a73-838199a44d62")
                         });
                 });
 
             modelBuilder.Entity("Infrastructure.DataAccess.Entities.Debit", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("DebitId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("AccountId")
@@ -127,17 +133,19 @@ namespace Infrastructure.DataAccess.Migrations
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("Id");
+                    b.HasKey("DebitId");
+
+                    b.HasIndex("AccountId");
 
                     b.ToTable("Debit");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("3d6032df-7a3b-46e6-8706-be971e3d539f"),
+                            DebitId = new Guid("31ade963-bd69-4afb-9df7-611ae2cfa651"),
                             AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
                             Currency = "USD",
-                            TransactionDate = new DateTime(2020, 7, 21, 21, 1, 17, 178, DateTimeKind.Utc).AddTicks(9632),
+                            TransactionDate = new DateTime(2020, 7, 22, 14, 13, 10, 752, DateTimeKind.Utc).AddTicks(9184),
                             Value = 400m
                         });
                 });
@@ -158,9 +166,45 @@ namespace Infrastructure.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("d3ed8166-af7f-4f55-8407-6d426d48dadf"),
-                            ExternalUserId = "Ivan Paulovich"
+                            UserId = new Guid("e278ee65-6c41-42d6-9a73-838199a44d62"),
+                            ExternalUserId = "github/ivanpaulovich"
                         });
+                });
+
+            modelBuilder.Entity("Infrastructure.DataAccess.Entities.Account", b =>
+                {
+                    b.HasOne("Infrastructure.DataAccess.Entities.Customer", "Customer")
+                        .WithMany("AccountsCollection")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Infrastructure.DataAccess.Entities.Credit", b =>
+                {
+                    b.HasOne("Infrastructure.DataAccess.Entities.Account", "Account")
+                        .WithMany("CreditsCollection")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Infrastructure.DataAccess.Entities.Customer", b =>
+                {
+                    b.HasOne("Infrastructure.DataAccess.Entities.User", "User")
+                        .WithMany("CustomersCollection")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Infrastructure.DataAccess.Entities.Debit", b =>
+                {
+                    b.HasOne("Infrastructure.DataAccess.Entities.Account", "Account")
+                        .WithMany("DebitsCollection")
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

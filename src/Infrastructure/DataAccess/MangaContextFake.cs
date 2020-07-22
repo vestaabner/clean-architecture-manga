@@ -30,7 +30,7 @@ namespace Infrastructure.DataAccess
                 new Name(Messages.UserName),
                 new Name(Messages.UserName),
                 new SSN(Messages.UserSSN),
-                user1.UserId.Id);
+                user1.UserId);
 
             var credit = new Credit(
                 new CreditId(Guid.NewGuid()),
@@ -48,7 +48,7 @@ namespace Infrastructure.DataAccess
 
             var account = new Account(
                 DefaultAccountId,
-                DefaultCustomerId.Id);
+                DefaultCustomerId);
 
             account.Credits.Add(credit);
             account.Debits.Add(debit);
@@ -68,11 +68,11 @@ namespace Infrastructure.DataAccess
                 new Name(Messages.UserName1),
                 new Name(Messages.UserName1),
                 new SSN(Messages.UserSSN1),
-                secondUser.UserId.Id);
+                secondUser.UserId);
 
             var secondAccount = new Account(
                 SecondAccountId,
-                SecondCustomerId.Id);
+                SecondCustomerId);
 
             this.Customers.Add(secondCustomer);
             this.Accounts.Add(secondAccount);

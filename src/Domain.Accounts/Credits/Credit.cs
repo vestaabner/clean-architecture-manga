@@ -20,7 +20,7 @@ namespace Domain.Accounts.Credits
         /// <summary>
         ///     Gets or sets Id.
         /// </summary>
-        public abstract CreditId Id { get; }
+        public abstract CreditId CreditId { get; }
 
         /// <summary>
         ///     Gets or sets Amount.

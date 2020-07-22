@@ -18,10 +18,10 @@ namespace UnitTests.EntitiesTests
                 new SSN("198608179922"),
                 new Name("Ivan Paulovich"));
 
-            IAccount account = entityFactory.NewAccount(sut.Id);
+            IAccount account = entityFactory.NewAccount(sut.CustomerId);
 
             // Act
-            sut.Assign(account.Id);
+            sut.Assign(account.AccountId);
 
             // Assert
             Assert.Single(sut.Accounts.GetAccountIds());

@@ -22,7 +22,7 @@ namespace Domain.Accounts
         public abstract DebitsCollection Debits { get; }
 
         /// <inheritdoc />
-        public abstract AccountId Id { get; }
+        public abstract AccountId AccountId { get; }
 
         /// <inheritdoc />
         public void Deposit(ICredit credit)

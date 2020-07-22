@@ -12,14 +12,9 @@ namespace Domain.Customers
     {
         public static CustomerNull Instance { get; } = new CustomerNull();
 
-        public CustomerId Id => new CustomerId(Guid.Empty);
+        public CustomerId CustomerId => new CustomerId(Guid.Empty);
 
         public AccountCollection Accounts => new AccountCollection();
-
-        public void Assign(Guid accountId)
-        {
-            // Null Pattern.
-        }
 
         public void Update(SSN ssn, Name firstName, Name lastName)
         {

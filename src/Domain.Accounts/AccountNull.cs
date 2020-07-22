@@ -15,7 +15,7 @@ namespace Domain.Accounts
         public static AccountNull Instance { get; } = new AccountNull();
 
         /// <inheritdoc />
-        public AccountId Id => new AccountId(Guid.Empty);
+        public AccountId AccountId => new AccountId(Guid.Empty);
 
         /// <inheritdoc />
         public void Deposit(ICredit credit)

@@ -11,7 +11,7 @@ namespace Domain.Accounts.Debits
     /// </summary>
     public interface IDebit
     {
-        DebitId Id { get; }
+        DebitId DebitId { get; }
 
         /// <summary>
         ///     Gets the Amount.

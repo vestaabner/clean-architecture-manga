@@ -75,7 +75,7 @@ namespace Application.Boundaries.GetAccounts
 
             foreach (AccountId? getAccountId in customer
                 .Accounts
-                .Select(accountId => AccountId.Create(this._notification, accountId)))
+                .Select(accountId => AccountId.Create(this._notification, accountId.Id)))
             {
                 if (!getAccountId.HasValue)
                 {

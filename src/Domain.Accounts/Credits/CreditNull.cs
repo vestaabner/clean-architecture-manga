@@ -18,7 +18,7 @@ namespace Domain.Accounts.Credits
     public sealed class CreditNull : ICredit
     {
         public static CreditNull Instance { get; } = new CreditNull();
-        public CreditId Id { get; } = new CreditId(Guid.Empty);
+        public CreditId CreditId { get; } = new CreditId(Guid.Empty);
         public PositiveMoney Amount { get; } = new PositiveMoney(0, new Currency(string.Empty));
     }
 }

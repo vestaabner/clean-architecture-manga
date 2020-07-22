@@ -45,7 +45,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             bool hasAny = context.Customers
-                .Any(e => e.Id == customer.Id);
+                .Any(e => e.CustomerId == customer.CustomerId);
 
             Assert.True(hasAny);
         }
@@ -103,7 +103,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             ICustomer? getCustomer = await customerRepository
-                .GetBy(customer.Id)
+                .GetBy(customer.CustomerId)
                 .ConfigureAwait(false);
 
             var updatedSSN = new SSN("555555555");
@@ -122,7 +122,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             bool hasAny = context.Customers
-                .Any(e => e.Id == customer.Id && e.SSN == updatedSSN);
+                .Any(e => e.CustomerId == customer.CustomerId && e.SSN == updatedSSN);
 
             Assert.True(hasAny);
         }

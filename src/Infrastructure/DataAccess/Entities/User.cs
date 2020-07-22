@@ -4,6 +4,7 @@
 
 namespace Infrastructure.DataAccess.Entities
 {
+    using System.Collections.Generic;
     using Domain.Security.ValueObjects;
 
     /// <summary>
@@ -24,5 +25,7 @@ namespace Infrastructure.DataAccess.Entities
 
         /// <inheritdoc />
         public ExternalUserId ExternalUserId { get; }
+
+        public ICollection<Customer> CustomersCollection { get; } = new List<Customer>();
     }
 }

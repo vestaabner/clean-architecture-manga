@@ -11,7 +11,7 @@ namespace Domain.Accounts.Credits
     /// </summary>
     public interface ICredit
     {
-        CreditId Id { get; }
+        CreditId CreditId { get; }
 
         /// <summary>
         ///     Gets the Amount.

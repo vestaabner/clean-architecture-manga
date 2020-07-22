@@ -65,7 +65,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Account account = await this._context
                 .Accounts
-                .Where(a => a.Id.Equals(accountId))
+                .Where(a => a.AccountId.Equals(accountId))
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
@@ -108,7 +108,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             var account = this._context
                 .Accounts
-                .Where(e => e.CustomerId.Equals(customerId) && e.Id.Equals(accountId))
+                .Where(e => e.CustomerId.Equals(customerId) && e.AccountId.Equals(accountId))
                 .Select(e => (IAccount)e)
                 .SingleOrDefault();
 

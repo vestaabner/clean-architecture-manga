@@ -35,7 +35,7 @@ namespace IntegrationTests.EntityFrameworkTests
 
             Credit credit = new Credit(
                 new CreditId(Guid.NewGuid()),
-                account.Id,
+                account.AccountId,
                 DateTime.Now,
                 400,
                 "USD"
@@ -50,10 +50,10 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             bool hasAnyAccount = context.Accounts
-                .Any(e => e.Id == account.Id);
+                .Any(e => e.AccountId == account.AccountId);
 
             bool hasAnyCredit = context.Credits
-                .Any(e => e.Id == credit.Id);
+                .Any(e => e.CreditId == credit.CreditId);
 
             Assert.True(hasAnyAccount && hasAnyCredit);
         }
@@ -80,7 +80,7 @@ namespace IntegrationTests.EntityFrameworkTests
 
             Credit credit = new Credit(
                 new CreditId(Guid.NewGuid()),
-                account.Id,
+                account.AccountId,
                 DateTime.Now,
                 400,
                 "USD"
@@ -95,7 +95,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             await accountRepository
-                .Delete(account.Id)
+                .Delete(account.AccountId)
                 .ConfigureAwait(false);
 
             await context
@@ -103,10 +103,10 @@ namespace IntegrationTests.EntityFrameworkTests
                 .ConfigureAwait(false);
 
             bool hasAnyAccount = context.Accounts
-                .Any(e => e.Id == account.Id);
+                .Any(e => e.AccountId == account.AccountId);
 
             bool hasAnyCredit = context.Credits
-                .Any(e => e.Id == credit.Id);
+                .Any(e => e.CreditId == credit.CreditId);
 
             Assert.False(hasAnyAccount && hasAnyCredit);
         }
