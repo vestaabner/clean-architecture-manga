@@ -19,5 +19,10 @@ namespace WebApi.UseCases.V1.Withdraw
         /// </summary>
         [Required]
         public decimal Amount { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Currency.
+        /// </summary>
+        public string Currency { get; set; } = "USD";
     }
 }

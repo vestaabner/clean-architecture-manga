@@ -7,16 +7,11 @@ namespace WebApi.Modules
     using Application.Boundaries.GetCustomer;
     using Application.Boundaries.OnBoardCustomer;
     using Application.Boundaries.OpenAccount;
-    using Application.Boundaries.Register;
     using Application.Boundaries.SignUp;
     using Application.Boundaries.Transfer;
     using Application.Boundaries.UpdateCustomer;
     using Application.Boundaries.Withdraw;
     using Application.UseCases;
-    using Domain.Accounts;
-    using Domain.Customers;
-    using Domain.Security;
-    using Domain.Services;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>

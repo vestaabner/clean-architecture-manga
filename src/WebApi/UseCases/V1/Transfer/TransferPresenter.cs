@@ -1,37 +1,48 @@
 namespace WebApi.UseCases.V1.Transfer
 {
+    using System.Linq;
     using Application.Boundaries.Transfer;
+    using Domain;
+    using Domain.Accounts;
+    using Domain.Accounts.Credits;
+    using Domain.Accounts.Debits;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// </summary>
     public sealed class TransferPresenter : ITransferOutputPort
     {
+        private readonly Notification _notification;
+
+        public TransferPresenter(Notification notification)
+        {
+            this._notification = notification;
+        }
+
         /// <summary>
         /// ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        /// <summary>
-        /// Account does not exist.
-        /// </summary>
-        /// <param name="message">Message.</param>
-        public void NotFound(string message) => this.ViewModel = new NotFoundObjectResult(message);
-
-        /// <summary>
-        /// Standard output.
-        /// </summary>
-        /// <param name="output">Output.</param>
-        public void Standard(TransferOutput output)
+        public void Invalid()
         {
-            this.ViewModel = new NoContentResult();
+            var errorMessages = this._notification
+                .ErrorMessages
+                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+
+            var problemDetails = new ValidationProblemDetails(errorMessages);
+            this.ViewModel = new BadRequestObjectResult(problemDetails);
         }
 
-        /// <summary>
-        /// An error happened.
-        /// </summary>
-        /// <param name="message">Message.</param>
-        public void WriteError(string message) => this.ViewModel = new BadRequestObjectResult(message);
+        public void NotFound() =>
+            this.ViewModel = new NotFoundObjectResult("Account not found.");
+
+        public void Successful(IAccount originAccount, IDebit debit, IAccount destinationAccount, ICredit credit) => throw new System.NotImplementedException();
+
+        public void OutOfFunds()
+        {
+            this.Invalid();
+        }
     }
 }

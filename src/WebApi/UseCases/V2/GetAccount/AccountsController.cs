@@ -3,7 +3,6 @@ namespace WebApi.UseCases.V2.GetAccount
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.GetAccount;
-    using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -26,7 +25,7 @@ namespace WebApi.UseCases.V2.GetAccount
         /// <summary>
         ///     Get an account details.
         /// </summary>
-        /// <param name="mediator"></param>
+        /// <param name="useCase"></param>
         /// <param name="presenter"></param>
         /// <param name="request">A <see cref="GetAccountDetailsRequestV2"></see>.</param>
         /// <returns>An asynchronous <see cref="IActionResult" />.</returns>
@@ -37,12 +36,11 @@ namespace WebApi.UseCases.V2.GetAccount
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(
-            [FromServices] IMediator mediator,
+            [FromServices] IGetAccountUseCaseV2 useCase,
             [FromServices] GetAccountDetailsPresenterV2 presenter,
             [FromRoute][Required] GetAccountDetailsRequestV2 request)
         {
-            var input = new GetAccountInput(request.AccountId);
-            await mediator.PublishAsync(input, "GetAccountDetailsV2")
+            await useCase.Execute(request.AccountId)
                 .ConfigureAwait(false);
             return presenter.ViewModel;
         }

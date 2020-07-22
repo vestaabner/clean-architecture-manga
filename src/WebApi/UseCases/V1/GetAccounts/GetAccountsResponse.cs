@@ -17,7 +17,7 @@ namespace WebApi.UseCases.V1.GetAccounts
         {
             foreach (IAccount account in accounts)
             {
-                var accountModel = new AccountModel(account);
+                var accountModel = new AccountModel((Account)account);
                 this.Accounts.Add(accountModel);
             }
         }

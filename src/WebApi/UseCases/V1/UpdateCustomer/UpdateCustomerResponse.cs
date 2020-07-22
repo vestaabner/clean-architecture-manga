@@ -1,23 +1,19 @@
-namespace WebApi.UseCases.V1.Register
+namespace WebApi.UseCases.V1.UpdateCustomer
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using ViewModels;
 
     /// <summary>
     ///     The response for Registration.
     /// </summary>
-    public sealed class RegisterResponse
+    public sealed class UpdateCustomerResponse
     {
         /// <summary>
         ///     The Response Registration Constructor.
         /// </summary>
-        public RegisterResponse(
-            CustomerModel customerModel,
-            List<AccountModel> accountsModel)
+        public UpdateCustomerResponse(CustomerModel customerModel)
         {
             this.Customer = customerModel;
-            this.Accounts = accountsModel;
         }
 
         /// <summary>
@@ -25,11 +21,5 @@ namespace WebApi.UseCases.V1.Register
         /// </summary>
         [Required]
         public CustomerModel Customer { get; }
-
-        /// <summary>
-        ///     Gets accounts.
-        /// </summary>
-        [Required]
-        public List<AccountModel> Accounts { get; }
     }
 }

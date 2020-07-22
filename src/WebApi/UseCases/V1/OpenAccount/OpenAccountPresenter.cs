@@ -1,19 +1,20 @@
-namespace WebApi.UseCases.V1.GetAccount
+namespace WebApi.UseCases.V1.OpenAccount
 {
     using System.Linq;
-    using Application.Boundaries.GetAccount;
+    using Application.Boundaries.OpenAccount;
     using Domain;
     using Domain.Accounts;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
-    ///     Renders an Account with its Transactions
+    /// Generates the Register presentations.
     /// </summary>
-    public sealed class GetAccountPresenter : IGetAccountOutputPort
+    public sealed class OpenAccountPresenter : IOpenAccountOutputPort
     {
         private readonly Notification _notification;
 
-        public GetAccountPresenter(Notification notification)
+        public OpenAccountPresenter(Notification notification)
         {
             this._notification = notification;
         }
@@ -35,7 +36,7 @@ namespace WebApi.UseCases.V1.GetAccount
         }
 
         public void Successful(IAccount account) =>
-            this.ViewModel = new OkObjectResult(new GetAccountResponse(account));
+            this.ViewModel = new OkObjectResult(new OpenAccountResponse(new AccountModel((Account)account)));
 
         public void NotFound() =>
             this.ViewModel = new NotFoundObjectResult("Account not found.");

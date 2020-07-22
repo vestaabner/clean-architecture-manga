@@ -1,7 +1,7 @@
 namespace WebApi.Modules
 {
     using Application.Boundaries.GetAccount;
-    using Application.UseCases;
+    using Domain;
     using Domain.Accounts;
     using Microsoft.Extensions.DependencyInjection;
     using UseCases.V2.GetAccount;
@@ -20,7 +20,8 @@ namespace WebApi.Modules
             services.AddScoped<IGetAccountUseCaseV2>(
                 ctx => new GetAccountUseCase(
                     ctx.GetRequiredService<GetAccountDetailsPresenterV2>(),
-                    ctx.GetRequiredService<IAccountRepository>()));
+                    ctx.GetRequiredService<IAccountRepository>(),
+                    ctx.GetRequiredService<Notification>()));
 
             return services;
         }

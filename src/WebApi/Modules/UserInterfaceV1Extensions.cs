@@ -5,8 +5,11 @@ namespace WebApi.Modules
     using Application.Boundaries.GetAccount;
     using Application.Boundaries.GetAccounts;
     using Application.Boundaries.GetCustomer;
-    using Application.Boundaries.Register;
+    using Application.Boundaries.OnBoardCustomer;
+    using Application.Boundaries.OpenAccount;
+    using Application.Boundaries.SignUp;
     using Application.Boundaries.Transfer;
+    using Application.Boundaries.UpdateCustomer;
     using Application.Boundaries.Withdraw;
     using Microsoft.Extensions.DependencyInjection;
     using UseCases.V1.CloseAccount;
@@ -14,8 +17,11 @@ namespace WebApi.Modules
     using UseCases.V1.GetAccount;
     using UseCases.V1.GetAccounts;
     using UseCases.V1.GetCustomer;
-    using UseCases.V1.Register;
+    using UseCases.V1.OnBoardCustomer;
+    using UseCases.V1.OpenAccount;
+    using UseCases.V1.SignUpCustomer;
     using UseCases.V1.Transfer;
+    using UseCases.V1.UpdateCustomer;
     using UseCases.V1.Withdraw;
 
     /// <summary>
@@ -29,7 +35,8 @@ namespace WebApi.Modules
         public static IServiceCollection AddPresentersV1(this IServiceCollection services)
         {
             services.AddScoped<CloseAccountPresenter, CloseAccountPresenter>();
-            services.AddScoped<ICloseAccountOutputPort>(x => x.GetRequiredService<CloseAccountPresenter>());
+            services.AddScoped<ICloseAccountOutputPort>(x =>
+                x.GetRequiredService<CloseAccountPresenter>());
 
             services.AddScoped<DepositPresenter, DepositPresenter>();
             services.AddScoped<IDepositOutputPort>(
@@ -47,17 +54,30 @@ namespace WebApi.Modules
             services.AddScoped<IGetCustomerOutputPort>(x =>
                 x.GetRequiredService<GetCustomerDetailsPresenter>());
 
-            services.AddScoped<RegisterPresenter, RegisterPresenter>();
-            services.AddScoped<IRegisterOutputPort>(x =>
-                x.GetRequiredService<RegisterPresenter>());
+            services.AddScoped<OnBoardCustomerPresenter, OnBoardCustomerPresenter>();
+            services.AddScoped<IOnBoardCustomerOutputPort>(x =>
+                x.GetRequiredService<OnBoardCustomerPresenter>());
+
+            services.AddScoped<OpenAccountPresenter, OpenAccountPresenter>();
+            services.AddScoped<IOpenAccountOutputPort>(x =>
+                x.GetRequiredService<OpenAccountPresenter>());
+
+            services.AddScoped<SignUpCustomerPresenter, SignUpCustomerPresenter>();
+            services.AddScoped<ISignUpOutputPort>(x =>
+                x.GetRequiredService<SignUpCustomerPresenter>());
+
+            services.AddScoped<TransferPresenter, TransferPresenter>();
+            services.AddScoped<ITransferOutputPort>(x =>
+                x.GetRequiredService<TransferPresenter>());
+
+            services.AddScoped<UpdateCustomerPresenter, UpdateCustomerPresenter>();
+            services.AddScoped<IUpdateCustomerOutputPort>(x =>
+                x.GetRequiredService<UpdateCustomerPresenter>());
 
             services.AddScoped<WithdrawPresenter, WithdrawPresenter>();
             services.AddScoped<IWithdrawOutputPort>(x =>
                 x.GetRequiredService<WithdrawPresenter>());
 
-            services.AddScoped<TransferPresenter, TransferPresenter>();
-            services.AddScoped<ITransferOutputPort>(x =>
-                x.GetRequiredService<TransferPresenter>());
 
             return services;
         }

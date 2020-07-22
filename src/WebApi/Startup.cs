@@ -35,7 +35,6 @@ namespace WebApi
             .AddFeatureFlags(this.Configuration)
             .AddVersioning()
             .AddSwagger()
-            .AddMediator()
             .AddUseCases()
             .AddPresentersV1()
             .AddPresentersV2()

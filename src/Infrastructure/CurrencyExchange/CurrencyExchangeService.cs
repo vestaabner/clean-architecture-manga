@@ -53,7 +53,7 @@
         private static PositiveMoney ParseCurrencies(PositiveMoney money, string responseJson)
         {
             var rates = JObject.Parse(responseJson);
-            decimal selectedRate = rates["rates"][money.Currency.Code].Value<decimal>();
+            decimal selectedRate = rates["rates"]![money.Currency.Code]!.Value<decimal>();
             decimal newValue = money.Amount / selectedRate;
             return new PositiveMoney(newValue, Currency.Dollar);
         }

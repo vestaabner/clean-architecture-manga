@@ -1,7 +1,9 @@
 namespace WebApi.UseCases.V1.Deposit
 {
+    using System.Linq;
     using Application.Boundaries.Deposit;
-    using Domain.Accounts.Credits;
+    using Domain;
+    using Domain.Accounts;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -9,37 +11,33 @@ namespace WebApi.UseCases.V1.Deposit
     /// </summary>
     public sealed class DepositPresenter : IDepositOutputPort
     {
+        private readonly Notification _notification;
+
+        public DepositPresenter(Notification notification)
+        {
+            this._notification = notification;
+        }
+
         /// <summary>
         /// ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        /// <summary>
-        /// Account not found.
-        /// </summary>
-        /// <param name="message">Message.</param>
-        public void NotFound(string message) => this.ViewModel = new NotFoundObjectResult(message);
-
-        /// <summary>
-        /// Standard.
-        /// </summary>
-        /// <param name="output">Output.</param>
-        public void Standard(DepositOutput output)
+        public void Invalid()
         {
-            var depositEntity = (Credit)output.Transaction;
-            var depositResponse = new DepositResponse(
-                depositEntity.Amount.ToMoney().ToDecimal(),
-                Credit.Description,
-                depositEntity.TransactionDate,
-                output.UpdatedBalance.ToDecimal());
-            this.ViewModel = new ObjectResult(depositResponse);
+            var errorMessages = this._notification
+                .ErrorMessages
+                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+
+            var problemDetails = new ValidationProblemDetails(errorMessages);
+            this.ViewModel = new BadRequestObjectResult(problemDetails);
         }
 
-        /// <summary>
-        /// An error happened.
-        /// </summary>
-        /// <param name="message">Message.</param>
-        public void WriteError(string message) => this.ViewModel = new BadRequestObjectResult(message);
+        public void DepositedSuccessful(IAccount account) =>
+            this.ViewModel = new OkObjectResult(new DepositResponse(account));
+
+        public void NotFound() =>
+            this.ViewModel = new NotFoundObjectResult("Account not found.");
     }
 }

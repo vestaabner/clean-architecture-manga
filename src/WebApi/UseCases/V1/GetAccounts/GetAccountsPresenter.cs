@@ -1,6 +1,8 @@
 namespace WebApi.UseCases.V1.GetAccounts
 {
+    using System.Collections.Generic;
     using Application.Boundaries.GetAccounts;
+    using Domain.Accounts;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
@@ -13,18 +15,10 @@ namespace WebApi.UseCases.V1.GetAccounts
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="output"></param>
-        public void Standard(GetAccountsOutput output)
-        {
-            var getAccountDetailsResponse = new GetAccountsResponse(output.Accounts);
-            this.ViewModel = new OkObjectResult(getAccountDetailsResponse);
-        }
+        public void Successful(IList<IAccount> accounts) =>
+            this.ViewModel = new OkObjectResult(new GetAccountsResponse(accounts));
 
-        /// <summary>
-        /// </summary>
-        /// <param name="message"></param>
-        public void WriteError(string message) => this.ViewModel = new BadRequestObjectResult(message);
+        public void NotFound() =>
+            this.ViewModel = new NotFoundObjectResult("Account not found.");
     }
 }

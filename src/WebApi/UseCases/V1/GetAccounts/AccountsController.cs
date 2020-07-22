@@ -2,11 +2,10 @@ namespace WebApi.UseCases.V1.GetAccounts
 {
     using System.Threading.Tasks;
     using Application.Boundaries.GetAccounts;
-    using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using WebApi.Modules.Common;
+    using Modules.Common;
 
     /// <summary>
     ///     Accounts
@@ -25,7 +24,7 @@ namespace WebApi.UseCases.V1.GetAccounts
         /// </summary>
         /// <response code="200">The List of Accounts.</response>
         /// <response code="404">Not Found.</response>
-        /// <param name="mediator">Mediator.</param>
+        /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
         /// <returns>An asynchronous <see cref="IActionResult" />.</returns>
         [Authorize]
@@ -33,12 +32,10 @@ namespace WebApi.UseCases.V1.GetAccounts
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetAccountsResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.List))]
         public async Task<IActionResult> Get(
-            [FromServices] IMediator mediator,
+            [FromServices] IGetAccountsUseCase useCase,
             [FromServices] GetAccountsPresenter presenter)
         {
-            var input = new GetAccountsInput();
-
-            await mediator.PublishAsync(input)
+            await useCase.Execute()
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

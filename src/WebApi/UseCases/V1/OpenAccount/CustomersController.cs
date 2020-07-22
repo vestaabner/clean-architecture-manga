@@ -1,8 +1,8 @@
-namespace WebApi.UseCases.V1.Register
+namespace WebApi.UseCases.V1.OpenAccount
 {
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using FluentMediator;
+    using Application.Boundaries.OpenAccount;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -26,21 +26,23 @@ namespace WebApi.UseCases.V1.Register
         /// <response code="200">Customer already exists.</response>
         /// <response code="201">The registered customer was created successfully.</response>
         /// <response code="400">Bad request.</response>
-        /// <param name="mediator">Mediator.</param>
+        /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
         /// <param name="request">The request to register a customer.</param>
         /// <returns>The newly registered customer.</returns>
         [Authorize]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RegisterResponse))]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(RegisterResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OpenAccountResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(OpenAccountResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Post))]
         public async Task<IActionResult> Post(
-            [FromServices] IMediator mediator,
-            [FromServices] RegisterPresenter presenter,
-            [FromForm][Required] RegisterRequest request)
+            [FromServices] IOpenAccountUseCase useCase,
+            [FromServices] OpenAccountPresenter presenter,
+            [FromForm][Required] OpenAccountRequest request)
         {
-            await mediator.PublishAsync(request)
+            await useCase.Execute(
+                    request.Amount,
+                    request.Currency)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

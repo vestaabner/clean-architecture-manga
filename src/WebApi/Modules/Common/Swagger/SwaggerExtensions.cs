@@ -13,7 +13,7 @@ namespace WebApi.Modules.Common.Swagger
     using Swashbuckle.AspNetCore.SwaggerGen;
 
     /// <summary>
-    ///     Swagger Extenions.
+    ///     Swagger Extensions.
     /// </summary>
     public static class SwaggerExtensions
     {
@@ -27,13 +27,15 @@ namespace WebApi.Modules.Common.Swagger
             }
         }
 
+
         /// <summary>
         ///     Add Swagger Configuration dependencies.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSwaggerGen(
+            _ = services.AddSwaggerGen(
                 c =>
                 {
                     c.IncludeXmlComments(XmlCommentsFilePath);
@@ -47,10 +49,10 @@ namespace WebApi.Modules.Common.Swagger
                             {
                                 Implicit = new OpenApiOAuthFlow
                                 {
-                                    TokenUrl = new Uri("https://www.googleapis.com/oauth2/v4/token"),
+                                    TokenUrl = new Uri(uriString: "https://www.googleapis.com/oauth2/v4/token"),
                                     AuthorizationUrl =
                                         new Uri("https://accounts.google.com/o/oauth2/v2/auth"),
-                                    Scopes = {{"openid", "OpenID"}, {"profile", "Profile"}, {"email", "E-mail"}}
+                                    Scopes = { { "openid", "OpenID" }, { "profile", "Profile" }, { "email", "E-mail" } }
                                 }
                             }
                         });

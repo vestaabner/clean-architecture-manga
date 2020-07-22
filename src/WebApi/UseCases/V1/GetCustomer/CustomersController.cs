@@ -2,11 +2,10 @@ namespace WebApi.UseCases.V1.GetCustomer
 {
     using System.Threading.Tasks;
     using Application.Boundaries.GetCustomer;
-    using FluentMediator;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using WebApi.Modules.Common;
+    using Modules.Common;
 
     /// <summary>
     ///     Accounts
@@ -31,12 +30,10 @@ namespace WebApi.UseCases.V1.GetCustomer
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(GetCustomerDetailsResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Get))]
         public async Task<IActionResult> GetCustomer(
-            [FromServices] IMediator mediator,
+            [FromServices] IGetCustomerUseCase useCase,
             [FromServices] GetCustomerDetailsPresenter presenter)
         {
-            var input = new GetCustomerInput();
-
-            await mediator.PublishAsync(input)
+            await useCase.Execute()
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

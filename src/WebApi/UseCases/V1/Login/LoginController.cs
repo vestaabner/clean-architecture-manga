@@ -39,6 +39,7 @@ namespace WebApi.UseCases.V1.Login
         /// <returns></returns>
         [HttpGet("Logout")]
         [Authorize]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Security", "SCS0027:Open redirect: possibly unvalidated input in {1} argument passed to '{0}'", Justification = "<Pending>")]
         public async Task<IActionResult> Logout(Uri returnUrl)
         {
             await this.HttpContext

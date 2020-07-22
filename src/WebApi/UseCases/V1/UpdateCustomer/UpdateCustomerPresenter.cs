@@ -1,27 +1,24 @@
-namespace WebApi.UseCases.V1.GetAccount
+namespace WebApi.UseCases.V1.UpdateCustomer
 {
     using System.Linq;
-    using Application.Boundaries.GetAccount;
+    using Application.Boundaries.UpdateCustomer;
     using Domain;
-    using Domain.Accounts;
+    using Domain.Customers;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
-    ///     Renders an Account with its Transactions
+    /// Generates the Register presentations.
     /// </summary>
-    public sealed class GetAccountPresenter : IGetAccountOutputPort
+    public sealed class UpdateCustomerPresenter : IUpdateCustomerOutputPort
     {
         private readonly Notification _notification;
 
-        public GetAccountPresenter(Notification notification)
+        public UpdateCustomerPresenter(Notification notification)
         {
             this._notification = notification;
         }
 
-        /// <summary>
-        /// ViewModel result.
-        /// </summary>
-        /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
         public void Invalid()
@@ -34,10 +31,9 @@ namespace WebApi.UseCases.V1.GetAccount
             this.ViewModel = new BadRequestObjectResult(problemDetails);
         }
 
-        public void Successful(IAccount account) =>
-            this.ViewModel = new OkObjectResult(new GetAccountResponse(account));
+        public void CustomerUpdatedSuccessful(ICustomer customer) =>
+            this.ViewModel = new OkObjectResult(new UpdateCustomerResponse(new CustomerModel((Customer)customer)));
 
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void NotFound() => throw new System.NotImplementedException();
     }
 }

@@ -12,7 +12,7 @@ namespace WebApi.UseCases.V1.GetAccount
         /// <summary>
         ///     The Get Account Response constructor.
         /// </summary>
-        public GetAccountResponse(IAccount account) => this.Account = new AccountDetailsModel(account);
+        public GetAccountResponse(IAccount account) => this.Account = new AccountDetailsModel((Account)account);
 
         /// <summary>
         ///     Gets account ID.

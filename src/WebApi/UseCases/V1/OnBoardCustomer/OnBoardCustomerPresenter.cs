@@ -1,19 +1,20 @@
-namespace WebApi.UseCases.V1.GetAccount
+namespace WebApi.UseCases.V1.OnBoardCustomer
 {
     using System.Linq;
-    using Application.Boundaries.GetAccount;
+    using Application.Boundaries.OnBoardCustomer;
     using Domain;
-    using Domain.Accounts;
+    using Domain.Customers;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
-    ///     Renders an Account with its Transactions
+    /// Generates the Register presentations.
     /// </summary>
-    public sealed class GetAccountPresenter : IGetAccountOutputPort
+    public sealed class OnBoardCustomerPresenter : IOnBoardCustomerOutputPort
     {
         private readonly Notification _notification;
 
-        public GetAccountPresenter(Notification notification)
+        public OnBoardCustomerPresenter(Notification notification)
         {
             this._notification = notification;
         }
@@ -34,10 +35,7 @@ namespace WebApi.UseCases.V1.GetAccount
             this.ViewModel = new BadRequestObjectResult(problemDetails);
         }
 
-        public void Successful(IAccount account) =>
-            this.ViewModel = new OkObjectResult(new GetAccountResponse(account));
-
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void OnBoardedSuccessful(ICustomer customer) =>
+            this.ViewModel = new OkObjectResult(new OnBoardCustomerResponse(new CustomerModel((Customer)customer)));
     }
 }

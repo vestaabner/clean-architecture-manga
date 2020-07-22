@@ -2,7 +2,9 @@ namespace WebApi.UseCases.V2.GetAccount
 {
     using System;
     using System.Data;
+    using System.Linq;
     using Application.Boundaries.GetAccount;
+    using Domain;
     using Domain.Accounts;
     using Microsoft.AspNetCore.Mvc;
     using OfficeOpenXml;
@@ -11,27 +13,36 @@ namespace WebApi.UseCases.V2.GetAccount
     /// </summary>
     public sealed class GetAccountDetailsPresenterV2 : IGetAccountOutputPort
     {
+        private readonly Notification _notification;
+
+        public GetAccountDetailsPresenterV2(Notification notification)
+        {
+            this._notification = notification;
+        }
+
         /// <summary>
         /// </summary>
         public IActionResult ViewModel { get; private set; } = new NoContentResult();
 
-        /// <summary>
-        /// </summary>
-        /// <param name="message"></param>
-        public void NotFound(string message) => this.ViewModel = new NotFoundObjectResult(message);
+        public void Invalid()
+        {
+            var errorMessages = this._notification
+                .ErrorMessages
+                .ToDictionary(item => item.Key, item => item.Value.ToArray());
 
-        /// <summary>
-        /// </summary>
-        /// <param name="output"></param>
-        public void Standard(GetAccountOutput output)
+            var problemDetails = new ValidationProblemDetails(errorMessages);
+            this.ViewModel = new BadRequestObjectResult(problemDetails);
+        }
+
+        public void Successful(IAccount account)
         {
             using var dataTable = new DataTable();
             dataTable.Columns.Add("AccountId", typeof(Guid));
             dataTable.Columns.Add("Amount", typeof(decimal));
 
-            var account = (Account)output.Account;
+            var accountEntity = (Account)account;
 
-            dataTable.Rows.Add(account.AccountId.ToGuid(), account.GetCurrentBalance().ToDecimal());
+            dataTable.Rows.Add(accountEntity.AccountId.Id, accountEntity.GetCurrentBalance().Amount);
 
             byte[] fileContents;
 
@@ -49,8 +60,9 @@ namespace WebApi.UseCases.V2.GetAccount
         }
 
         /// <summary>
+        /// Produces a NotFound result.
         /// </summary>
-        /// <param name="message"></param>
-        public void WriteError(string message) => this.ViewModel = new BadRequestObjectResult(message);
+        public void NotFound() =>
+            this.ViewModel = new NotFoundObjectResult("Account not found.");
     }
 }
