@@ -12,6 +12,7 @@ namespace Application.Boundaries.GetAccounts
     using Domain.Accounts.ValueObjects;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -29,6 +30,7 @@ namespace Application.Boundaries.GetAccounts
         private readonly IGetAccountsOutputPort _outputPort;
         private readonly IUserService _userService;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetAccountsUseCase" /> class.
@@ -38,18 +40,21 @@ namespace Application.Boundaries.GetAccounts
         /// <param name="accountRepository">Customer Repository.</param>
         /// <param name="customerRepository"></param>
         /// <param name="notification"></param>
+        /// <param name="userRepository"></param>
         public GetAccountsUseCase(
             IUserService userService,
             IGetAccountsOutputPort outputPort,
             IAccountRepository accountRepository,
             ICustomerRepository customerRepository,
-            Notification notification)
+            Notification notification,
+            IUserRepository userRepository)
         {
             this._userService = userService;
             this._outputPort = outputPort;
             this._accountRepository = accountRepository;
             this._customerRepository = customerRepository;
             this._notification = notification;
+            this._userRepository = userRepository;
         }
 
         /// <summary>
@@ -58,11 +63,15 @@ namespace Application.Boundaries.GetAccounts
         /// <returns>Task.</returns>
         public async Task Execute()
         {
-            IUser user = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
+            IUser user = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
             ICustomer customer = await this._customerRepository
-                .Find(user.ExternalUserId.Text)
+                .Find(user.UserId)
                 .ConfigureAwait(false);
 
             if (customer is CustomerNull)

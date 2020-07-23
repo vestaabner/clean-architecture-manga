@@ -11,6 +11,7 @@ namespace Application.Boundaries.CloseAccount
     using Domain.Accounts.ValueObjects;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -29,6 +30,7 @@ namespace Application.Boundaries.CloseAccount
         private readonly IUserService _userService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly Notification _notification;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CloseAccountUseCase" /> class.
@@ -39,13 +41,15 @@ namespace Application.Boundaries.CloseAccount
         /// <param name="userService">User Service.</param>
         /// <param name="unitOfWork"></param>
         /// <param name="notification"></param>
+        /// <param name="userRepository"></param>
         public CloseAccountUseCase(
             ICloseAccountOutputPort outputPort,
             IAccountRepository accountRepository,
             ICustomerRepository customerRepository,
             IUserService userService,
             IUnitOfWork unitOfWork,
-            Notification notification)
+            Notification notification,
+            IUserRepository userRepository)
         {
             this._outputPort = outputPort;
             this._accountRepository = accountRepository;
@@ -53,6 +57,7 @@ namespace Application.Boundaries.CloseAccount
             this._userService = userService;
             this._unitOfWork = unitOfWork;
             this._notification = notification;
+            this._userRepository = userRepository;
         }
 
         /// <inheritdoc />
@@ -66,11 +71,15 @@ namespace Application.Boundaries.CloseAccount
                 return;
             }
 
-            IUser currentUser = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
+            IUser existingUser = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
             ICustomer customer = await this._customerRepository
-                .Find(currentUser.ExternalUserId.Text)
+                .Find(existingUser.UserId)
                 .ConfigureAwait(false);
 
             if (customer is CustomerNull)

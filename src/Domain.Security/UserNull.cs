@@ -4,6 +4,7 @@
 
 namespace Domain.Security
 {
+    using System;
     using ValueObjects;
 
     /// <summary>
@@ -15,5 +16,7 @@ namespace Domain.Security
 
         /// <inheritdoc />
         public ExternalUserId ExternalUserId { get; } = new ExternalUserId(string.Empty);
+
+        public UserId UserId { get; } = new UserId(Guid.Empty);
     }
 }

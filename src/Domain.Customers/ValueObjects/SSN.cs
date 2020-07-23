@@ -51,5 +51,7 @@ namespace Domain.Customers.ValueObjects
             notification.Add("SSN", "SSN is required.");
             return null;
         }
+
+        public override string ToString() => string.Format($"{this.Text}");
     }
 }

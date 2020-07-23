@@ -49,5 +49,7 @@ namespace Domain.Customers.ValueObjects
             notification.Add("CustomerId", "CustomerId is required.");
             return null;
         }
+
+        public override string ToString() => this.Id.ToString();
     }
 }

@@ -7,6 +7,7 @@ namespace Application.Boundaries.GetCustomer
     using System.Threading.Tasks;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -22,6 +23,7 @@ namespace Application.Boundaries.GetCustomer
         private readonly ICustomerRepository _customerRepository;
         private readonly IGetCustomerOutputPort _outputPort;
         private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetCustomerUseCase" /> class.
@@ -29,14 +31,17 @@ namespace Application.Boundaries.GetCustomer
         /// <param name="outputPort"></param>
         /// <param name="userService">User Service.</param>
         /// <param name="customerRepository">Customer Repository.</param>
+        /// <param name="userRepository"></param>
         public GetCustomerUseCase(
             IGetCustomerOutputPort outputPort,
             IUserService userService,
-            ICustomerRepository customerRepository)
+            ICustomerRepository customerRepository,
+            IUserRepository userRepository)
         {
             this._userService = userService;
             this._outputPort = outputPort;
             this._customerRepository = customerRepository;
+            this._userRepository = userRepository;
         }
 
         /// <summary>
@@ -45,11 +50,15 @@ namespace Application.Boundaries.GetCustomer
         /// <returns>Task.</returns>
         public async Task Execute()
         {
-            IUser user = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
+            IUser user = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
             ICustomer customer = await this._customerRepository
-                    .Find(user.ExternalUserId.Text)
+                    .Find(user.UserId)
                     .ConfigureAwait(false);
 
             if (customer is CustomerNull)

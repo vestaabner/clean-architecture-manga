@@ -5,7 +5,9 @@
 namespace Application.Boundaries.SignUp
 {
     using System.Threading.Tasks;
+    using Domain;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -22,6 +24,7 @@ namespace Application.Boundaries.SignUp
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
+        private readonly BuilderFactory _builderFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SignUpUseCase" /> class.
@@ -30,16 +33,19 @@ namespace Application.Boundaries.SignUp
         /// <param name="unitOfWork">Unit of Work.</param>
         /// <param name="userService">User Service.</param>
         /// <param name="userRepository">User Repository.</param>
+        /// <param name="builderFactory"></param>
         public SignUpUseCase(
             ISignUpOutputPort outputPort,
             IUnitOfWork unitOfWork,
             IUserService userService,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            BuilderFactory builderFactory)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
             this._userService = userService;
             this._userRepository = userRepository;
+            this._builderFactory = builderFactory;
         }
 
         /// <summary>
@@ -48,15 +54,20 @@ namespace Application.Boundaries.SignUp
         /// <returns>Task.</returns>
         public async Task Execute()
         {
-            IUser user = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
             IUser existingUser = await this._userRepository
-                .Find(user.ExternalUserId)
+                .Find(externalUserId)
                 .ConfigureAwait(false);
 
             if (existingUser is UserNull)
             {
+                IUser user = this._builderFactory
+                    .NewUserBuilder()
+                    .ExternalUserId(externalUserId)
+                    .Build();
+
                 await this._userRepository
                     .Add(user)
                     .ConfigureAwait(false);

@@ -99,9 +99,9 @@ namespace Infrastructure.DataAccess.Repositories
             if (accountOld != null)
             {
                 this._context.Accounts.Remove(accountOld);
-                this._context.Accounts.Add((Account)account);
             }
 
+            this._context.Accounts.Add((Account)account);
             this._context.Credits.Add((Credit)credit);
 
             await Task.CompletedTask

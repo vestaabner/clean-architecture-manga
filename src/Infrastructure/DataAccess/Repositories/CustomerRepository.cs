@@ -9,6 +9,7 @@ namespace Infrastructure.DataAccess.Repositories
     using System.Threading.Tasks;
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
+    using Domain.Security.ValueObjects;
     using Microsoft.EntityFrameworkCore;
     using Customer = Entities.Customer;
 
@@ -20,7 +21,30 @@ namespace Infrastructure.DataAccess.Repositories
                                                                            throw new ArgumentNullException(
                                                                                nameof(context));
 
-        public Task<ICustomer> Find(string externalUserId) => throw new NotImplementedException();
+        public async Task<ICustomer> Find(UserId userId)
+        {
+            Customer customer = await this._context
+                .Customers
+                .Where(c => c.UserId == userId)
+                .SingleOrDefaultAsync()
+                .ConfigureAwait(false);
+
+            if (customer is null)
+            {
+                return CustomerNull.Instance;
+            }
+
+            var accounts = this._context
+                .Accounts
+                .Where(e => e.CustomerId == customer.CustomerId)
+                .Select(e => e.AccountId)
+                .ToList();
+
+            customer.Accounts
+                .AddRange(accounts);
+
+            return customer;
+        }
 
         public async Task Add(ICustomer customer) =>
             await this._context
@@ -32,7 +56,7 @@ namespace Infrastructure.DataAccess.Repositories
         {
             Customer customer = await this._context
                 .Customers
-                .Where(c => c.CustomerId.Equals(customerId))
+                .Where(c => c.CustomerId == customerId)
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
@@ -43,7 +67,7 @@ namespace Infrastructure.DataAccess.Repositories
 
             var accounts = this._context
                 .Accounts
-                .Where(e => e.CustomerId.Equals(customerId.Id))
+                .Where(e => e.CustomerId == customer.CustomerId)
                 .Select(e => e.AccountId)
                 .ToList();
 

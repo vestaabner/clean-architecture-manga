@@ -11,6 +11,7 @@ namespace Application.UseCases
     using Domain.Accounts.Credits;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -29,6 +30,7 @@ namespace Application.UseCases
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly BuilderFactory _builderFactory;
+        private readonly IUserRepository _userRepository;
 
         public OpenAccountUseCase(
             IAccountRepository accountRepository,
@@ -36,7 +38,8 @@ namespace Application.UseCases
             IOpenAccountOutputPort outputPort,
             IUnitOfWork unitOfWork,
             IUserService userService,
-            BuilderFactory builderFactory)
+            BuilderFactory builderFactory,
+            IUserRepository userRepository)
         {
             this._accountRepository = accountRepository;
             this._customerRepository = customerRepository;
@@ -44,6 +47,7 @@ namespace Application.UseCases
             this._unitOfWork = unitOfWork;
             this._userService = userService;
             this._builderFactory = builderFactory;
+            this._userRepository = userRepository;
         }
 
         /// <summary>
@@ -52,11 +56,15 @@ namespace Application.UseCases
         /// <returns>Task.</returns>
         public async Task Execute(decimal amount, string currency)
         {
-            IUser user = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
+            IUser user = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
             ICustomer customer = await this._customerRepository
-                .Find(user.ExternalUserId.Text)
+                .Find(user.UserId)
                 .ConfigureAwait(false);
 
             if (customer is CustomerNull)

@@ -49,5 +49,7 @@ namespace Domain.Customers.ValueObjects
             notification.Add("Name", "Name is required.");
             return null;
         }
+
+        public override string ToString() => string.Format($"{this.Text}");
     }
 }

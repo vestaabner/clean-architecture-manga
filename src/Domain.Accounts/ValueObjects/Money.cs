@@ -42,11 +42,6 @@ namespace Domain.Accounts.ValueObjects
             return !(left == right);
         }
 
-        public bool LessThan(PositiveMoney amountToWithdraw)
-        {
-            return this.Amount < amountToWithdraw.Amount;
-        }
-
         public bool IsZero()
         {
             return this.Amount == 0;
@@ -62,5 +57,7 @@ namespace Domain.Accounts.ValueObjects
             notification.Add("Amount", "Amount is required.");
             return null;
         }
+
+        public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }
 }

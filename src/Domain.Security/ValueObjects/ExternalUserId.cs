@@ -49,5 +49,7 @@ namespace Domain.Security.ValueObjects
             notification.Add("ExternalUserId", "ExternalUserId is required.");
             return null;
         }
+
+        public override string ToString() => string.Format($"{this.Text}");
     }
 }

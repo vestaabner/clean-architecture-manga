@@ -4,6 +4,7 @@
     using Accounts.Credits;
     using Accounts.Debits;
     using Customers;
+    using Security;
 
     /// <summary>
     /// 
@@ -14,6 +15,7 @@
 
         private readonly ICustomerFactory _customerFactory;
         private readonly Notification _notification;
+        private readonly IUserFactory _userFactory;
 
         /// <summary>
         /// 
@@ -21,14 +23,17 @@
         /// <param name="accountFactory"></param>
         /// <param name="customerFactory"></param>
         /// <param name="notification"></param>
+        /// <param name="userFactory"></param>
         public BuilderFactory(
             IAccountFactory accountFactory,
             ICustomerFactory customerFactory,
-            Notification notification)
+            Notification notification,
+            IUserFactory userFactory)
         {
             this._accountFactory = accountFactory;
             this._customerFactory = customerFactory;
             this._notification = notification;
+            this._userFactory = userFactory;
         }
 
         /// <summary>
@@ -64,6 +69,13 @@
         {
             return new CustomerBuilder(
                 this._customerFactory,
+                this._notification);
+        }
+
+        public UserBuilder NewUserBuilder()
+        {
+            return new UserBuilder(
+                this._userFactory,
                 this._notification);
         }
     }

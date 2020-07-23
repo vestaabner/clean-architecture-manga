@@ -50,5 +50,7 @@ namespace Domain.Security.ValueObjects
             notification.Add("UserId", "UserId is required.");
             return null;
         }
+
+        public override string ToString() => this.Id.ToString();
     }
 }

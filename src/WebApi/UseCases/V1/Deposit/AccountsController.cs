@@ -34,7 +34,7 @@ namespace WebApi.UseCases.V1.Deposit
         /// <param name="currency"></param>
         /// <returns>The updated balance.</returns>
         [Authorize]
-        [HttpPatch("{AccountId:guid}/Deposit")]
+        [HttpPatch("{accountId:guid}/Deposit")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DepositResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]
         public async Task<IActionResult> Deposit(

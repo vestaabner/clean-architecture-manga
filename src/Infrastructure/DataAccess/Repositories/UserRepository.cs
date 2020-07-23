@@ -37,6 +37,11 @@ namespace Infrastructure.DataAccess.Repositories
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
+            if (user == null)
+            {
+                return UserNull.Instance;
+            }
+
             return user;
         }
     }

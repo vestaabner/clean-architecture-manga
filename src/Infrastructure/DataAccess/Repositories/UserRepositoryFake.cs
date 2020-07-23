@@ -16,7 +16,20 @@ namespace Infrastructure.DataAccess.Repositories
 
         public UserRepositoryFake(MangaContextFake context) => this._context = context;
 
-        public Task<IUser> Find(ExternalUserId externalUserId) => throw new System.NotImplementedException();
+        public async Task<IUser> Find(ExternalUserId externalUserId)
+        {
+            User user = this._context
+                .Users
+                .SingleOrDefault(e => e.ExternalUserId.Equals(externalUserId));
+
+            if (user is null)
+            {
+                return UserNull.Instance;
+            }
+
+            return await Task.FromResult(user)
+                .ConfigureAwait(false);
+        }
 
         public async Task Add(IUser user)
         {
@@ -25,16 +38,6 @@ namespace Infrastructure.DataAccess.Repositories
                 .Add((User)user);
 
             await Task.CompletedTask
-                .ConfigureAwait(false);
-        }
-
-        public async Task<IUser> GetUser(ExternalUserId externalUserId)
-        {
-            User user = this._context
-                .Users
-                .SingleOrDefault(e => e.ExternalUserId.Equals(externalUserId));
-
-            return await Task.FromResult(user)
                 .ConfigureAwait(false);
         }
     }

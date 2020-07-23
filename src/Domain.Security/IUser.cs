@@ -21,5 +21,7 @@ namespace Domain.Security
         ///     Gets the ExternalUserId.
         /// </summary>
         ExternalUserId ExternalUserId { get; }
+
+        UserId UserId { get; }
     }
 }

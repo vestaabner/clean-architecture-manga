@@ -67,9 +67,9 @@
             return this;
         }
 
-        public CustomerBuilder UserId(Guid userId)
+        public CustomerBuilder UserId(UserId userId)
         {
-            this._userId = Security.ValueObjects.UserId.Create(this._notification, userId);
+            this._userId = userId;
 
             return this;
         }

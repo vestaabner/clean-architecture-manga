@@ -49,5 +49,7 @@ namespace Domain.Accounts.ValueObjects
             notification.Add("AccountId", "AccountId is required.");
             return null;
         }
+
+        public override string ToString() => this.Id.ToString();
     }
 }

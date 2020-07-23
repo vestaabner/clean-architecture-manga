@@ -50,5 +50,7 @@ namespace Domain.Accounts.ValueObjects
             notification.Add("DebitId", "DebitId is required.");
             return null;
         }
+
+        public override string ToString() => this.Id.ToString();
     }
 }

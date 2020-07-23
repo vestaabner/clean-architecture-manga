@@ -4,7 +4,7 @@
 
 namespace Domain.Services
 {
-    using Security;
+    using Security.ValueObjects;
 
     /// <summary>
     ///     User Service.
@@ -15,6 +15,6 @@ namespace Domain.Services
         ///     Gets the Current User.
         /// </summary>
         /// <returns>User.</returns>
-        IUser GetCurrentUser();
+        ExternalUserId GetCurrentUser();
     }
 }

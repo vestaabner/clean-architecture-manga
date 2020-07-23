@@ -29,7 +29,7 @@ namespace WebApi.UseCases.V1.SignUpCustomer
         /// <param name="presenter">Presenter.</param>
         /// <returns>The newly registered customer.</returns>
         [Authorize]
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SignUpCustomerResponse))]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SignUpCustomerResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Post))]

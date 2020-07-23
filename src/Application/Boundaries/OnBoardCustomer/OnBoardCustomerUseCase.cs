@@ -7,6 +7,8 @@ namespace Application.Boundaries.OnBoardCustomer
     using System.Threading.Tasks;
     using Domain;
     using Domain.Customers;
+    using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -23,7 +25,8 @@ namespace Application.Boundaries.OnBoardCustomer
         private readonly IOnBoardCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
         private readonly BuilderFactory _builderFactory;
-        private readonly Notification _notification;
+        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 
@@ -32,19 +35,22 @@ namespace Application.Boundaries.OnBoardCustomer
         /// <param name="unitOfWork"></param>
         /// <param name="customerRepository"></param>
         /// <param name="builderFactory"></param>
-        /// <param name="notification"></param>
+        /// <param name="userService"></param>
+        /// <param name="userRepository"></param>
         public OnBoardCustomerUseCase(
             IOnBoardCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
             ICustomerRepository customerRepository,
             BuilderFactory builderFactory,
-            Notification notification)
+            IUserService userService,
+            IUserRepository userRepository)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
             this._customerRepository = customerRepository;
             this._builderFactory = builderFactory;
-            this._notification = notification;
+            this._userService = userService;
+            this._userRepository = userRepository;
         }
 
         /// <summary>
@@ -53,14 +59,32 @@ namespace Application.Boundaries.OnBoardCustomer
         /// <returns>Task.</returns>
         public async Task Execute(string firstName, string lastName, string ssn)
         {
+            ExternalUserId externalUserId = this._userService
+                .GetCurrentUser();
+
+            IUser existingUser = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
+            ICustomer existingCustomer = await this._customerRepository
+                .Find(existingUser.UserId)
+                .ConfigureAwait(false);
+
+            if (existingCustomer is Customer)
+            {
+                this._outputPort.OnBoardedSuccessful(existingCustomer);
+                return;
+            }
+
             ICustomer customer = this._builderFactory
                 .NewCustomerBuilder()
+                .UserId(existingUser.UserId)
                 .FirstName(firstName)
                 .LastName(lastName)
                 .SSN(ssn)
                 .Build();
 
-            if (!this._notification.IsValid)
+            if (customer is CustomerNull)
             {
                 this._outputPort.Invalid();
                 return;
@@ -70,7 +94,8 @@ namespace Application.Boundaries.OnBoardCustomer
                 .Add(customer)
                 .ConfigureAwait(false);
 
-            await this._unitOfWork.Save()
+            await this._unitOfWork
+                .Save()
                 .ConfigureAwait(false);
 
             this._outputPort.OnBoardedSuccessful(customer);

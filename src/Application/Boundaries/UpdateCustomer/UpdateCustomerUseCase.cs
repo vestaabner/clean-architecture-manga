@@ -8,6 +8,7 @@ namespace Application.Boundaries.UpdateCustomer
     using Domain;
     using Domain.Customers;
     using Domain.Security;
+    using Domain.Security.ValueObjects;
     using Domain.Services;
 
     /// <summary>
@@ -26,6 +27,7 @@ namespace Application.Boundaries.UpdateCustomer
         private readonly IUserService _userService;
         private readonly BuilderFactory _builderFactory;
         private readonly Notification _notification;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 
@@ -36,13 +38,15 @@ namespace Application.Boundaries.UpdateCustomer
         /// <param name="userService"></param>
         /// <param name="builderFactory"></param>
         /// <param name="notification"></param>
+        /// <param name="userRepository"></param>
         public UpdateCustomerUseCase(
             IUpdateCustomerOutputPort outputPort,
             IUnitOfWork unitOfWork,
             ICustomerRepository customerRepository,
             IUserService userService,
             BuilderFactory builderFactory,
-            Notification notification)
+            Notification notification,
+            IUserRepository userRepository)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
@@ -50,6 +54,7 @@ namespace Application.Boundaries.UpdateCustomer
             this._userService = userService;
             this._builderFactory = builderFactory;
             this._notification = notification;
+            this._userRepository = userRepository;
         }
 
         /// <summary>
@@ -58,11 +63,15 @@ namespace Application.Boundaries.UpdateCustomer
         /// <returns>Task.</returns>
         public async Task Execute(string firstName, string lastName, string ssn)
         {
-            IUser user = this._userService
+            ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
+            IUser existingUser = await this._userRepository
+                .Find(externalUserId)
+                .ConfigureAwait(false);
+
             ICustomer existingCustomer = await this._customerRepository
-                .Find(user.ExternalUserId.Text)
+                .Find(existingUser.UserId)
                 .ConfigureAwait(false);
 
             if (existingCustomer is CustomerNull)

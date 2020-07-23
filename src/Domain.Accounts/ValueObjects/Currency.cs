@@ -87,5 +87,7 @@
         /// </summary>
         /// <returns>Currency.</returns>
         public static readonly Currency Krona = new Currency("SEK");
+
+        public override string ToString() => this.Code;
     }
 }

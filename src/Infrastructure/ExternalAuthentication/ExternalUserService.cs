@@ -29,18 +29,16 @@ namespace Infrastructure.ExternalAuthentication
         }
 
         /// <inheritdoc />
-        public IUser GetCurrentUser()
+        public ExternalUserId GetCurrentUser()
         {
             ClaimsPrincipal user = this._httpContextAccessor
                 .HttpContext
                 .User;
 
-            string id = user.FindFirst(c => c.Type == "id")?.Value!;
+            string id = user.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
             ExternalUserId externalUserId = new ExternalUserId($"{user.Identity.AuthenticationType}/{id}");
 
-            IUser domainUser = this._userFactory.NewUser(externalUserId);
-
-            return domainUser;
+            return externalUserId;
         }
     }
 }

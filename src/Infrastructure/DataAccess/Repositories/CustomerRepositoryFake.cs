@@ -8,6 +8,7 @@ namespace Infrastructure.DataAccess.Repositories
     using System.Threading.Tasks;
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
+    using Domain.Security.ValueObjects;
     using Customer = Entities.Customer;
 
     public sealed class CustomerRepositoryFake : ICustomerRepository
@@ -16,7 +17,29 @@ namespace Infrastructure.DataAccess.Repositories
 
         public CustomerRepositoryFake(MangaContextFake context) => this._context = context;
 
-        public Task<ICustomer> Find(string externalUserId) => throw new System.NotImplementedException();
+        public async Task<ICustomer> Find(UserId userId)
+        {
+            Customer customer = this._context
+                .Customers
+                .SingleOrDefault(e => e.UserId.Equals(userId));
+
+            if (customer == null)
+            {
+                return CustomerNull.Instance;
+            }
+
+            var accounts = this._context
+                .Accounts
+                .Where(e => e.CustomerId == customer.CustomerId)
+                .Select(e => e.AccountId)
+                .ToList();
+
+            customer.Accounts
+                .AddRange(accounts);
+
+            return await Task.FromResult<Domain.Customers.Customer>(customer)
+                .ConfigureAwait(false);
+        }
 
         public async Task Add(ICustomer customer)
         {
@@ -33,6 +56,20 @@ namespace Infrastructure.DataAccess.Repositories
             Customer customer = this._context
                 .Customers
                 .SingleOrDefault(e => e.CustomerId.Equals(customerId));
+
+            if (customer == null)
+            {
+                return CustomerNull.Instance;
+            }
+
+            var accounts = this._context
+                .Accounts
+                .Where(e => e.CustomerId == customer.CustomerId)
+                .Select(e => e.AccountId)
+                .ToList();
+
+            customer.Accounts
+                .AddRange(accounts);
 
             return await Task.FromResult<Domain.Customers.Customer>(customer)
                 .ConfigureAwait(false);

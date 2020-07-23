@@ -25,9 +25,9 @@
             this._notification = notification;
         }
 
-        public UserBuilder ExternalUserId(string externalUserId)
+        public UserBuilder ExternalUserId(ExternalUserId externalUserId)
         {
-            this._externalUserId = ValueObjects.ExternalUserId.Create(this._notification, externalUserId);
+            this._externalUserId = externalUserId;
             return this;
         }
 

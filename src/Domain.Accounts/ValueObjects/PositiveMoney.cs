@@ -63,5 +63,7 @@ namespace Domain.Accounts.ValueObjects
             notification.Add("Amount", "Amount is required.");
             return null;
         }
+
+        public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }
 }
