@@ -5,6 +5,7 @@
 namespace Application.Boundaries.Deposit
 {
     using Domain.Accounts;
+    using Domain.Accounts.Credits;
 
     /// <summary>
     ///     Output Port.
@@ -19,7 +20,7 @@ namespace Application.Boundaries.Deposit
         /// <summary>
         ///     Account closed.
         /// </summary>
-        void DepositedSuccessful(IAccount account);
+        void DepositedSuccessful(ICredit credit, IAccount account);
 
         /// <summary>
         ///     Account closed.

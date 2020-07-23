@@ -42,6 +42,6 @@ namespace WebApi.UseCases.V1.Withdraw
             this.ViewModel = new NotFoundObjectResult("Account not found.");
 
         public void SuccessfulWithdraw(IDebit debit, IAccount account) =>
-            this.ViewModel = new OkObjectResult(new WithdrawResponse(new DebitModel((Debit)debit), account.GetCurrentBalance().Amount));
+            this.ViewModel = new OkObjectResult(new WithdrawResponse(new DebitModel((Debit)debit)));
     }
 }

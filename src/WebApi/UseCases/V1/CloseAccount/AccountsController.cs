@@ -1,5 +1,6 @@
 namespace WebApi.UseCases.V1.CloseAccount
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.CloseAccount;
@@ -28,7 +29,7 @@ namespace WebApi.UseCases.V1.CloseAccount
         /// <response code="404">Not Found.</response>
         /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
-        /// <param name="request">The request to Close an Account.</param>
+        /// <param name="accountId">The AccountId.</param>
         /// <returns>ViewModel.</returns>
         [Authorize]
         [HttpDelete("{AccountId:guid}")]
@@ -37,9 +38,9 @@ namespace WebApi.UseCases.V1.CloseAccount
         public async Task<IActionResult> Close(
             [FromServices] ICloseAccountUseCase useCase,
             [FromServices] CloseAccountPresenter presenter,
-            [FromRoute][Required] CloseAccountRequest request)
+            [FromRoute][Required] Guid accountId)
         {
-            await useCase.Execute(request.AccountId)
+            await useCase.Execute(accountId)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

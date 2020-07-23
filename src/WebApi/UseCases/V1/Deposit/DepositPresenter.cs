@@ -4,7 +4,9 @@ namespace WebApi.UseCases.V1.Deposit
     using Application.Boundaries.Deposit;
     using Domain;
     using Domain.Accounts;
+    using Domain.Accounts.Credits;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     /// Generates Deposit presentations.
@@ -34,8 +36,8 @@ namespace WebApi.UseCases.V1.Deposit
             this.ViewModel = new BadRequestObjectResult(problemDetails);
         }
 
-        public void DepositedSuccessful(IAccount account) =>
-            this.ViewModel = new OkObjectResult(new DepositResponse(account));
+        public void DepositedSuccessful(ICredit credit, IAccount account) =>
+            this.ViewModel = new OkObjectResult(new DepositResponse(new CreditModel((Credit)credit)));
 
         public void NotFound() =>
             this.ViewModel = new NotFoundObjectResult("Account not found.");

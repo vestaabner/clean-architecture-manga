@@ -7,6 +7,7 @@ namespace WebApi.UseCases.V1.Transfer
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Microsoft.AspNetCore.Mvc;
+    using ViewModels;
 
     /// <summary>
     /// </summary>
@@ -38,7 +39,8 @@ namespace WebApi.UseCases.V1.Transfer
         public void NotFound() =>
             this.ViewModel = new NotFoundObjectResult("Account not found.");
 
-        public void Successful(IAccount originAccount, IDebit debit, IAccount destinationAccount, ICredit credit) => throw new System.NotImplementedException();
+        public void Successful(IAccount originAccount, IDebit debit, IAccount destinationAccount, ICredit credit) =>
+            this.ViewModel = new OkObjectResult(new TransferResponse(new DebitModel((Debit)debit)));
 
         public void OutOfFunds()
         {

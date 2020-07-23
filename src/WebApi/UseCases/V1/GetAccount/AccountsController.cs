@@ -1,5 +1,6 @@
 namespace WebApi.UseCases.V1.GetAccount
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.GetAccount;
@@ -27,7 +28,7 @@ namespace WebApi.UseCases.V1.GetAccount
         /// <response code="404">Not Found.</response>
         /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
-        /// <param name="request">A <see cref="GetAccountRequest"></see>.</param>
+        /// <param name="accountId"></param>
         /// <returns>An asynchronous <see cref="IActionResult" />.</returns>
         [Authorize]
         [HttpGet("{AccountId:guid}", Name = "GetAccount")]
@@ -36,9 +37,9 @@ namespace WebApi.UseCases.V1.GetAccount
         public async Task<IActionResult> Get(
             [FromServices] IGetAccountUseCase useCase,
             [FromServices] GetAccountPresenter presenter,
-            [FromRoute][Required] GetAccountRequest request)
+            [FromRoute][Required] Guid accountId)
         {
-            await useCase.Execute(request.AccountId)
+            await useCase.Execute(accountId)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

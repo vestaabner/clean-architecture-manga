@@ -17,10 +17,10 @@ namespace WebApi.UseCases.V1.SignUpCustomer
     [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public sealed class CustomersController : ControllerBase
+    public sealed class UsersController : ControllerBase
     {
         /// <summary>
-        ///     Register a customer.
+        ///     Sign-up a user.
         /// </summary>
         /// <response code="200">Customer already exists.</response>
         /// <response code="201">The registered customer was created successfully.</response>

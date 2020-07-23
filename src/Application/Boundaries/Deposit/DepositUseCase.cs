@@ -94,7 +94,7 @@ namespace Application.Boundaries.Deposit
                 .Save()
                 .ConfigureAwait(false);
 
-            this._outputPort.DepositedSuccessful(account);
+            this._outputPort.DepositedSuccessful(credit, account);
         }
     }
 }

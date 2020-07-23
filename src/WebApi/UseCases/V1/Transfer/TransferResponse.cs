@@ -11,10 +11,9 @@ namespace WebApi.UseCases.V1.Transfer
         /// <summary>
         ///     Transfer Response constructor.
         /// </summary>
-        public TransferResponse(DebitModel transaction, decimal updatedBalance)
+        public TransferResponse(DebitModel transaction)
         {
             this.Transaction = transaction;
-            this.UpdateBalance = updatedBalance;
         }
 
         /// <summary>
@@ -22,11 +21,5 @@ namespace WebApi.UseCases.V1.Transfer
         /// </summary>
         [Required]
         public DebitModel Transaction { get; }
-
-        /// <summary>
-        ///     Gets Update Balance.
-        /// </summary>
-        [Required]
-        public decimal UpdateBalance { get; }
     }
 }

@@ -1,5 +1,6 @@
 namespace WebApi.UseCases.V1.Transfer
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.Transfer;
@@ -31,22 +32,28 @@ namespace WebApi.UseCases.V1.Transfer
         /// <response code="404">Not Found.</response>
         /// <param name="useCase"></param>
         /// <param name="presenter"></param>
-        /// <param name="request">The request to Transfer.</param>
+        /// <param name="accountId"></param>
+        /// <param name="destinationAccountId"></param>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
         /// <returns>The updated balance.</returns>
         [Authorize]
-        [HttpPatch("Transfer")]
+        [HttpPatch("{AccountId:guid}/{DestinationAccountId:guid}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TransferResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]
         public async Task<IActionResult> Transfer(
             [FromServices] ITransferUseCase useCase,
             [FromServices] TransferPresenter presenter,
-            [FromForm][Required] TransferRequest request)
+            [FromRoute][Required] Guid accountId,
+            [FromRoute][Required] Guid destinationAccountId,
+            [FromForm][Required] decimal amount,
+            [FromForm][Required] string currency)
         {
             await useCase.Execute(
-                    request.OriginAccountId,
-                    request.DestinationAccountId,
-                    request.Amount,
-                    request.Currency)
+                    accountId,
+                    destinationAccountId,
+                    amount,
+                    currency)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

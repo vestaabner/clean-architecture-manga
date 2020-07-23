@@ -1,5 +1,6 @@
 namespace WebApi.UseCases.V1.Deposit
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.Deposit;
@@ -28,18 +29,22 @@ namespace WebApi.UseCases.V1.Deposit
         /// <response code="404">Not Found.</response>
         /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
-        /// <param name="request">The request to deposit.</param>
+        /// <param name="accountId"></param>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
         /// <returns>The updated balance.</returns>
         [Authorize]
-        [HttpPatch("Deposit")]
+        [HttpPatch("{AccountId:guid}/Deposit")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DepositResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]
         public async Task<IActionResult> Deposit(
             [FromServices] IDepositUseCase useCase,
             [FromServices] DepositPresenter presenter,
-            [FromForm][Required] DepositRequest request)
+            [FromRoute][Required] Guid accountId,
+            [FromForm][Required] decimal amount,
+            [FromForm][Required] string currency)
         {
-            await useCase.Execute(request.AccountId, request.Amount, request.Currency)
+            await useCase.Execute(accountId, amount, currency)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

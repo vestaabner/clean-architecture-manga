@@ -12,6 +12,7 @@ namespace WebApi.Modules
     using Application.Boundaries.UpdateCustomer;
     using Application.Boundaries.Withdraw;
     using Application.UseCases;
+    using Domain;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -37,6 +38,9 @@ namespace WebApi.Modules
             services.AddScoped<ITransferUseCase, TransferUseCase>();
             services.AddScoped<IUpdateCustomerUseCase, UpdateCustomerUseCase>();
             services.AddScoped<IWithdrawUseCase, WithdrawUseCase>();
+
+            services.AddScoped<Notification>();
+            services.AddScoped<BuilderFactory>();
 
             return services;
         }

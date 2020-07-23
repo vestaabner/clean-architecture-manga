@@ -1,5 +1,6 @@
 namespace WebApi.UseCases.V1.Withdraw
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
     using Application.Boundaries.Withdraw;
@@ -28,21 +29,25 @@ namespace WebApi.UseCases.V1.Withdraw
         /// <response code="404">Not Found.</response>
         /// <param name="useCase"></param>
         /// <param name="presenter"></param>
-        /// <param name="request">The request to Withdraw.</param>
+        /// <param name="accountId"></param>
+        /// <param name="amount"></param>
+        /// <param name="currency"></param>
         /// <returns>The updated balance.</returns>
         [Authorize]
-        [HttpPatch("Withdraw")]
+        [HttpPatch("{AccountId:guid}/Withdraw")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(WithdrawResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Patch))]
         public async Task<IActionResult> Withdraw(
             [FromServices] IWithdrawUseCase useCase,
             [FromServices] WithdrawPresenter presenter,
-            [FromForm][Required] WithdrawRequest request)
+            [FromRoute][Required] Guid accountId,
+            [FromForm][Required] decimal amount,
+            [FromForm][Required] string currency)
         {
             await useCase.Execute(
-                    request.AccountId,
-                    request.Amount,
-                    request.Currency)
+                    accountId,
+                    amount,
+                    currency)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

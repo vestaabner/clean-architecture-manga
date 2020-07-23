@@ -21,14 +21,16 @@ namespace WebApi.UseCases.V1.OnBoardCustomer
     public sealed class CustomersController : ControllerBase
     {
         /// <summary>
-        ///     Register a customer.
+        ///     On-board a customer.
         /// </summary>
         /// <response code="200">Customer already exists.</response>
         /// <response code="201">The registered customer was created successfully.</response>
         /// <response code="400">Bad request.</response>
         /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
-        /// <param name="request">The request to register a customer.</param>
+        /// <param name="firstName"></param>
+        /// <param name="lastName"></param>
+        /// <param name="ssn"></param>
         /// <returns>The newly registered customer.</returns>
         [Authorize]
         [HttpPost]
@@ -38,12 +40,14 @@ namespace WebApi.UseCases.V1.OnBoardCustomer
         public async Task<IActionResult> Post(
             [FromServices] IOnBoardCustomerUseCase useCase,
             [FromServices] OnBoardCustomerPresenter presenter,
-            [FromForm][Required] OnBoardCustomerRequest request)
+            [FromForm][Required] string firstName,
+            [FromForm][Required] string lastName,
+            [FromForm][Required] string ssn)
         {
             await useCase.Execute(
-                    request.FirstName,
-                    request.LastName,
-                    request.SSN)
+                    firstName,
+                    lastName,
+                    ssn)
                 .ConfigureAwait(false);
 
             return presenter.ViewModel!;

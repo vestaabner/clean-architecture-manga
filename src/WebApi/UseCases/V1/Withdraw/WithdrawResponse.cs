@@ -11,12 +11,9 @@ namespace WebApi.UseCases.V1.Withdraw
         /// <summary>
         ///     Withdraw Response constructor.
         /// </summary>
-        public WithdrawResponse(
-            DebitModel debitModel,
-            decimal updatedBalance)
+        public WithdrawResponse(DebitModel debitModel)
         {
             this.Transaction = debitModel;
-            this.UpdateBalance = updatedBalance;
         }
 
         /// <summary>
@@ -24,11 +21,5 @@ namespace WebApi.UseCases.V1.Withdraw
         /// </summary>
         [Required]
         public DebitModel Transaction { get; }
-
-        /// <summary>
-        ///     Gets Update Balance.
-        /// </summary>
-        [Required]
-        public decimal UpdateBalance { get; }
     }
 }

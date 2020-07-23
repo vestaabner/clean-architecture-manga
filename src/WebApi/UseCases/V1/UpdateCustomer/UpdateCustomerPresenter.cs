@@ -34,6 +34,7 @@ namespace WebApi.UseCases.V1.UpdateCustomer
         public void CustomerUpdatedSuccessful(ICustomer customer) =>
             this.ViewModel = new OkObjectResult(new UpdateCustomerResponse(new CustomerModel((Customer)customer)));
 
-        public void NotFound() => throw new System.NotImplementedException();
+        public void NotFound() =>
+            this.ViewModel = new NotFoundObjectResult("Account not found.");
     }
 }

@@ -1,8 +1,7 @@
 namespace WebApi.UseCases.V1.Deposit
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
-    using Domain.Accounts;
+    using ViewModels;
 
     /// <summary>
     ///     The response for a successful Deposit.
@@ -12,12 +11,15 @@ namespace WebApi.UseCases.V1.Deposit
         /// <summary>
         ///     The Deposit response constructor.
         /// </summary>
-        public DepositResponse(IAccount account) => this.AccountId = account.AccountId.Id;
+        public DepositResponse(CreditModel transaction)
+        {
+            this.Transaction = transaction;
+        }
 
         /// <summary>
-        ///     Gets account ID.
+        ///     Gets Transaction.
         /// </summary>
         [Required]
-        public Guid AccountId { get; }
+        public CreditModel Transaction { get; }
     }
 }
