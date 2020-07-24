@@ -30,7 +30,8 @@ namespace IntegrationTests.EntityFrameworkTests
 
             Account account = new Account(
                 new AccountId(Guid.NewGuid()),
-                SeedData.DefaultCustomerId
+                SeedData.DefaultCustomerId,
+                Currency.Dollar
             );
 
             Credit credit = new Credit(
@@ -75,7 +76,8 @@ namespace IntegrationTests.EntityFrameworkTests
 
             Account account = new Account(
                 new AccountId(Guid.NewGuid()),
-                SeedData.DefaultCustomerId
+                SeedData.DefaultCustomerId,
+                Currency.Dollar
             );
 
             Credit credit = new Credit(

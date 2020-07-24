@@ -42,19 +42,20 @@ namespace ComponentTests.V1
 
             using StringReader stringReader = new StringReader(actualResponseString);
             using JsonTextReader reader = new JsonTextReader(stringReader) { DateParseHandling = DateParseHandling.None };
-            JObject jsonResponse = JObject.Load(reader);
+            JObject jsonResponse = await JObject.LoadAsync(reader)
+                .ConfigureAwait(false);
 
-            Assert.Equal(JTokenType.String, jsonResponse["customer"]["customerId"].Type);
-            Assert.Equal(JTokenType.String, jsonResponse["customer"]["ssn"].Type);
-            Assert.Equal(JTokenType.String, jsonResponse["customer"]["name"].Type);
-            Assert.Equal(JTokenType.String, jsonResponse["accounts"][0]["accountId"].Type);
-            Assert.Equal(JTokenType.Integer, jsonResponse["accounts"][0]["currentBalance"].Type);
+            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["customerId"]!.Type);
+            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["ssn"]!.Type);
+            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["name"]!.Type);
+            Assert.Equal(JTokenType.String, jsonResponse["accounts"]![0]!["accountId"]!.Type);
+            Assert.Equal(JTokenType.Integer, jsonResponse["accounts"]![0]!["currentBalance"]!.Type);
 
-            Assert.True(Guid.TryParse(jsonResponse["customer"]["customerId"].Value<string>(), out Guid _));
-            Assert.Equal("8608179999", jsonResponse["customer"]["ssn"]);
-            Assert.Equal("Ivan Paulovich", jsonResponse["customer"]["name"]);
-            Assert.True(Guid.TryParse(jsonResponse["accounts"][0]["accountId"].Value<string>(), out Guid _));
-            Assert.Equal(500, jsonResponse["accounts"][0]["currentBalance"]);
+            Assert.True(Guid.TryParse(jsonResponse["customer"]!["customerId"]!.Value<string>(), out Guid _));
+            Assert.Equal("8608179999", jsonResponse["customer"]!["ssn"]);
+            Assert.Equal("Ivan Paulovich", jsonResponse["customer"]!["name"]);
+            Assert.True(Guid.TryParse(jsonResponse["accounts"]![0]!["accountId"]!.Value<string>(), out Guid _));
+            Assert.Equal(500, jsonResponse["accounts"]![0]!["currentBalance"]);
         }
     }
 }

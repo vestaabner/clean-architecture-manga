@@ -52,27 +52,6 @@ namespace IntegrationTests.EntityFrameworkTests
         }
 
         [Fact]
-        public async Task GetBy()
-        {
-            DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
-                .UseSqlServer("Persist Security Info=False;Integrated Security=true;Initial Catalog=MangaDB03;Server=.")
-                .Options;
-
-            await using MangaContext context = new MangaContext(options);
-            await context
-                .Database
-                .EnsureCreatedAsync()
-                .ConfigureAwait(false);
-
-            CustomerRepository customerRepository = new CustomerRepository(context);
-            ICustomer? customer = await customerRepository
-                .GetBy(SeedData.DefaultCustomerId)
-                .ConfigureAwait(false);
-
-            Assert.IsType<Customer>(customer);
-        }
-
-        [Fact]
         public async Task Update()
         {
             DbContextOptions<MangaContext> options = new DbContextOptionsBuilder<MangaContext>()
@@ -103,8 +82,8 @@ namespace IntegrationTests.EntityFrameworkTests
                 .SaveChangesAsync()
                 .ConfigureAwait(false);
 
-            ICustomer? getCustomer = await customerRepository
-                .GetBy(customer.CustomerId)
+            ICustomer getCustomer = await customerRepository
+                .Find(SeedData.DefaultUserId)
                 .ConfigureAwait(false);
 
             var updatedSSN = new SSN("555555555");
@@ -115,7 +94,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 new Name("Paulovich"));
 
             await customerRepository
-                .Update(getCustomer)
+                .Update((Customer)getCustomer)
                 .ConfigureAwait(false);
 
             await context

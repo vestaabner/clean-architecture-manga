@@ -51,8 +51,8 @@ namespace ComponentTests.V1
             Assert.Contains("customerId", responseString);
             JObject customer = JsonConvert.DeserializeObject<JObject>(responseString);
 
-            string customerId = customer["customer"]["customerId"].Value<string>();
-            string accountId = ((JContainer)customer["accounts"]).First["accountId"].Value<string>();
+            string customerId = customer["customer"]!["customerId"]!.Value<string>();
+            string accountId = ((JContainer)customer!["accounts"]!)!.First!["accountId"]!.Value<string>();
 
             return new Tuple<string, string>(customerId, accountId);
         }

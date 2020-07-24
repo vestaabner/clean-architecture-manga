@@ -11,6 +11,7 @@ namespace IntegrationTests.EntityFrameworkTests
     using Infrastructure.DataAccess.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Xunit;
+    using User = Infrastructure.DataAccess.Entities.User;
 
     public sealed class UserRepositoryTests
     {
