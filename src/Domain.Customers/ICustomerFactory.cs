@@ -26,6 +26,6 @@ namespace Domain.Customers
         /// <param name="lastName">Last Name.</param>
         /// <param name="userId"></param>
         /// <returns>New Customer instance.</returns>
-        ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId);
+        Customer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId);
     }
 }

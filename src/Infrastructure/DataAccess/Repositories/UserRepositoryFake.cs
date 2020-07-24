@@ -8,7 +8,6 @@ namespace Infrastructure.DataAccess.Repositories
     using System.Threading.Tasks;
     using Domain.Security;
     using Domain.Security.ValueObjects;
-    using User = Entities.User;
 
     public sealed class UserRepositoryFake : IUserRepository
     {
@@ -31,11 +30,11 @@ namespace Infrastructure.DataAccess.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task Add(IUser user)
+        public async Task Add(User user)
         {
             this._context
                 .Users
-                .Add((User)user);
+                .Add((Entities.User)user);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);

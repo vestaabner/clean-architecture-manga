@@ -7,6 +7,7 @@ namespace Application.Boundaries.UpdateCustomer
     using System.Threading.Tasks;
     using Domain;
     using Domain.Customers;
+    using Domain.Customers.ValueObjects;
     using Domain.Security;
     using Domain.Security.ValueObjects;
     using Domain.Services;
@@ -25,7 +26,6 @@ namespace Application.Boundaries.UpdateCustomer
         private readonly IUpdateCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
-        private readonly BuilderFactory _builderFactory;
         private readonly Notification _notification;
         private readonly IUserRepository _userRepository;
 
@@ -36,7 +36,6 @@ namespace Application.Boundaries.UpdateCustomer
         /// <param name="unitOfWork"></param>
         /// <param name="customerRepository"></param>
         /// <param name="userService"></param>
-        /// <param name="builderFactory"></param>
         /// <param name="notification"></param>
         /// <param name="userRepository"></param>
         public UpdateCustomerUseCase(
@@ -44,7 +43,6 @@ namespace Application.Boundaries.UpdateCustomer
             IUnitOfWork unitOfWork,
             ICustomerRepository customerRepository,
             IUserService userService,
-            BuilderFactory builderFactory,
             Notification notification,
             IUserRepository userRepository)
         {
@@ -52,7 +50,6 @@ namespace Application.Boundaries.UpdateCustomer
             this._unitOfWork = unitOfWork;
             this._customerRepository = customerRepository;
             this._userService = userService;
-            this._builderFactory = builderFactory;
             this._notification = notification;
             this._userRepository = userRepository;
         }
@@ -61,7 +58,64 @@ namespace Application.Boundaries.UpdateCustomer
         ///     Executes the Use Case.
         /// </summary>
         /// <returns>Task.</returns>
-        public async Task Execute(string firstName, string lastName, string ssn)
+        public Task Execute(string firstName, string lastName, string ssn)
+        {
+            if (string.IsNullOrWhiteSpace(ssn))
+            {
+                this._notification.Add("SSN", "SSN is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                this._notification.Add("FirstName", "First name is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                this._notification.Add("LastName", "Last name is required.");
+            }
+
+            if (this._notification.IsValid)
+            {
+                return this.UpdateCustomerInternal(new Name(firstName), new Name(lastName), new SSN(ssn));
+            }
+
+            this._outputPort.Invalid();
+            return Task.CompletedTask;
+        }
+
+        private async Task UpdateCustomerInternal(Name firstName, Name lastName, SSN ssn)
+        {
+            ICustomer existingCustomer = await this.GetExistingCustomer()
+                .ConfigureAwait(false);
+
+            if (existingCustomer is Customer updateCustomer)
+            {
+                updateCustomer.Update(ssn, firstName, lastName);
+
+                await this.UpdateCustomer(updateCustomer)
+                    .ConfigureAwait(false);
+
+                return;
+            }
+
+            this._outputPort.NotFound();
+        }
+
+        private async Task UpdateCustomer(Customer existingCustomer)
+        {
+            await this._customerRepository
+                .Update(existingCustomer)
+                .ConfigureAwait(false);
+
+            await this._unitOfWork
+                .Save()
+                .ConfigureAwait(false);
+
+            this._outputPort.CustomerUpdatedSuccessful(existingCustomer);
+        }
+
+        private async Task<ICustomer> GetExistingCustomer()
         {
             ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
@@ -74,34 +128,7 @@ namespace Application.Boundaries.UpdateCustomer
                 .Find(existingUser.UserId)
                 .ConfigureAwait(false);
 
-            if (existingCustomer is CustomerNull)
-            {
-                this._outputPort.NotFound();
-                return;
-            }
-
-            this._builderFactory
-                .NewCustomerBuilder()
-                .FirstName(firstName)
-                .LastName(lastName)
-                .SSN(ssn)
-                .Update(existingCustomer);
-
-            if (!this._notification.IsValid)
-            {
-                this._outputPort.Invalid();
-                return;
-            }
-
-            await this._customerRepository
-                .Update(existingCustomer)
-                .ConfigureAwait(false);
-
-            await this._unitOfWork
-                .Save()
-                .ConfigureAwait(false);
-
-            this._outputPort.CustomerUpdatedSuccessful(existingCustomer);
+            return existingCustomer;
         }
     }
 }

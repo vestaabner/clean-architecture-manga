@@ -19,7 +19,7 @@ namespace WebApi.Modules
     using UseCases.V1.GetCustomer;
     using UseCases.V1.OnBoardCustomer;
     using UseCases.V1.OpenAccount;
-    using UseCases.V1.SignUpCustomer;
+    using UseCases.V1.SignUp;
     using UseCases.V1.Transfer;
     using UseCases.V1.UpdateCustomer;
     using UseCases.V1.Withdraw;
@@ -62,9 +62,9 @@ namespace WebApi.Modules
             services.AddScoped<IOpenAccountOutputPort>(x =>
                 x.GetRequiredService<OpenAccountPresenter>());
 
-            services.AddScoped<SignUpCustomerPresenter, SignUpCustomerPresenter>();
+            services.AddScoped<SignUpPresenter, SignUpPresenter>();
             services.AddScoped<ISignUpOutputPort>(x =>
-                x.GetRequiredService<SignUpCustomerPresenter>());
+                x.GetRequiredService<SignUpPresenter>());
 
             services.AddScoped<TransferPresenter, TransferPresenter>();
             services.AddScoped<ITransferOutputPort>(x =>

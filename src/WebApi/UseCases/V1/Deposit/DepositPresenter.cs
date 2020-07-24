@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.Deposit
 {
-    using System.Linq;
     using Application.Boundaries.Deposit;
     using Domain;
     using Domain.Accounts;
@@ -26,20 +25,11 @@ namespace WebApi.UseCases.V1.Deposit
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
 
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
 
         public void DepositedSuccessful(ICredit credit, IAccount account) =>
-            this.ViewModel = new OkObjectResult(new DepositResponse(new CreditModel((Credit)credit)));
-
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+            this.ViewModel = PresenterUtils.Ok(new DepositResponse(new CreditModel((Credit)credit)));
     }
 }

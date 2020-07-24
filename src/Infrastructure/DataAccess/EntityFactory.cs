@@ -15,9 +15,7 @@ namespace Infrastructure.DataAccess
     using Domain.Security.ValueObjects;
     using Account = Entities.Account;
     using Credit = Entities.Credit;
-    using Customer = Entities.Customer;
     using Debit = Entities.Debit;
-    using User = Entities.User;
 
     /// <summary>
     ///     <see
@@ -51,10 +49,10 @@ namespace Infrastructure.DataAccess
             return new Debit(new DebitId(Guid.NewGuid()), account.AccountId, transactionDate, amountToWithdraw.Amount, amountToWithdraw.Currency.Code);
         }
 
-        public IUser NewUser(ExternalUserId externalUserId) =>
-            new User(new UserId(Guid.NewGuid()),  externalUserId);
+        public User NewUser(ExternalUserId externalUserId) =>
+            new Entities.User(new UserId(Guid.NewGuid()),  externalUserId);
 
-        public ICustomer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId) =>
-            new Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, userId);
+        public Customer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId) =>
+            new Entities.Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, userId);
     }
 }

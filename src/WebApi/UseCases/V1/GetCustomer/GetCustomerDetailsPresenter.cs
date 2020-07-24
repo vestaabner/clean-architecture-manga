@@ -16,12 +16,8 @@ namespace WebApi.UseCases.V1.GetCustomer
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        public void Successful(ICustomer customer)
-        {
-            this.ViewModel = new OkObjectResult(new GetCustomerDetailsResponse(new CustomerModel((Customer)customer)));
-        }
+        public void Successful(ICustomer customer) => this.ViewModel = PresenterUtils.Ok(new GetCustomerDetailsResponse(new CustomerModel((Customer)customer)));
 
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
     }
 }

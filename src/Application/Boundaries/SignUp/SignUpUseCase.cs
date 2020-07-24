@@ -25,6 +25,7 @@ namespace Application.Boundaries.SignUp
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserService _userService;
         private readonly BuilderFactory _builderFactory;
+        private readonly IUserFactory _userFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SignUpUseCase" /> class.
@@ -34,55 +35,66 @@ namespace Application.Boundaries.SignUp
         /// <param name="userService">User Service.</param>
         /// <param name="userRepository">User Repository.</param>
         /// <param name="builderFactory"></param>
+        /// <param name="userFactory"></param>
         public SignUpUseCase(
             ISignUpOutputPort outputPort,
             IUnitOfWork unitOfWork,
             IUserService userService,
             IUserRepository userRepository,
-            BuilderFactory builderFactory)
+            BuilderFactory builderFactory,
+            IUserFactory userFactory)
         {
             this._outputPort = outputPort;
             this._unitOfWork = unitOfWork;
             this._userService = userService;
             this._userRepository = userRepository;
             this._builderFactory = builderFactory;
+            this._userFactory = userFactory;
         }
 
         /// <summary>
         ///     Executes the Use Case.
         /// </summary>
         /// <returns>Task.</returns>
-        public async Task Execute()
+        public Task Execute()
         {
             ExternalUserId externalUserId = this._userService
                 .GetCurrentUser();
 
-            IUser existingUser = await this._userRepository
+            return this.SignUpInternal(externalUserId);
+        }
+
+        public async Task SignUpInternal(ExternalUserId externalUserId)
+        {
+            IUser findUser = await this._userRepository
                 .Find(externalUserId)
                 .ConfigureAwait(false);
 
-            if (existingUser is UserNull)
+            if (findUser is User existingUser)
             {
-                IUser user = this._builderFactory
-                    .NewUserBuilder()
-                    .ExternalUserId(externalUserId)
-                    .Build();
-
-                await this._userRepository
-                    .Add(user)
-                    .ConfigureAwait(false);
-
-                await this._unitOfWork
-                    .Save()
-                    .ConfigureAwait(false);
-
-                this._outputPort.Successful(user);
+                this._outputPort.UserAlreadyExists(existingUser);
             }
             else
             {
-                this._outputPort
-                    .UserAlreadyExists(existingUser);
+                User user = this._userFactory
+                    .NewUser(externalUserId);
+
+                await this.CreateUser(user)
+                    .ConfigureAwait(false);
             }
+        }
+
+        private async Task CreateUser(User user)
+        {
+            await this._userRepository
+                .Add(user)
+                .ConfigureAwait(false);
+
+            await this._unitOfWork
+                .Save()
+                .ConfigureAwait(false);
+
+            this._outputPort.Successful(user);
         }
     }
 }

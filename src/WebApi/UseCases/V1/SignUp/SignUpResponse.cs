@@ -1,15 +1,15 @@
-namespace WebApi.UseCases.V1.SignUpCustomer
+namespace WebApi.UseCases.V1.SignUp
 {
     using System.ComponentModel.DataAnnotations;
     using ViewModels;
 
     /// <summary>
-    ///     The response for Registration.
+    ///     The sign-up response.
     /// </summary>
     public sealed class SignUpCustomerResponse
     {
         /// <summary>
-        ///     The Response Registration Constructor.
+        ///     Instantiates the SignUpCustomerResponse.
         /// </summary>
         public SignUpCustomerResponse(UserModel userModel)
         {
@@ -17,7 +17,7 @@ namespace WebApi.UseCases.V1.SignUpCustomer
         }
 
         /// <summary>
-        ///     Gets customer.
+        ///     Gets the user.
         /// </summary>
         [Required]
         public UserModel User { get; }

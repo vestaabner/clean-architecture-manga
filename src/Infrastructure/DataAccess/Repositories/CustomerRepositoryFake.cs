@@ -9,7 +9,6 @@ namespace Infrastructure.DataAccess.Repositories
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
-    using Customer = Entities.Customer;
 
     public sealed class CustomerRepositoryFake : ICustomerRepository
     {
@@ -41,41 +40,17 @@ namespace Infrastructure.DataAccess.Repositories
                 .ConfigureAwait(false);
         }
 
-        public async Task Add(ICustomer customer)
+        public async Task Add(Customer customer)
         {
             this._context
                 .Customers
-                .Add((Customer)customer);
+                .Add((Entities.Customer)customer);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);
         }
 
-        public async Task<ICustomer> GetBy(CustomerId customerId)
-        {
-            Customer customer = this._context
-                .Customers
-                .SingleOrDefault(e => e.CustomerId.Equals(customerId));
-
-            if (customer == null)
-            {
-                return CustomerNull.Instance;
-            }
-
-            var accounts = this._context
-                .Accounts
-                .Where(e => e.CustomerId == customer.CustomerId)
-                .Select(e => e.AccountId)
-                .ToList();
-
-            customer.Accounts
-                .AddRange(accounts);
-
-            return await Task.FromResult<Domain.Customers.Customer>(customer)
-                .ConfigureAwait(false);
-        }
-
-        public async Task Update(ICustomer customer)
+        public async Task Update(Customer customer)
         {
             Customer customerOld = this._context
                 .Customers
@@ -83,8 +58,8 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (customerOld != null)
             {
-                this._context.Customers.Remove(customerOld);
-                this._context.Customers.Add((Customer) customer);
+                this._context.Customers.Remove((Entities.Customer) customerOld);
+                this._context.Customers.Add((Entities.Customer) customer);
             }
 
             await Task.CompletedTask

@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.UpdateCustomer
 {
-    using System.Linq;
     using Application.Boundaries.UpdateCustomer;
     using Domain;
     using Domain.Customers;
@@ -8,7 +7,7 @@ namespace WebApi.UseCases.V1.UpdateCustomer
     using ViewModels;
 
     /// <summary>
-    /// Generates the Register presentations.
+    /// Generates the Update Customer presentations.
     /// </summary>
     public sealed class UpdateCustomerPresenter : IUpdateCustomerOutputPort
     {
@@ -21,20 +20,11 @@ namespace WebApi.UseCases.V1.UpdateCustomer
 
         public IActionResult? ViewModel { get; private set; }
 
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
 
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
 
-        public void CustomerUpdatedSuccessful(ICustomer customer) =>
-            this.ViewModel = new OkObjectResult(new UpdateCustomerResponse(new CustomerModel((Customer)customer)));
-
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void CustomerUpdatedSuccessful(Customer customer) =>
+            this.ViewModel = PresenterUtils.Ok(new UpdateCustomerResponse(new CustomerModel(customer)));
     }
 }

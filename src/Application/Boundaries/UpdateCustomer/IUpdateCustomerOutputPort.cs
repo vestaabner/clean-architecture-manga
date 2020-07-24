@@ -19,7 +19,7 @@ namespace Application.Boundaries.UpdateCustomer
         /// <summary>
         ///     Customer updated successfully.
         /// </summary>
-        void CustomerUpdatedSuccessful(ICustomer customer);
+        void CustomerUpdatedSuccessful(Customer customer);
 
         /// <summary>
         ///     Customer not found.

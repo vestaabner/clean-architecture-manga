@@ -8,10 +8,8 @@ namespace Infrastructure.DataAccess.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using Domain.Customers;
-    using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
     using Microsoft.EntityFrameworkCore;
-    using Customer = Entities.Customer;
 
     public sealed class CustomerRepository : ICustomerRepository
     {
@@ -46,42 +44,17 @@ namespace Infrastructure.DataAccess.Repositories
             return customer;
         }
 
-        public async Task Add(ICustomer customer) =>
+        public async Task Add(Customer customer) =>
             await this._context
                 .Customers
-                .AddAsync((Customer)customer)
+                .AddAsync((Entities.Customer)customer)
                 .ConfigureAwait(false);
 
-        public async Task<ICustomer> GetBy(CustomerId customerId)
-        {
-            Customer customer = await this._context
-                .Customers
-                .Where(c => c.CustomerId == customerId)
-                .SingleOrDefaultAsync()
-                .ConfigureAwait(false);
-
-            if (customer is null)
-            {
-                return CustomerNull.Instance;
-            }
-
-            var accounts = this._context
-                .Accounts
-                .Where(e => e.CustomerId == customer.CustomerId)
-                .Select(e => e.AccountId)
-                .ToList();
-
-            customer.Accounts
-                .AddRange(accounts);
-
-            return customer;
-        }
-
-        public async Task Update(ICustomer customer)
+        public async Task Update(Customer customer)
         {
             this._context
                 .Customers
-                .Update((Customer)customer);
+                .Update((Entities.Customer)customer);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);

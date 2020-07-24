@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.Transfer
 {
-    using System.Linq;
     using Application.Boundaries.Transfer;
     using Domain;
     using Domain.Accounts;
@@ -26,25 +25,13 @@ namespace WebApi.UseCases.V1.Transfer
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
 
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
-
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
 
         public void Successful(IAccount originAccount, IDebit debit, IAccount destinationAccount, ICredit credit) =>
-            this.ViewModel = new OkObjectResult(new TransferResponse(new DebitModel((Debit)debit)));
+            this.ViewModel = PresenterUtils.Ok(new TransferResponse(new DebitModel((Debit)debit)));
 
-        public void OutOfFunds()
-        {
-            this.Invalid();
-        }
+        public void OutOfFunds() => this.Invalid();
     }
 }

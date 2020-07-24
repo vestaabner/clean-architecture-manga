@@ -6,7 +6,6 @@ namespace Domain.Customers
 {
     using System.Threading.Tasks;
     using Security.ValueObjects;
-    using ValueObjects;
 
     /// <summary>
     ///     Customer
@@ -19,13 +18,6 @@ namespace Domain.Customers
     public interface ICustomerRepository
     {
         /// <summary>
-        ///     Gets the Customer by Id.
-        /// </summary>
-        /// <param name="customerId">CustomerId.</param>
-        /// <returns>Customer.</returns>
-        Task<ICustomer> GetBy(CustomerId customerId);
-
-        /// <summary>
         ///     Finds the Customer by External User Id.
         /// </summary>
         /// <param name="userId">UserId.</param>
@@ -37,13 +29,13 @@ namespace Domain.Customers
         /// </summary>
         /// <param name="customer">Customer object.</param>
         /// <returns>Task.</returns>
-        Task Add(ICustomer customer);
+        Task Add(Customer customer);
 
         /// <summary>
         ///     Updates the Customer.
         /// </summary>
         /// <param name="customer">Customer object.</param>
         /// <returns>Task.</returns>
-        Task Update(ICustomer customer);
+        Task Update(Customer customer);
     }
 }

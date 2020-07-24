@@ -29,6 +29,6 @@ namespace Domain.Security
         /// </summary>
         /// <param name="user">User instance.</param>
         /// <returns>Task.</returns>
-        Task Add(IUser user);
+        Task Add(User user);
     }
 }

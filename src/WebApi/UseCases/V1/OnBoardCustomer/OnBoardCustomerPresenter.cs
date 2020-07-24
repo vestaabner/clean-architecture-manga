@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.OnBoardCustomer
 {
-    using System.Linq;
     using Application.Boundaries.OnBoardCustomer;
     using Domain;
     using Domain.Customers;
@@ -19,23 +18,11 @@ namespace WebApi.UseCases.V1.OnBoardCustomer
             this._notification = notification;
         }
 
-        /// <summary>
-        /// ViewModel result.
-        /// </summary>
-        /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
 
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
-
-        public void OnBoardedSuccessful(ICustomer customer) =>
-            this.ViewModel = new OkObjectResult(new OnBoardCustomerResponse(new CustomerModel((Customer)customer)));
+        public void OnBoardedSuccessful(Customer customer) =>
+            this.ViewModel = PresenterUtils.Ok(new OnBoardCustomerResponse(new CustomerModel(customer)));
     }
 }

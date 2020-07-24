@@ -10,7 +10,7 @@ namespace Infrastructure.DataAccess.Entities
     /// <summary>
     ///     User.
     /// </summary>
-    public sealed class User : Domain.Security.IUser
+    public sealed class User : Domain.Security.User
     {
         public User(UserId userId, ExternalUserId externalUserId)
         {
@@ -21,10 +21,10 @@ namespace Infrastructure.DataAccess.Entities
         /// <summary>
         /// 
         /// </summary>
-        public UserId UserId { get; }
+        public override UserId UserId { get; }
 
         /// <inheritdoc />
-        public ExternalUserId ExternalUserId { get; }
+        public override ExternalUserId ExternalUserId { get; }
 
         public ICollection<Customer> CustomersCollection { get; } = new List<Customer>();
     }

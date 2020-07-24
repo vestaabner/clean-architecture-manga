@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.CloseAccount
 {
-    using System.Linq;
     using Application.Boundaries.CloseAccount;
     using Domain;
     using Domain.Accounts;
@@ -24,24 +23,12 @@ namespace WebApi.UseCases.V1.CloseAccount
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
 
-        /// <summary>
-        /// Produces a NotFound result.
-        /// </summary>
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
+
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
 
         public void HasFunds(IAccount account) =>
             this.ViewModel = new BadRequestObjectResult("Account has funds.");
-
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
-
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
 
         /// <summary>
         /// Account closed.

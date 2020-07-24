@@ -9,7 +9,6 @@ namespace Infrastructure.DataAccess.Repositories
     using Domain.Security;
     using Domain.Security.ValueObjects;
     using Microsoft.EntityFrameworkCore;
-    using User = Entities.User;
 
     public sealed class UserRepository : IUserRepository
     {
@@ -17,11 +16,11 @@ namespace Infrastructure.DataAccess.Repositories
 
         public UserRepository(MangaContext context) => this._context = context;
 
-        public async Task Add(IUser user)
+        public async Task Add(User user)
         {
             await this._context
                 .Users
-                .AddAsync((User)user)
+                .AddAsync((Entities.User)user)
                 .ConfigureAwait(false);
 
             await this._context

@@ -19,6 +19,6 @@ namespace Application.Boundaries.OnBoardCustomer
         /// <summary>
         ///     Customer on-boarded.
         /// </summary>
-        void OnBoardedSuccessful(ICustomer customer);
+        void OnBoardedSuccessful(Customer customer);
     }
 }

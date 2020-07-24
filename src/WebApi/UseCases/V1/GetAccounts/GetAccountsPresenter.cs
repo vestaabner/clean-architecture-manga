@@ -16,9 +16,9 @@ namespace WebApi.UseCases.V1.GetAccounts
         public IActionResult? ViewModel { get; private set; }
 
         public void Successful(IList<IAccount> accounts) =>
-            this.ViewModel = new OkObjectResult(new GetAccountsResponse(accounts));
+            this.ViewModel = PresenterUtils.Ok(new GetAccountsResponse(accounts));
 
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
+
     }
 }

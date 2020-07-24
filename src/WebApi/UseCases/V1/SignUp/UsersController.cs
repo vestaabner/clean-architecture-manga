@@ -1,4 +1,4 @@
-namespace WebApi.UseCases.V1.SignUpCustomer
+namespace WebApi.UseCases.V1.SignUp
 {
     using System.Threading.Tasks;
     using Application.Boundaries.SignUp;
@@ -20,22 +20,22 @@ namespace WebApi.UseCases.V1.SignUpCustomer
     public sealed class UsersController : ControllerBase
     {
         /// <summary>
-        ///     Sign-up a user.
+        ///     Sign-up the current user.
         /// </summary>
-        /// <response code="200">Customer already exists.</response>
-        /// <response code="201">The registered customer was created successfully.</response>
+        /// <response code="200">User already exists.</response>
+        /// <response code="201">The user was created successfully.</response>
         /// <response code="400">Bad request.</response>
         /// <param name="useCase">Use case.</param>
         /// <param name="presenter">Presenter.</param>
-        /// <returns>The newly registered customer.</returns>
+        /// <returns>The user.</returns>
         [Authorize]
-        [HttpGet]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(SignUpCustomerResponse))]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(SignUpCustomerResponse))]
         [ApiConventionMethod(typeof(CustomApiConventions), nameof(CustomApiConventions.Post))]
         public async Task<IActionResult> Post(
             [FromServices] ISignUpUseCase useCase,
-            [FromServices] SignUpCustomerPresenter presenter)
+            [FromServices] SignUpPresenter presenter)
         {
             await useCase.Execute()
                 .ConfigureAwait(false);

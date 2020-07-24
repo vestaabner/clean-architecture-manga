@@ -39,17 +39,6 @@ namespace Domain.Security.ValueObjects
             return !(left == right);
         }
 
-        public static ExternalUserId? Create(Notification notification, string externalUserId)
-        {
-            if (!string.IsNullOrWhiteSpace(externalUserId))
-            {
-                return new ExternalUserId(externalUserId);
-            }
-
-            notification.Add("ExternalUserId", "ExternalUserId is required.");
-            return null;
-        }
-
         public override string ToString() => string.Format($"{this.Text}");
     }
 }

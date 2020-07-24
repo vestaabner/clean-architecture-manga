@@ -1,6 +1,5 @@
 namespace WebApi.UseCases.V1.Withdraw
 {
-    using System.Linq;
     using Application.Boundaries.Withdraw;
     using Domain;
     using Domain.Accounts;
@@ -28,20 +27,11 @@ namespace WebApi.UseCases.V1.Withdraw
 
         public void OutOfFunds() => this.Invalid();
 
-        public void Invalid()
-        {
-            var errorMessages = this._notification
-                .ErrorMessages
-                .ToDictionary(item => item.Key, item => item.Value.ToArray());
+        public void Invalid() => this.ViewModel = PresenterUtils.Invalid(this._notification);
 
-            var problemDetails = new ValidationProblemDetails(errorMessages);
-            this.ViewModel = new BadRequestObjectResult(problemDetails);
-        }
-
-        public void NotFound() =>
-            this.ViewModel = new NotFoundObjectResult("Account not found.");
+        public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
 
         public void SuccessfulWithdraw(IDebit debit, IAccount account) =>
-            this.ViewModel = new OkObjectResult(new WithdrawResponse(new DebitModel((Debit)debit)));
+            this.ViewModel = PresenterUtils.Ok(new WithdrawResponse(new DebitModel((Debit)debit)));
     }
 }

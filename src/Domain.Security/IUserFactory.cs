@@ -22,6 +22,6 @@ namespace Domain.Security
         /// </summary>
         /// <param name="externalUserId">ExternalUserId.</param>
         /// <returns>New User instance.</returns>
-        IUser NewUser(ExternalUserId externalUserId);
+        User NewUser(ExternalUserId externalUserId);
     }
 }

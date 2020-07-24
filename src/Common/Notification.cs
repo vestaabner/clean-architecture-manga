@@ -17,6 +17,9 @@
         /// </summary>
         public bool IsValid => this.ErrorMessages.Count == 0;
 
+        public bool IsInvalid => this.ErrorMessages.Count > 0;
+
+
         /// <summary>
         /// 
         /// </summary>

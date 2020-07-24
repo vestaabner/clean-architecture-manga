@@ -14,11 +14,11 @@ namespace Application.Boundaries.SignUp
         /// <summary>
         ///     User.
         /// </summary>
-        void UserAlreadyExists(IUser user);
+        void UserAlreadyExists(User user);
 
         /// <summary>
         ///     User.
         /// </summary>
-        void Successful(IUser user);
+        void Successful(User user);
     }
 }
