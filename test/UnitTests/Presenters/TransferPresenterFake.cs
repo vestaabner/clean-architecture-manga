@@ -1,6 +1,6 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.Transfer;
+    using Application.UseCases.Transfer;
 
     public sealed class TransferPresenterFake : ITransferOutputPort
     {

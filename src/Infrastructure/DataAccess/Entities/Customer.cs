@@ -5,9 +5,9 @@
 namespace Infrastructure.DataAccess.Entities
 {
     using System.Collections.Generic;
+    using Common;
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
-    using Domain.Security.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Customer : Domain.Customers.Customer

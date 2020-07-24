@@ -4,8 +4,8 @@
 
 namespace Domain.Accounts
 {
-    using System;
     using System.Threading.Tasks;
+    using Common;
     using Credits;
     using Debits;
     using ValueObjects;
@@ -32,7 +32,7 @@ namespace Domain.Accounts
         /// <param name="account">Account object.</param>
         /// <param name="credit">Credit object.</param>
         /// <returns>Task.</returns>
-        Task Add(IAccount account, ICredit credit);
+        Task Add(Account account, Credit credit);
 
         /// <summary>
         ///     Updates an Account.
@@ -40,7 +40,7 @@ namespace Domain.Accounts
         /// <param name="account">Account object.</param>
         /// <param name="credit">Credit object.</param>
         /// <returns>Task.</returns>
-        Task Update(IAccount account, ICredit credit);
+        Task Update(Account account, Credit credit);
 
         /// <summary>
         ///     Updates the Account.
@@ -48,7 +48,7 @@ namespace Domain.Accounts
         /// <param name="account">Account object.</param>
         /// <param name="debit">Debit object.</param>
         /// <returns>Task.</returns>
-        Task Update(IAccount account, IDebit debit);
+        Task Update(Account account, Debit debit);
 
         /// <summary>
         ///     Deletes the Account.
@@ -63,6 +63,6 @@ namespace Domain.Accounts
         /// <param name="accountId">Account Id.</param>
         /// <param name="customerId">Customer Id.</param>
         /// <returns></returns>
-        Task<IAccount> Find(AccountId accountId, Guid customerId);
+        Task<IAccount> Find(AccountId accountId, CustomerId customerId);
     }
 }

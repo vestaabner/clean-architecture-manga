@@ -1,6 +1,6 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.Withdraw;
+    using Application.UseCases.Withdraw;
 
     public sealed class WithdrawPresenterFake : IWithdrawOutputPort
     {

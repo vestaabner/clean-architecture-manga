@@ -28,13 +28,13 @@ namespace Domain.Accounts
         ///     Deposits into account.
         /// </summary>
         /// <returns>Credit created.</returns>
-        void Deposit(ICredit credit);
+        void Deposit(Credit credit);
 
         /// <summary>
         ///     Withdraws from account.
         /// </summary>
         /// <returns>Debit created.</returns>
-        void Withdraw(Notification notification, IDebit debit);
+        void Withdraw(Debit debit);
 
         /// <summary>
         ///     Check if closing account is allowed.

@@ -1,8 +1,8 @@
 namespace UnitTests.UseCaseTests.Transfer
 {
     using System.Threading.Tasks;
-    using Application.Boundaries.Transfer;
     using Application.UseCases;
+    using Application.UseCases.Transfer;
     using Infrastructure.DataAccess;
     using Presenters;
     using Xunit;

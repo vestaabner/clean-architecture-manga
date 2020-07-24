@@ -4,6 +4,7 @@
 
 namespace Domain.Customers
 {
+    using Common;
     using ValueObjects;
 
     /// <inheritdoc />

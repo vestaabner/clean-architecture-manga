@@ -1,6 +1,6 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.GetAccount;
+    using Application.UseCases.GetAccount;
 
     public sealed class GetAccountPresenterFake : IGetAccountOutputPort
     {

@@ -4,17 +4,13 @@
 
 namespace Infrastructure.DataAccess.Repositories
 {
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using Domain.Accounts;
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Entities;
-    using Account = Entities.Account;
-    using Credit = Entities.Credit;
-    using Debit = Entities.Debit;
 
     /// <inheritdoc />
     public sealed class AccountRepositoryFake : IAccountRepository
@@ -27,15 +23,15 @@ namespace Infrastructure.DataAccess.Repositories
         public AccountRepositoryFake(MangaContextFake context) => this._context = context;
 
         /// <inheritdoc />
-        public async Task Add(IAccount account, ICredit credit)
+        public async Task Add(Account account, Credit credit)
         {
             this._context
                 .Accounts
-                .Add((Account)account);
+                .Add((Entities.Account)account);
 
             this._context
                 .Credits
-                .Add((Credit)credit);
+                .Add((Entities.Credit)credit);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);
@@ -50,17 +46,17 @@ namespace Infrastructure.DataAccess.Repositories
 
             this._context
                 .Accounts
-                .Remove(accountOld);
+                .Remove((Entities.Account)accountOld);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);
         }
 
-        public async Task<IAccount> Find(AccountId accountId, Guid customerId)
+        public async Task<IAccount> Find(AccountId accountId, CustomerId customerId)
         {
             IAccount account = this._context
                 .Accounts
-                .Where(e => e.CustomerId.Equals(customerId) && e.AccountId.Equals(accountId))
+                .Where(e => e.CustomerId == customerId && e.AccountId.Equals(accountId))
                 .Select(e => (IAccount)e)
                 .SingleOrDefault();
 
@@ -90,7 +86,7 @@ namespace Infrastructure.DataAccess.Repositories
         }
 
         /// <inheritdoc />
-        public async Task Update(IAccount account, ICredit credit)
+        public async Task Update(Account account, Credit credit)
         {
             Account accountOld = this._context
                 .Accounts
@@ -98,18 +94,18 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (accountOld != null)
             {
-                this._context.Accounts.Remove(accountOld);
+                this._context.Accounts.Remove((Entities.Account)accountOld);
             }
 
-            this._context.Accounts.Add((Account)account);
-            this._context.Credits.Add((Credit)credit);
+            this._context.Accounts.Add((Entities.Account)account);
+            this._context.Credits.Add((Entities.Credit)credit);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);
         }
 
         /// <inheritdoc />
-        public async Task Update(IAccount account, IDebit debit)
+        public async Task Update(Account account, Debit debit)
         {
             Account accountOld = this._context
                 .Accounts
@@ -117,11 +113,11 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (accountOld != null)
             {
-                this._context.Accounts.Remove(accountOld);
-                this._context.Accounts.Add((Account)account);
+                this._context.Accounts.Remove((Entities.Account)accountOld);
+                this._context.Accounts.Add((Entities.Account)account);
             }
 
-            this._context.Debits.Add((Debit)debit);
+            this._context.Debits.Add((Entities.Debit)debit);
 
             await Task.CompletedTask
                 .ConfigureAwait(false);

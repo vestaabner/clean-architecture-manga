@@ -1,7 +1,7 @@
 namespace WebApi.UseCases.V1.SignUp
 {
     using System.Threading.Tasks;
-    using Application.Boundaries.SignUp;
+    using Application.UseCases.SignUp;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

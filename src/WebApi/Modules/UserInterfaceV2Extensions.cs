@@ -1,7 +1,7 @@
 namespace WebApi.Modules
 {
-    using Application.Boundaries.GetAccount;
-    using Domain;
+    using Application.Services;
+    using Application.UseCases.GetAccount;
     using Domain.Accounts;
     using Microsoft.Extensions.DependencyInjection;
     using UseCases.V2.GetAccount;

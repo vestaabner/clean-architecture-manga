@@ -7,8 +7,8 @@ namespace Infrastructure.DataAccess.Repositories
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using Domain.Customers;
-    using Domain.Security.ValueObjects;
     using Microsoft.EntityFrameworkCore;
 
     public sealed class CustomerRepository : ICustomerRepository

@@ -4,6 +4,7 @@
 
 namespace Domain.Security
 {
+    using Common;
     using ValueObjects;
 
     /// <summary>

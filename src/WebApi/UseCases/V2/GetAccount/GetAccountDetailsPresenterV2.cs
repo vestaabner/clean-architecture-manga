@@ -2,8 +2,8 @@ namespace WebApi.UseCases.V2.GetAccount
 {
     using System;
     using System.Data;
-    using Application.Boundaries.GetAccount;
-    using Domain;
+    using Application.Services;
+    using Application.UseCases.GetAccount;
     using Domain.Accounts;
     using Microsoft.AspNetCore.Mvc;
     using OfficeOpenXml;

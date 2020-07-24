@@ -2,7 +2,7 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Services
+namespace Application.Services
 {
     using System.Threading.Tasks;
 

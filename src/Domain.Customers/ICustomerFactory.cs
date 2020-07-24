@@ -4,7 +4,7 @@
 
 namespace Domain.Customers
 {
-    using Security.ValueObjects;
+    using Common;
     using ValueObjects;
 
     /// <summary>

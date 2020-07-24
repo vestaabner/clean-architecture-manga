@@ -5,9 +5,9 @@
 namespace Infrastructure.ExternalAuthentication
 {
     using System.Security.Claims;
+    using Application.Services;
     using Domain.Security;
     using Domain.Security.ValueObjects;
-    using Domain.Services;
     using Microsoft.AspNetCore.Http;
 
     /// <inheritdoc />

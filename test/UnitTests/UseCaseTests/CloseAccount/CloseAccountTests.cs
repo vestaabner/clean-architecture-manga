@@ -1,10 +1,10 @@
 namespace UnitTests.UseCaseTests.CloseAccount
 {
     using System.Threading.Tasks;
-    using Application.Boundaries.CloseAccount;
-    using Application.Boundaries.GetAccount;
-    using Application.Boundaries.Withdraw;
     using Application.UseCases;
+    using Application.UseCases.CloseAccount;
+    using Application.UseCases.GetAccount;
+    using Application.UseCases.Withdraw;
     using Domain.Accounts;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers;

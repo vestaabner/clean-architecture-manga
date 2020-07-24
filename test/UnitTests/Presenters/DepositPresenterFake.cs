@@ -4,7 +4,7 @@
 
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.Deposit;
+    using Application.UseCases.Deposit;
 
     /// <summary>
     ///     Deposit Presenter.

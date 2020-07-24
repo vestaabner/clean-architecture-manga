@@ -47,17 +47,6 @@ namespace Domain.Accounts.ValueObjects
             return this.Amount == 0;
         }
 
-        public static Money? Create(Notification notification, decimal amount, Currency currency)
-        {
-            if (amount > 0)
-            {
-                return new Money(amount, currency);
-            }
-
-            notification.Add("Amount", "Amount is required.");
-            return null;
-        }
-
         public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }
 }

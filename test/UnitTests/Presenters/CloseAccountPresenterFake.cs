@@ -1,6 +1,6 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.CloseAccount;
+    using Application.UseCases.CloseAccount;
 
     /// <summary>
     ///     Close Account Presenter.

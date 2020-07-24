@@ -1,15 +1,12 @@
-﻿namespace Domain.Services
+﻿namespace Application.Services
 {
     using System.Threading.Tasks;
-    using Accounts.ValueObjects;
+    using Domain.Accounts.ValueObjects;
 
     /// <summary>
     /// </summary>
     public interface ICurrencyExchange
     {
-        /// <summary>
-        /// </summary>
-        /// <returns></returns>
-        Task<PositiveMoney> ConvertToUSD(PositiveMoney positiveMoney);
+        Task<PositiveMoney> Convert(PositiveMoney originalAmount, Currency destinationCurrency);
     }
 }

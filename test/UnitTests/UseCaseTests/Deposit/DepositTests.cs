@@ -1,8 +1,8 @@
 namespace UnitTests.UseCaseTests.Deposit
 {
     using System.Threading.Tasks;
-    using Application.Boundaries.Deposit;
     using Application.UseCases;
+    using Application.UseCases.Deposit;
     using Domain.Accounts.ValueObjects;
     using Infrastructure.DataAccess;
     using Infrastructure.DataAccess.Entities;

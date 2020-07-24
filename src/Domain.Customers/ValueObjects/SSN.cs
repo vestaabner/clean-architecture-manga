@@ -41,17 +41,6 @@ namespace Domain.Customers.ValueObjects
             return !(left == right);
         }
 
-        public static SSN? Create(Notification notification, string ssn)
-        {
-            if (!string.IsNullOrWhiteSpace(ssn))
-            {
-                return new SSN(ssn);
-            }
-
-            notification.Add("SSN", "SSN is required.");
-            return null;
-        }
-
         public override string ToString() => string.Format($"{this.Text}");
     }
 }

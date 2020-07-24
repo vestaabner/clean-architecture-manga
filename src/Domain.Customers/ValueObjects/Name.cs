@@ -39,17 +39,6 @@ namespace Domain.Customers.ValueObjects
             return !(left == right);
         }
 
-        public static Name? Create(Notification notification, string name)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                return new Name(name);
-            }
-
-            notification.Add("Name", "Name is required.");
-            return null;
-        }
-
         public override string ToString() => string.Format($"{this.Text}");
     }
 }

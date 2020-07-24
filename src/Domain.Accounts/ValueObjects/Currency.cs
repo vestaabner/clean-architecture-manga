@@ -36,22 +36,6 @@
             return !(left == right);
         }
 
-        public static Currency? Create(Notification notification, string code)
-        {
-            if (code == Dollar.Code ||
-                code == Euro.Code ||
-                code == BritishPound.Code ||
-                code == Canadian.Code ||
-                code == Real.Code ||
-                code == Krona.Code)
-            {
-                return new Currency(code);
-            }
-
-            notification.Add("Currency", "Currency is required.");
-            return null;
-        }
-
         /// <summary>
         ///     Dollar.
         /// </summary>

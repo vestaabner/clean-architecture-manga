@@ -40,17 +40,6 @@ namespace Domain.Accounts.ValueObjects
             return !(left == right);
         }
 
-        public static DebitId? Create(Notification notification, Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                return new DebitId(id);
-            }
-
-            notification.Add("DebitId", "DebitId is required.");
-            return null;
-        }
-
         public override string ToString() => this.Id.ToString();
     }
 }

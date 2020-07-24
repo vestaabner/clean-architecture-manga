@@ -2,7 +2,7 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Security.ValueObjects
+namespace Common
 {
     using System;
 
@@ -38,17 +38,6 @@ namespace Domain.Security.ValueObjects
         public static bool operator !=(UserId left, UserId right)
         {
             return !(left == right);
-        }
-
-        public static UserId? Create(Notification notification, Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                return new UserId(id);
-            }
-
-            notification.Add("UserId", "UserId is required.");
-            return null;
         }
 
         public override string ToString() => this.Id.ToString();

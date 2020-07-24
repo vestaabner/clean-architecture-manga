@@ -24,20 +24,17 @@ namespace Domain.Accounts
         /// <inheritdoc />
         public abstract AccountId AccountId { get; }
 
+        public abstract Currency Currency { get; }
+
         /// <inheritdoc />
-        public void Deposit(ICredit credit)
+        public void Deposit(Credit credit)
         {
             this.Credits.Add(credit);
         }
 
         /// <inheritdoc />
-        public void Withdraw(Notification notification, IDebit debit)
+        public void Withdraw(Debit debit)
         {
-            if (this.GetCurrentBalance().Amount - debit.Amount.Amount < 0)
-            {
-                notification.Add("Balance", Messages.AccountHasNotEnoughFunds);
-            }
-
             this.Debits.Add(debit);
         }
 

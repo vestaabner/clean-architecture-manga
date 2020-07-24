@@ -1,18 +1,17 @@
 namespace WebApi.Modules
 {
-    using Application.Boundaries.CloseAccount;
-    using Application.Boundaries.Deposit;
-    using Application.Boundaries.GetAccount;
-    using Application.Boundaries.GetAccounts;
-    using Application.Boundaries.GetCustomer;
-    using Application.Boundaries.OnBoardCustomer;
-    using Application.Boundaries.OpenAccount;
-    using Application.Boundaries.SignUp;
-    using Application.Boundaries.Transfer;
-    using Application.Boundaries.UpdateCustomer;
-    using Application.Boundaries.Withdraw;
-    using Application.UseCases;
-    using Domain;
+    using Application.Services;
+    using Application.UseCases.CloseAccount;
+    using Application.UseCases.Deposit;
+    using Application.UseCases.GetAccount;
+    using Application.UseCases.GetAccounts;
+    using Application.UseCases.GetCustomer;
+    using Application.UseCases.OnBoardCustomer;
+    using Application.UseCases.OpenAccount;
+    using Application.UseCases.SignUp;
+    using Application.UseCases.Transfer;
+    using Application.UseCases.UpdateCustomer;
+    using Application.UseCases.Withdraw;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
@@ -40,7 +39,6 @@ namespace WebApi.Modules
             services.AddScoped<IWithdrawUseCase, WithdrawUseCase>();
 
             services.AddScoped<Notification>();
-            services.AddScoped<BuilderFactory>();
 
             return services;
         }

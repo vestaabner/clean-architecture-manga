@@ -53,17 +53,6 @@ namespace Domain.Accounts.ValueObjects
             return new Money(this.Amount + amount.Amount, this.Currency);
         }
 
-        public static PositiveMoney? Create(Notification notification, decimal amount, Currency currency)
-        {
-            if (amount > 0)
-            {
-                return new PositiveMoney(amount, currency);
-            }
-
-            notification.Add("Amount", "Amount is required.");
-            return null;
-        }
-
         public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }
 }

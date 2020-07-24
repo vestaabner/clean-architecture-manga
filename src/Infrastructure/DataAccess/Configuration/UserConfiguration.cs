@@ -5,6 +5,7 @@
 namespace Infrastructure.DataAccess.Configuration
 {
     using System;
+    using Common;
     using Domain.Security.ValueObjects;
     using Entities;
     using Microsoft.EntityFrameworkCore;

@@ -5,8 +5,8 @@
 namespace Domain.Accounts
 {
     using System;
+    using Common;
     using Credits;
-    using Customers.ValueObjects;
     using Debits;
     using ValueObjects;
 
@@ -25,8 +25,9 @@ namespace Domain.Accounts
         ///     Creates a new Account.
         /// </summary>
         /// <param name="customerId">CustomerId.</param>
+        /// <param name="currency">Currency</param>
         /// <returns>New Account instance.</returns>
-        IAccount NewAccount(CustomerId customerId);
+        Account NewAccount(CustomerId customerId, Currency currency);
 
         /// <summary>
         ///     Creates a new Credit.
@@ -35,7 +36,7 @@ namespace Domain.Accounts
         /// <param name="amountToDeposit">Amount to Deposit.</param>
         /// <param name="transactionDate">Transaction date.</param>
         /// <returns>New Credit instance.</returns>
-        ICredit NewCredit(IAccount account, PositiveMoney amountToDeposit, DateTime transactionDate);
+        Credit NewCredit(Account account, PositiveMoney amountToDeposit, DateTime transactionDate);
 
         /// <summary>
         ///     Creates a new Debit.
@@ -44,6 +45,6 @@ namespace Domain.Accounts
         /// <param name="amountToWithdraw">Amount to Withdraw.</param>
         /// <param name="transactionDate">Transaction date.</param>
         /// <returns>New Debit instance.</returns>
-        IDebit NewDebit(IAccount account, PositiveMoney amountToWithdraw, DateTime transactionDate);
+        Debit NewDebit(Account account, PositiveMoney amountToWithdraw, DateTime transactionDate);
     }
 }

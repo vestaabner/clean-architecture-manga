@@ -5,18 +5,19 @@
 namespace Infrastructure.DataAccess.Entities
 {
     using System.Collections.Generic;
+    using Common;
     using Domain.Accounts.Credits;
     using Domain.Accounts.Debits;
     using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
 
     /// <inheritdoc />
     public sealed class Account : Domain.Accounts.Account
     {
-        public Account(AccountId accountId, CustomerId customerId)
+        public Account(AccountId accountId, CustomerId customerId, Currency currency)
         {
             this.AccountId = accountId;
             this.CustomerId = customerId;
+            this.Currency = currency;
         }
 
         /// <inheritdoc />
@@ -27,6 +28,8 @@ namespace Infrastructure.DataAccess.Entities
 
         /// <inheritdoc />
         public override AccountId AccountId { get; }
+
+        public override Currency Currency { get; }
 
         /// <summary>
         ///     Gets or sets CustomerId.

@@ -18,13 +18,13 @@ namespace Domain.Accounts
         public AccountId AccountId => new AccountId(Guid.Empty);
 
         /// <inheritdoc />
-        public void Deposit(ICredit credit)
+        public void Deposit(Credit credit)
         {
             // Null Pattern
         }
 
         /// <inheritdoc />
-        public void Withdraw(Notification notification, IDebit debit)
+        public void Withdraw(Debit debit)
         {
             // Null Pattern
         }

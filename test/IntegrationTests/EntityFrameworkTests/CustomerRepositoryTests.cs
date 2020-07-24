@@ -3,6 +3,7 @@ namespace IntegrationTests.EntityFrameworkTests
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using Domain.Customers;
     using Domain.Customers.ValueObjects;
     using Infrastructure.DataAccess;

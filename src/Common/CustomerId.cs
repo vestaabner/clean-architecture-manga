@@ -2,7 +2,7 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Customers.ValueObjects
+namespace Common
 {
     using System;
 
@@ -37,17 +37,6 @@ namespace Domain.Customers.ValueObjects
         public static bool operator !=(CustomerId left, CustomerId right)
         {
             return !(left == right);
-        }
-
-        public static CustomerId? Create(Notification notification, Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                return new CustomerId(id);
-            }
-
-            notification.Add("CustomerId", "CustomerId is required.");
-            return null;
         }
 
         public override string ToString() => this.Id.ToString();

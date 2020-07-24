@@ -1,6 +1,6 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.GetCustomer;
+    using Application.UseCases.GetCustomer;
 
     public sealed class GetCustomerPresenterFake : IGetCustomerOutputPort
     {

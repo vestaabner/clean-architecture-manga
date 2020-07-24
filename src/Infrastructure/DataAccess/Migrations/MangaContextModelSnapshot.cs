@@ -15,7 +15,7 @@ namespace Infrastructure.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.5")
+                .HasAnnotation("ProductVersion", "3.1.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -23,6 +23,10 @@ namespace Infrastructure.DataAccess.Migrations
                 {
                     b.Property<Guid>("AccountId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
@@ -37,6 +41,7 @@ namespace Infrastructure.DataAccess.Migrations
                         new
                         {
                             AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
+                            Currency = "USD",
                             CustomerId = new Guid("197d0438-e04b-453d-b5de-eca05960c6ae")
                         });
                 });
@@ -71,7 +76,7 @@ namespace Infrastructure.DataAccess.Migrations
                             CreditId = new Guid("7bf066ba-379a-4e72-a59b-9755fda432ce"),
                             AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
                             Currency = "USD",
-                            TransactionDate = new DateTime(2020, 7, 22, 14, 13, 10, 752, DateTimeKind.Utc).AddTicks(5459),
+                            TransactionDate = new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(3504),
                             Value = 400m
                         });
                 });
@@ -143,7 +148,7 @@ namespace Infrastructure.DataAccess.Migrations
                             DebitId = new Guid("31ade963-bd69-4afb-9df7-611ae2cfa651"),
                             AccountId = new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"),
                             Currency = "USD",
-                            TransactionDate = new DateTime(2020, 7, 22, 14, 13, 10, 752, DateTimeKind.Utc).AddTicks(9184),
+                            TransactionDate = new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(5105),
                             Value = 400m
                         });
                 });
@@ -165,7 +170,7 @@ namespace Infrastructure.DataAccess.Migrations
                         new
                         {
                             UserId = new Guid("e278ee65-6c41-42d6-9a73-838199a44d62"),
-                            ExternalUserId = "github/ivanpaulovich"
+                            ExternalUserId = "GitHub/7133698"
                         });
                 });
 

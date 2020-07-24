@@ -1,6 +1,6 @@
 namespace WebApi.UseCases.V1.SignUp
 {
-    using Application.Boundaries.SignUp;
+    using Application.UseCases.SignUp;
     using Domain.Security;
     using Microsoft.AspNetCore.Mvc;
     using ViewModels;

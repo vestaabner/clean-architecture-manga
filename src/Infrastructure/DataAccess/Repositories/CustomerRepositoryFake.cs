@@ -6,9 +6,8 @@ namespace Infrastructure.DataAccess.Repositories
 {
     using System.Linq;
     using System.Threading.Tasks;
+    using Common;
     using Domain.Customers;
-    using Domain.Customers.ValueObjects;
-    using Domain.Security.ValueObjects;
 
     public sealed class CustomerRepositoryFake : ICustomerRepository
     {

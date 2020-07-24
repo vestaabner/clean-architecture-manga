@@ -40,17 +40,6 @@ namespace Domain.Accounts.ValueObjects
             return !(left == right);
         }
 
-        public static CreditId? Create(Notification notification, Guid id)
-        {
-            if (id != Guid.Empty)
-            {
-                return new CreditId(id);
-            }
-
-            notification.Add("CreditId", "CreditId is required.");
-            return null;
-        }
-
         public override string ToString() => this.Id.ToString();
     }
 }

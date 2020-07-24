@@ -5,6 +5,7 @@
 namespace Infrastructure.DataAccess.Entities
 {
     using System.Collections.Generic;
+    using Common;
     using Domain.Security.ValueObjects;
 
     /// <summary>

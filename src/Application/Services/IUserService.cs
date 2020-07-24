@@ -2,9 +2,9 @@
 // Copyright © Ivan Paulovich. All rights reserved.
 // </copyright>
 
-namespace Domain.Services
+namespace Application.Services
 {
-    using Security.ValueObjects;
+    using Domain.Security.ValueObjects;
 
     /// <summary>
     ///     User Service.

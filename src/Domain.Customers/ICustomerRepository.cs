@@ -5,7 +5,7 @@
 namespace Domain.Customers
 {
     using System.Threading.Tasks;
-    using Security.ValueObjects;
+    using Common;
 
     /// <summary>
     ///     Customer

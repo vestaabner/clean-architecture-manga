@@ -5,6 +5,7 @@
 namespace Infrastructure.DataAccess
 {
     using System;
+    using Common;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
@@ -18,7 +19,7 @@ namespace Infrastructure.DataAccess
     public static class SeedData
     {
         public static readonly ExternalUserId DefaultExternalUserId =
-            new ExternalUserId("github/ivanpaulovich");
+            new ExternalUserId("GitHub/7133698");
 
         public static readonly UserId DefaultUserId =
             new UserId(new Guid("E278EE65-6C41-42D6-9A73-838199A44D62"));
@@ -66,7 +67,8 @@ namespace Infrastructure.DataAccess
                     new
                     {
                         AccountId = DefaultAccountId,
-                        CustomerId = DefaultCustomerId
+                        CustomerId = DefaultCustomerId,
+                        Currency = Currency.Dollar
                     });
 
             builder.Entity<Credit>()

@@ -1,7 +1,6 @@
 namespace UnitTests.InputValidationTests
 {
     using System;
-    using Application.Boundaries.Transfer;
     using Domain.Accounts.ValueObjects;
     using Xunit;
 

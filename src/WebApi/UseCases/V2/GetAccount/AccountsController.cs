@@ -2,7 +2,7 @@ namespace WebApi.UseCases.V2.GetAccount
 {
     using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
-    using Application.Boundaries.GetAccount;
+    using Application.UseCases.GetAccount;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;

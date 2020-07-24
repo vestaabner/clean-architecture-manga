@@ -6,6 +6,7 @@ namespace Infrastructure.DataAccess
 {
     using System;
     using System.Collections.ObjectModel;
+    using Common;
     using Domain.Accounts.ValueObjects;
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
@@ -48,7 +49,8 @@ namespace Infrastructure.DataAccess
 
             var account = new Account(
                 DefaultAccountId,
-                DefaultCustomerId);
+                DefaultCustomerId,
+                Currency.Dollar);
 
             account.Credits.Add(credit);
             account.Debits.Add(debit);
@@ -72,7 +74,8 @@ namespace Infrastructure.DataAccess
 
             var secondAccount = new Account(
                 SecondAccountId,
-                SecondCustomerId);
+                SecondCustomerId,
+                Currency.Dollar);
 
             this.Customers.Add(secondCustomer);
             this.Accounts.Add(secondAccount);

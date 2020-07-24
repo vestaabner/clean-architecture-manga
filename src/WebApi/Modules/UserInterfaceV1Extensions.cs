@@ -1,28 +1,28 @@
 namespace WebApi.Modules
 {
-    using Application.Boundaries.CloseAccount;
-    using Application.Boundaries.Deposit;
-    using Application.Boundaries.GetAccount;
-    using Application.Boundaries.GetAccounts;
-    using Application.Boundaries.GetCustomer;
-    using Application.Boundaries.OnBoardCustomer;
-    using Application.Boundaries.OpenAccount;
-    using Application.Boundaries.SignUp;
-    using Application.Boundaries.Transfer;
-    using Application.Boundaries.UpdateCustomer;
-    using Application.Boundaries.Withdraw;
+    using Application.UseCases.CloseAccount;
+    using Application.UseCases.Deposit;
+    using Application.UseCases.GetAccount;
+    using Application.UseCases.GetAccounts;
+    using Application.UseCases.GetCustomer;
+    using Application.UseCases.OnBoardCustomer;
+    using Application.UseCases.OpenAccount;
+    using Application.UseCases.SignUp;
+    using Application.UseCases.Transfer;
+    using Application.UseCases.UpdateCustomer;
+    using Application.UseCases.Withdraw;
     using Microsoft.Extensions.DependencyInjection;
-    using UseCases.V1.CloseAccount;
-    using UseCases.V1.Deposit;
-    using UseCases.V1.GetAccount;
-    using UseCases.V1.GetAccounts;
-    using UseCases.V1.GetCustomer;
-    using UseCases.V1.OnBoardCustomer;
-    using UseCases.V1.OpenAccount;
+    using UseCases.V1.Accounts.CloseAccount;
+    using UseCases.V1.Accounts.GetAccount;
+    using UseCases.V1.Accounts.GetAccounts;
+    using UseCases.V1.Accounts.OpenAccount;
+    using UseCases.V1.Customers.GetCustomer;
+    using UseCases.V1.Customers.OnBoardCustomer;
+    using UseCases.V1.Customers.UpdateCustomer;
     using UseCases.V1.SignUp;
-    using UseCases.V1.Transfer;
-    using UseCases.V1.UpdateCustomer;
-    using UseCases.V1.Withdraw;
+    using UseCases.V1.Transactions.Deposit;
+    using UseCases.V1.Transactions.Transfer;
+    using UseCases.V1.Transactions.Withdraw;
 
     /// <summary>
     ///     The User Interface V1 Extensions.

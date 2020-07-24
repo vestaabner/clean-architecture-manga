@@ -5,8 +5,8 @@
 namespace Infrastructure.DataAccess.Configuration
 {
     using System;
+    using Common;
     using Domain.Accounts.ValueObjects;
-    using Domain.Customers.ValueObjects;
     using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -39,6 +39,12 @@ namespace Infrastructure.DataAccess.Configuration
                 .HasConversion(
                     v => v.Id,
                     v => new CustomerId(v))
+                .IsRequired();
+
+            builder.Property(credit => credit.Currency)
+                .HasConversion(
+                    value => value.Code,
+                    value => new Currency(value))
                 .IsRequired();
 
             builder.Ignore(p => p.Credits);

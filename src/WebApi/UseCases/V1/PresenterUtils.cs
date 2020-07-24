@@ -1,7 +1,7 @@
 ﻿namespace WebApi.UseCases.V1
 {
     using System.Linq;
-    using Domain;
+    using Application.Services;
     using Microsoft.AspNetCore.Mvc;
 
     public static class PresenterUtils

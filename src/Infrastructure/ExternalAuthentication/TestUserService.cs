@@ -4,8 +4,8 @@
 
 namespace Infrastructure.ExternalAuthentication
 {
+    using Application.Services;
     using Domain.Security.ValueObjects;
-    using Domain.Services;
 
     /// <inheritdoc />
     public sealed class TestUserService : IUserService
