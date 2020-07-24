@@ -45,12 +45,12 @@ namespace Domain.Accounts.ValueObjects
 
         public Money Subtract(PositiveMoney totalDebits)
         {
-            return new Money(this.Amount - totalDebits.Amount, this.Currency);
+            return new Money(Math.Round(this.Amount - totalDebits.Amount, 2), this.Currency);
         }
 
         public Money Add(Money amount)
         {
-            return new Money(this.Amount + amount.Amount, this.Currency);
+            return new Money(Math.Round(this.Amount + amount.Amount, 2), this.Currency);
         }
 
         public override string ToString() => string.Format($"{this.Amount} {this.Currency}");

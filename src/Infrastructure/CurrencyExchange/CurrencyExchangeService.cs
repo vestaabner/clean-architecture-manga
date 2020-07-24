@@ -56,11 +56,11 @@
         private void ParseCurrencies(string responseJson)
         {
             var rates = JObject.Parse(responseJson);
-            decimal eur = rates["rates"]![Currency.Euro]!.Value<decimal>();
-            decimal cad = rates["rates"]![Currency.Canadian]!.Value<decimal>();
-            decimal gbh = rates["rates"]![Currency.BritishPound]!.Value<decimal>();
-            decimal sek = rates["rates"]![Currency.Krona]!.Value<decimal>();
-            decimal brl = rates["rates"]![Currency.Real]!.Value<decimal>();
+            decimal eur = rates["rates"]![Currency.Euro.Code]!.Value<decimal>();
+            decimal cad = rates["rates"]![Currency.Canadian.Code]!.Value<decimal>();
+            decimal gbh = rates["rates"]![Currency.BritishPound.Code]!.Value<decimal>();
+            decimal sek = rates["rates"]![Currency.Krona.Code]!.Value<decimal>();
+            decimal brl = rates["rates"]![Currency.Real.Code]!.Value<decimal>();
 
             this._usdRates.Add(Currency.Dollar, 1);
             this._usdRates.Add(Currency.Euro, eur);

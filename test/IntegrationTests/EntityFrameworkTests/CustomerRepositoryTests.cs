@@ -82,8 +82,10 @@ namespace IntegrationTests.EntityFrameworkTests
                 .SaveChangesAsync()
                 .ConfigureAwait(false);
 
-            ICustomer getCustomer = await customerRepository
-                .Find(SeedData.DefaultUserId)
+            Customer getCustomer = await context
+                .Customers
+                .Where(c => c.CustomerId == customer.CustomerId)
+                .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
             var updatedSSN = new SSN("555555555");

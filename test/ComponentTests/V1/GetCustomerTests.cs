@@ -40,11 +40,14 @@ namespace ComponentTests.V1
 
             Assert.Equal(JTokenType.String, jsonResponse["customer"]!["customerId"]!.Type);
             Assert.Equal(JTokenType.String, jsonResponse["customer"]!["ssn"]!.Type);
-            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["name"]!.Type);
+            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["firstName"]!.Type);
+            Assert.Equal(JTokenType.String, jsonResponse["customer"]!["lastName"]!.Type);
+
 
             Assert.True(Guid.TryParse(jsonResponse["customer"]!["customerId"]!.Value<string>(), out Guid _));
             Assert.Equal("8608179999", jsonResponse["customer"]!["ssn"]!);
-            Assert.Equal("Ivan Paulovich", jsonResponse["customer"]!["name"]!);
+            Assert.Equal("Ivan Paulovich", jsonResponse["customer"]!["firstName"]!);
+            Assert.Equal("Ivan Paulovich", jsonResponse["customer"]!["lastName"]!);
         }
     }
 }

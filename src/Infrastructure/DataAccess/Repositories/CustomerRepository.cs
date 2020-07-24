@@ -5,9 +5,11 @@
 namespace Infrastructure.DataAccess.Repositories
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Common;
+    using Domain.Accounts.ValueObjects;
     using Domain.Customers;
     using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +23,7 @@ namespace Infrastructure.DataAccess.Repositories
 
         public async Task<ICustomer> Find(UserId userId)
         {
-            Customer customer = await this._context
+            Entities.Customer customer = await this._context
                 .Customers
                 .Where(c => c.UserId == userId)
                 .SingleOrDefaultAsync()
@@ -32,7 +34,7 @@ namespace Infrastructure.DataAccess.Repositories
                 return CustomerNull.Instance;
             }
 
-            var accounts = this._context
+            List<AccountId> accounts = this._context
                 .Accounts
                 .Where(e => e.CustomerId == customer.CustomerId)
                 .Select(e => e.AccountId)

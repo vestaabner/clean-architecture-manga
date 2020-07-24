@@ -111,7 +111,7 @@ namespace Application.UseCases.CloseAccount
                     .ConfigureAwait(false);
 
                 this._outputPort.ClosedSuccessful(closingAccount);
-
+                return;
             }
 
             this._outputPort.NotFound();
