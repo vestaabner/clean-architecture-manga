@@ -1,7 +1,6 @@
 namespace UnitTests.UseCaseTests.Withdraw
 {
     using System.Threading.Tasks;
-    using Application.UseCases;
     using Application.UseCases.Withdraw;
     using Infrastructure.DataAccess;
     using Presenters;

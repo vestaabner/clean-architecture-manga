@@ -22,8 +22,8 @@ namespace Application.UseCases.GetCustomer
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IGetCustomerOutputPort _outputPort;
-        private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetCustomerUseCase" /> class.
@@ -58,8 +58,8 @@ namespace Application.UseCases.GetCustomer
                 .ConfigureAwait(false);
 
             ICustomer customer = await this._customerRepository
-                    .Find(user.UserId)
-                    .ConfigureAwait(false);
+                .Find(user.UserId)
+                .ConfigureAwait(false);
 
             if (customer is CustomerNull)
             {

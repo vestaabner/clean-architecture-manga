@@ -14,13 +14,10 @@ namespace WebApi.UseCases.V1.Transactions.Withdraw
     {
         private readonly Notification _notification;
 
-        public WithdrawPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public WithdrawPresenter(Notification notification) => this._notification = notification;
 
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }

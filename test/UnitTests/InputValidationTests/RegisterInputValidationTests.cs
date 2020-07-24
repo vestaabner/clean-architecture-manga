@@ -1,6 +1,5 @@
 namespace UnitTests.InputValidationTests
 {
-    using Application.Boundaries.Register;
     using Xunit;
 
     public sealed class RegisterInputValidationTests

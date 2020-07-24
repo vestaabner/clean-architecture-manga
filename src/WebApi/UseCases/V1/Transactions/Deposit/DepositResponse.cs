@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Transactions.Deposit
         /// <summary>
         ///     The Deposit response constructor.
         /// </summary>
-        public DepositResponse(CreditModel transaction)
-        {
-            this.Transaction = transaction;
-        }
+        public DepositResponse(CreditModel transaction) => this.Transaction = transaction;
 
         /// <summary>
         ///     Gets Transaction.

@@ -32,20 +32,11 @@ namespace Domain.Accounts.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Amount, this.Currency);
 
-        public static bool operator ==(Money left, Money right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Money left, Money right) => left.Equals(right);
 
-        public static bool operator !=(Money left, Money right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(Money left, Money right) => !(left == right);
 
-        public bool IsZero()
-        {
-            return this.Amount == 0;
-        }
+        public bool IsZero() => this.Amount == 0;
 
         public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }

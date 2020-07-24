@@ -6,9 +6,9 @@ namespace Infrastructure.DataAccess.Configuration
 {
     using System;
     using Domain.Accounts.ValueObjects;
+    using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Credit = Entities.Credit;
 
     /// <summary>
     ///     Credit Configuration.

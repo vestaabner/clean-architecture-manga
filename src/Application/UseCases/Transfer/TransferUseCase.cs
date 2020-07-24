@@ -22,12 +22,12 @@ namespace Application.UseCases.Transfer
     /// </summary>
     public sealed class TransferUseCase : ITransferUseCase
     {
+        private readonly IAccountFactory _accountFactory;
         private readonly IAccountRepository _accountRepository;
+        private readonly ICurrencyExchange _currencyExchange;
+        private readonly Notification _notification;
         private readonly ITransferOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly Notification _notification;
-        private readonly IAccountFactory _accountFactory;
-        private readonly ICurrencyExchange _currencyExchange;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="TransferUseCase" /> class.
@@ -87,14 +87,16 @@ namespace Application.UseCases.Transfer
 
             if (this._notification.IsValid)
             {
-                return this.TransferInternal(new AccountId(originAccountId), new AccountId(destinationAccountId),new PositiveMoney(amount, new Currency(currency)));
+                return this.TransferInternal(new AccountId(originAccountId), new AccountId(destinationAccountId),
+                    new PositiveMoney(amount, new Currency(currency)));
             }
 
             this._outputPort.Invalid();
             return Task.CompletedTask;
         }
 
-        private async Task TransferInternal(AccountId originAccountId, AccountId destinationAccountId, PositiveMoney transferAmount)
+        private async Task TransferInternal(AccountId originAccountId, AccountId destinationAccountId,
+            PositiveMoney transferAmount)
         {
             IAccount originAccount = await this._accountRepository
                 .GetAccount(originAccountId)

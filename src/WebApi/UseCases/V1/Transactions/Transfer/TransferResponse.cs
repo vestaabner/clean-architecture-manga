@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Transactions.Transfer
         /// <summary>
         ///     Transfer Response constructor.
         /// </summary>
-        public TransferResponse(DebitModel transaction)
-        {
-            this.Transaction = transaction;
-        }
+        public TransferResponse(DebitModel transaction) => this.Transaction = transaction;
 
         /// <summary>
         ///     Gets Transaction.

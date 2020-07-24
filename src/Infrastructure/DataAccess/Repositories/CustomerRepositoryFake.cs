@@ -35,7 +35,7 @@ namespace Infrastructure.DataAccess.Repositories
             customer.Accounts
                 .AddRange(accounts);
 
-            return await Task.FromResult<Domain.Customers.Customer>(customer)
+            return await Task.FromResult(customer)
                 .ConfigureAwait(false);
         }
 
@@ -57,8 +57,8 @@ namespace Infrastructure.DataAccess.Repositories
 
             if (customerOld != null)
             {
-                this._context.Customers.Remove((Entities.Customer) customerOld);
-                this._context.Customers.Add((Entities.Customer) customer);
+                this._context.Customers.Remove((Entities.Customer)customerOld);
+                this._context.Customers.Add((Entities.Customer)customer);
             }
 
             await Task.CompletedTask

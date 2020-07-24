@@ -38,7 +38,7 @@ namespace WebApi.UseCases.V1.Accounts.CloseAccount
         public async Task<IActionResult> Close(
             [FromServices] ICloseAccountUseCase useCase,
             [FromServices] CloseAccountPresenter presenter,
-            [FromRoute][Required] Guid accountId)
+            [FromRoute] [Required] Guid accountId)
         {
             await useCase.Execute(accountId)
                 .ConfigureAwait(false);

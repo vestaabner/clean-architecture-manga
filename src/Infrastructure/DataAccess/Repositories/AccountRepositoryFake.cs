@@ -81,7 +81,7 @@ namespace Infrastructure.DataAccess.Repositories
                 return AccountNull.Instance;
             }
 
-            return await Task.FromResult<Domain.Accounts.Account>(account)
+            return await Task.FromResult(account)
                 .ConfigureAwait(false);
         }
 

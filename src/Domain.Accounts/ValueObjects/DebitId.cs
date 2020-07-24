@@ -20,7 +20,7 @@ namespace Domain.Accounts.ValueObjects
         public Guid Id { get; }
 
         public DebitId(Guid id) =>
-            (this.Id) = (id);
+            this.Id = id;
 
         public override bool Equals(object? obj) =>
             obj is DebitId o && this.Equals(o);
@@ -30,15 +30,9 @@ namespace Domain.Accounts.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Id);
 
-        public static bool operator ==(DebitId left, DebitId right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(DebitId left, DebitId right) => left.Equals(right);
 
-        public static bool operator !=(DebitId left, DebitId right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(DebitId left, DebitId right) => !(left == right);
 
         public override string ToString() => this.Id.ToString();
     }

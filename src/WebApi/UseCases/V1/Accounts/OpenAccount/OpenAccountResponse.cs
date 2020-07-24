@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Accounts.OpenAccount
         /// <summary>
         ///     The Response Registration Constructor.
         /// </summary>
-        public OpenAccountResponse(AccountModel accountModel)
-        {
-            this.Account = accountModel;
-        }
+        public OpenAccountResponse(AccountModel accountModel) => this.Account = accountModel;
 
         /// <summary>
         ///     Gets customer.

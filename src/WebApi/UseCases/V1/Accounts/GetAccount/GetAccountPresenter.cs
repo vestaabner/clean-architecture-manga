@@ -12,13 +12,10 @@ namespace WebApi.UseCases.V1.Accounts.GetAccount
     {
         private readonly Notification _notification;
 
-        public GetAccountPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public GetAccountPresenter(Notification notification) => this._notification = notification;
 
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }

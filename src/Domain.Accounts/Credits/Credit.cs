@@ -18,16 +18,6 @@ namespace Domain.Accounts.Credits
     public abstract class Credit : ICredit
     {
         /// <summary>
-        ///     Gets or sets Id.
-        /// </summary>
-        public abstract CreditId CreditId { get; }
-
-        /// <summary>
-        ///     Gets or sets Amount.
-        /// </summary>
-        public abstract PositiveMoney Amount { get; }
-
-        /// <summary>
         ///     Gets Description.
         /// </summary>
         public static string Description => "Credit";
@@ -36,6 +26,16 @@ namespace Domain.Accounts.Credits
         ///     Gets or sets Transaction Date.
         /// </summary>
         public abstract DateTime TransactionDate { get; }
+
+        /// <summary>
+        ///     Gets or sets Id.
+        /// </summary>
+        public abstract CreditId CreditId { get; }
+
+        /// <summary>
+        ///     Gets or sets Amount.
+        /// </summary>
+        public abstract PositiveMoney Amount { get; }
 
         /// <summary>
         ///     Calculate the sum of positive amounts.

@@ -22,16 +22,15 @@ namespace Application.UseCases.OnBoardCustomer
     /// </summary>
     public sealed class OnBoardCustomerUseCase : IOnBoardCustomerUseCase
     {
+        private readonly ICustomerFactory _customerFactory;
         private readonly ICustomerRepository _customerRepository;
+        private readonly Notification _notification;
         private readonly IOnBoardCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
         private readonly IUserRepository _userRepository;
-        private readonly Notification _notification;
-        private readonly ICustomerFactory _customerFactory;
+        private readonly IUserService _userService;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="outputPort"></param>
         /// <param name="unitOfWork"></param>

@@ -10,7 +10,7 @@ namespace WebApi.UseCases.V1.Accounts.GetAccounts
     public sealed class GetAccountsPresenter : IGetAccountsOutputPort
     {
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }
@@ -19,6 +19,5 @@ namespace WebApi.UseCases.V1.Accounts.GetAccounts
             this.ViewModel = PresenterUtils.Ok(new GetAccountsResponse(accounts));
 
         public void NotFound() => this.ViewModel = PresenterUtils.NotFound();
-
     }
 }

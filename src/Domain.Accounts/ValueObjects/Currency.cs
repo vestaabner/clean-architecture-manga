@@ -16,7 +16,7 @@
         public string Code { get; }
 
         public Currency(string code) =>
-            (this.Code) = (code);
+            this.Code = code;
 
         public override bool Equals(object? obj) =>
             obj is Currency o && this.Equals(o);
@@ -26,15 +26,9 @@
         public override int GetHashCode() =>
             HashCode.Combine(this.Code);
 
-        public static bool operator ==(Currency left, Currency right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Currency left, Currency right) => left.Equals(right);
 
-        public static bool operator !=(Currency left, Currency right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(Currency left, Currency right) => !(left == right);
 
         /// <summary>
         ///     Dollar.

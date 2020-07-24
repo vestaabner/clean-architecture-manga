@@ -42,7 +42,8 @@ namespace ComponentTests.V1
             Assert.Equal(JTokenType.Integer, jsonResponse["accounts"]![0]!["currentBalance"]!.Type);
 
             Assert.True(Guid.TryParse(jsonResponse["accounts"]![0]!["accountId"]!.Value<string>(), out Guid _));
-            Assert.True(decimal.TryParse(jsonResponse["accounts"]![0]!["currentBalance"]!.Value<string>(), out decimal _));
+            Assert.True(decimal.TryParse(jsonResponse["accounts"]![0]!["currentBalance"]!.Value<string>(),
+                out decimal _));
         }
     }
 }

@@ -11,8 +11,6 @@ namespace Infrastructure.DataAccess
     using Domain.Customers.ValueObjects;
     using Domain.Security.ValueObjects;
     using Entities;
-    using Credit = Entities.Credit;
-    using Debit = Entities.Debit;
 
     /// <summary>
     /// </summary>
@@ -62,7 +60,7 @@ namespace Infrastructure.DataAccess
             this.Debits.Add(debit);
 
             var secondUser = new User(
-                new UserId(Guid.NewGuid()), 
+                new UserId(Guid.NewGuid()),
                 new ExternalUserId(Messages.ExternalUserID1));
 
             var secondCustomer = new Customer(

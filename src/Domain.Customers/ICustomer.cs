@@ -29,7 +29,6 @@ namespace Domain.Customers
         AccountCollection Accounts { get; }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="ssn"></param>
         /// <param name="firstName"></param>

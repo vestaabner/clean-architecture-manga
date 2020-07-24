@@ -21,22 +21,16 @@ namespace Domain.Accounts
         /// </summary>
         public abstract DebitsCollection Debits { get; }
 
-        /// <inheritdoc />
-        public abstract AccountId AccountId { get; }
-
         public abstract Currency Currency { get; }
 
         /// <inheritdoc />
-        public void Deposit(Credit credit)
-        {
-            this.Credits.Add(credit);
-        }
+        public abstract AccountId AccountId { get; }
 
         /// <inheritdoc />
-        public void Withdraw(Debit debit)
-        {
-            this.Debits.Add(debit);
-        }
+        public void Deposit(Credit credit) => this.Credits.Add(credit);
+
+        /// <inheritdoc />
+        public void Withdraw(Debit debit) => this.Debits.Add(debit);
 
         /// <inheritdoc />
         public bool IsClosingAllowed() => this.GetCurrentBalance()

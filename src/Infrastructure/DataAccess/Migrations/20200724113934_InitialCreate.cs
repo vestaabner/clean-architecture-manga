@@ -1,27 +1,24 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Infrastructure.DataAccess.Migrations
+﻿namespace Infrastructure.DataAccess.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "User",
-                columns: table => new
+                "User",
+                table => new
                 {
                     UserId = table.Column<Guid>(nullable: false),
                     ExternalUserId = table.Column<string>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User", x => x.UserId);
-                });
+                constraints: table => { table.PrimaryKey("PK_User", x => x.UserId); });
 
             migrationBuilder.CreateTable(
-                name: "Customer",
-                columns: table => new
+                "Customer",
+                table => new
                 {
                     CustomerId = table.Column<Guid>(nullable: false),
                     FirstName = table.Column<string>(nullable: false),
@@ -33,16 +30,16 @@ namespace Infrastructure.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Customer", x => x.CustomerId);
                     table.ForeignKey(
-                        name: "FK_Customer_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "UserId",
+                        "FK_Customer_User_UserId",
+                        x => x.UserId,
+                        "User",
+                        "UserId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Account",
-                columns: table => new
+                "Account",
+                table => new
                 {
                     AccountId = table.Column<Guid>(nullable: false),
                     Currency = table.Column<string>(nullable: false),
@@ -52,16 +49,16 @@ namespace Infrastructure.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Account", x => x.AccountId);
                     table.ForeignKey(
-                        name: "FK_Account_Customer_CustomerId",
-                        column: x => x.CustomerId,
-                        principalTable: "Customer",
-                        principalColumn: "CustomerId",
+                        "FK_Account_Customer_CustomerId",
+                        x => x.CustomerId,
+                        "Customer",
+                        "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Credit",
-                columns: table => new
+                "Credit",
+                table => new
                 {
                     CreditId = table.Column<Guid>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
@@ -73,16 +70,16 @@ namespace Infrastructure.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Credit", x => x.CreditId);
                     table.ForeignKey(
-                        name: "FK_Credit_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "AccountId",
+                        "FK_Credit_Account_AccountId",
+                        x => x.AccountId,
+                        "Account",
+                        "AccountId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Debit",
-                columns: table => new
+                "Debit",
+                table => new
                 {
                     DebitId = table.Column<Guid>(nullable: false),
                     TransactionDate = table.Column<DateTime>(nullable: false),
@@ -94,75 +91,93 @@ namespace Infrastructure.DataAccess.Migrations
                 {
                     table.PrimaryKey("PK_Debit", x => x.DebitId);
                     table.ForeignKey(
-                        name: "FK_Debit_Account_AccountId",
-                        column: x => x.AccountId,
-                        principalTable: "Account",
-                        principalColumn: "AccountId",
+                        "FK_Debit_Account_AccountId",
+                        x => x.AccountId,
+                        "Account",
+                        "AccountId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "User",
-                columns: new[] { "UserId", "ExternalUserId" },
-                values: new object[] { new Guid("e278ee65-6c41-42d6-9a73-838199a44d62"), "GitHub/7133698" });
+                "User",
+                new[] {"UserId", "ExternalUserId"},
+                new object[] {new Guid("e278ee65-6c41-42d6-9a73-838199a44d62"), "GitHub/7133698"});
 
             migrationBuilder.InsertData(
-                table: "Customer",
-                columns: new[] { "CustomerId", "FirstName", "LastName", "SSN", "UserId" },
-                values: new object[] { new Guid("197d0438-e04b-453d-b5de-eca05960c6ae"), "Ivan Paulovich", "Ivan Paulovich", "8608179999", new Guid("e278ee65-6c41-42d6-9a73-838199a44d62") });
+                "Customer",
+                new[] {"CustomerId", "FirstName", "LastName", "SSN", "UserId"},
+                new object[]
+                {
+                    new Guid("197d0438-e04b-453d-b5de-eca05960c6ae"), "Ivan Paulovich", "Ivan Paulovich",
+                    "8608179999", new Guid("e278ee65-6c41-42d6-9a73-838199a44d62")
+                });
 
             migrationBuilder.InsertData(
-                table: "Account",
-                columns: new[] { "AccountId", "Currency", "CustomerId" },
-                values: new object[] { new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD", new Guid("197d0438-e04b-453d-b5de-eca05960c6ae") });
+                "Account",
+                new[] {"AccountId", "Currency", "CustomerId"},
+                new object[]
+                {
+                    new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD",
+                    new Guid("197d0438-e04b-453d-b5de-eca05960c6ae")
+                });
 
             migrationBuilder.InsertData(
-                table: "Credit",
-                columns: new[] { "CreditId", "AccountId", "Currency", "TransactionDate", "Value" },
-                values: new object[] { new Guid("7bf066ba-379a-4e72-a59b-9755fda432ce"), new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD", new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(3504), 400m });
+                "Credit",
+                new[] {"CreditId", "AccountId", "Currency", "TransactionDate", "Value"},
+                new object[]
+                {
+                    new Guid("7bf066ba-379a-4e72-a59b-9755fda432ce"),
+                    new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD",
+                    new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(3504), 400m
+                });
 
             migrationBuilder.InsertData(
-                table: "Debit",
-                columns: new[] { "DebitId", "AccountId", "Currency", "TransactionDate", "Value" },
-                values: new object[] { new Guid("31ade963-bd69-4afb-9df7-611ae2cfa651"), new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD", new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(5105), 400m });
+                "Debit",
+                new[] {"DebitId", "AccountId", "Currency", "TransactionDate", "Value"},
+                new object[]
+                {
+                    new Guid("31ade963-bd69-4afb-9df7-611ae2cfa651"),
+                    new Guid("4c510cfe-5d61-4a46-a3d9-c4313426655f"), "USD",
+                    new DateTime(2020, 7, 24, 11, 39, 34, 140, DateTimeKind.Utc).AddTicks(5105), 400m
+                });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Account_CustomerId",
-                table: "Account",
-                column: "CustomerId");
+                "IX_Account_CustomerId",
+                "Account",
+                "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Credit_AccountId",
-                table: "Credit",
-                column: "AccountId");
+                "IX_Credit_AccountId",
+                "Credit",
+                "AccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Customer_UserId",
-                table: "Customer",
-                column: "UserId");
+                "IX_Customer_UserId",
+                "Customer",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Debit_AccountId",
-                table: "Debit",
-                column: "AccountId");
+                "IX_Debit_AccountId",
+                "Debit",
+                "AccountId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Credit");
+                "Credit");
 
             migrationBuilder.DropTable(
-                name: "Debit");
+                "Debit");
 
             migrationBuilder.DropTable(
-                name: "Account");
+                "Account");
 
             migrationBuilder.DropTable(
-                name: "Customer");
+                "Customer");
 
             migrationBuilder.DropTable(
-                name: "User");
+                "User");
         }
     }
 }

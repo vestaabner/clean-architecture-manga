@@ -4,13 +4,12 @@ namespace IntegrationTests.EntityFrameworkTests
     using System.Linq;
     using System.Threading.Tasks;
     using Common;
-    using Domain.Customers;
     using Domain.Customers.ValueObjects;
     using Infrastructure.DataAccess;
+    using Infrastructure.DataAccess.Entities;
     using Infrastructure.DataAccess.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Xunit;
-    using Customer = Infrastructure.DataAccess.Entities.Customer;
 
     public sealed class CustomerRepositoryTests
     {
@@ -31,7 +30,7 @@ namespace IntegrationTests.EntityFrameworkTests
 
             Customer customer = new Customer(
                 new CustomerId(Guid.NewGuid()),
-                    new Name("Ivan"),
+                new Name("Ivan"),
                 new Name("Paulovich"),
                 new SSN("1234567890"),
                 SeedData.DefaultUserId
@@ -88,7 +87,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 .SingleOrDefaultAsync()
                 .ConfigureAwait(false);
 
-            var updatedSSN = new SSN("555555555");
+            SSN updatedSSN = new SSN("555555555");
 
             getCustomer.Update(
                 updatedSSN,
@@ -96,7 +95,7 @@ namespace IntegrationTests.EntityFrameworkTests
                 new Name("Paulovich"));
 
             await customerRepository
-                .Update((Customer)getCustomer)
+                .Update(getCustomer)
                 .ConfigureAwait(false);
 
             await context

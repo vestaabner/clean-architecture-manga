@@ -1,7 +1,5 @@
 namespace UnitTests.Presenters
 {
-    using Application.Boundaries.Register;
-
     /// <summary>
     /// </summary>
     public sealed class RegisterPresenterFake : IRegisterOutputPort

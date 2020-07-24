@@ -11,9 +11,6 @@ namespace Infrastructure.ExternalAuthentication
     public sealed class TestUserService : IUserService
     {
         /// <inheritdoc />
-        public ExternalUserId GetCurrentUser()
-        {
-            return new ExternalUserId(Messages.ExternalUserID);
-        }
+        public ExternalUserId GetCurrentUser() => new ExternalUserId(Messages.ExternalUserID);
     }
 }

@@ -20,6 +20,7 @@
 
         public static IActionResult Ok(object value) => new OkObjectResult(value);
 
-        public static IActionResult Created(object routeValues, object value) => new CreatedAtRouteResult(routeValues, value);
+        public static IActionResult Created(object routeValues, object value) =>
+            new CreatedAtRouteResult(routeValues, value);
     }
 }

@@ -29,21 +29,9 @@ namespace Infrastructure.DataAccess.Entities
 
         public override PositiveMoney Amount { get; }
 
-        public decimal Value
-        {
-            get
-            {
-                return this.Amount.Amount;
-            }
-        }
+        public decimal Value => this.Amount.Amount;
 
-        public string Currency
-        {
-            get
-            {
-                return this.Amount.Currency.Code;
-            }
-        }
+        public string Currency => this.Amount.Currency.Code;
 
         public override DateTime TransactionDate { get; }
 

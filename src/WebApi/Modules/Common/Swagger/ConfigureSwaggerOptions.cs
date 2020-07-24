@@ -1,6 +1,7 @@
 namespace WebApi.Modules.Common.Swagger
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
@@ -16,10 +17,12 @@ namespace WebApi.Modules.Common.Swagger
     /// </remarks>
     public sealed class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
+        [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
         private const string UriString = "http://paulovich.net";
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
-        private const string UriString1 = "https://raw.githubusercontent.com/ivanpaulovich/clean-architecture-manga/master/README.md";
+
+        [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
+        private const string UriString1 =
+            "https://raw.githubusercontent.com/ivanpaulovich/clean-architecture-manga/master/README.md";
 
         private readonly IApiVersionDescriptionProvider _provider;
 

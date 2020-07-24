@@ -20,10 +20,10 @@ namespace Application.UseCases.SignUp
     public sealed class SignUpUseCase : ISignUpUseCase
     {
         private readonly ISignUpOutputPort _outputPort;
-        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
         private readonly IUserFactory _userFactory;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="SignUpUseCase" /> class.

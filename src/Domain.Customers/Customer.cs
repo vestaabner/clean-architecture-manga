@@ -10,9 +10,6 @@ namespace Domain.Customers
     /// <inheritdoc />
     public abstract class Customer : ICustomer
     {
-        /// <inheritdoc />
-        public abstract CustomerId CustomerId { get; }
-
         /// <summary>
         ///     Gets or sets First Name.
         /// </summary>
@@ -27,6 +24,9 @@ namespace Domain.Customers
         ///     Gets or sets SSN.
         /// </summary>
         public SSN SSN { get; set; }
+
+        /// <inheritdoc />
+        public abstract CustomerId CustomerId { get; }
 
         /// <inheritdoc />
         public abstract AccountCollection Accounts { get; }

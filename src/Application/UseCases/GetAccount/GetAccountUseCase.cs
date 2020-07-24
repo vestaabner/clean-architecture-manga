@@ -21,8 +21,8 @@ namespace Application.UseCases.GetAccount
     public sealed class GetAccountUseCase : IGetAccountUseCaseV2
     {
         private readonly IAccountRepository _accountRepository;
-        private readonly IGetAccountOutputPort _outputPort;
         private readonly Notification _notification;
+        private readonly IGetAccountOutputPort _outputPort;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetAccountUseCase" /> class.

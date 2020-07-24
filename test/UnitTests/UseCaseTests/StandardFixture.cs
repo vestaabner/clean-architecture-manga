@@ -1,9 +1,5 @@
 namespace UnitTests.UseCaseTests
 {
-    using Domain.Accounts;
-    using Domain.Customers;
-    using Domain.Security;
-    using Infrastructure.CurrencyExchange;
     using Infrastructure.DataAccess;
     using Infrastructure.DataAccess.Repositories;
     using Infrastructure.ExternalAuthentication;

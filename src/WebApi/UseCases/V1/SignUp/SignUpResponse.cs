@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.SignUp
         /// <summary>
         ///     Instantiates the SignUpCustomerResponse.
         /// </summary>
-        public SignUpCustomerResponse(UserModel userModel)
-        {
-            this.User = userModel;
-        }
+        public SignUpCustomerResponse(UserModel userModel) => this.User = userModel;
 
         /// <summary>
         ///     Gets the user.

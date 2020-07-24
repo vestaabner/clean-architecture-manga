@@ -1,8 +1,6 @@
 namespace UnitTests.UseCaseTests.Register
 {
     using System.Threading.Tasks;
-    using Application.Boundaries.Register;
-    using Application.UseCases;
     using Application.UseCases.OpenAccount;
     using Presenters;
     using Xunit;

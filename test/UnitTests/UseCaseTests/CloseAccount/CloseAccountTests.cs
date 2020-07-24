@@ -1,7 +1,6 @@
 namespace UnitTests.UseCaseTests.CloseAccount
 {
     using System.Threading.Tasks;
-    using Application.UseCases;
     using Application.UseCases.CloseAccount;
     using Application.UseCases.GetAccount;
     using Application.UseCases.Withdraw;

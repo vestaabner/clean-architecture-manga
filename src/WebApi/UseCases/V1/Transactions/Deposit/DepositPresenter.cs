@@ -8,19 +8,16 @@ namespace WebApi.UseCases.V1.Transactions.Deposit
     using ViewModels;
 
     /// <summary>
-    /// Generates Deposit presentations.
+    ///     Generates Deposit presentations.
     /// </summary>
     public sealed class DepositPresenter : IDepositOutputPort
     {
         private readonly Notification _notification;
 
-        public DepositPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public DepositPresenter(Notification notification) => this._notification = notification;
 
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }

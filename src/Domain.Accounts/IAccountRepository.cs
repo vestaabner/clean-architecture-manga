@@ -58,7 +58,7 @@ namespace Domain.Accounts
         Task Delete(AccountId accountId);
 
         /// <summary>
-        /// Finds an Account.
+        ///     Finds an Account.
         /// </summary>
         /// <param name="accountId">Account Id.</param>
         /// <param name="customerId">Customer Id.</param>

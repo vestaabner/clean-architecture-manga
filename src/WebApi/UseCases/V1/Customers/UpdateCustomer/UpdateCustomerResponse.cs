@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Customers.UpdateCustomer
         /// <summary>
         ///     The Response Registration Constructor.
         /// </summary>
-        public UpdateCustomerResponse(CustomerModel customerModel)
-        {
-            this.Customer = customerModel;
-        }
+        public UpdateCustomerResponse(CustomerModel customerModel) => this.Customer = customerModel;
 
         /// <summary>
         ///     Gets customer.

@@ -7,16 +7,13 @@ namespace WebApi.UseCases.V1.Customers.UpdateCustomer
     using ViewModels;
 
     /// <summary>
-    /// Generates the Update Customer presentations.
+    ///     Generates the Update Customer presentations.
     /// </summary>
     public sealed class UpdateCustomerPresenter : IUpdateCustomerOutputPort
     {
         private readonly Notification _notification;
 
-        public UpdateCustomerPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public UpdateCustomerPresenter(Notification notification) => this._notification = notification;
 
         public IActionResult? ViewModel { get; private set; }
 

@@ -19,7 +19,7 @@ namespace Domain.Security.ValueObjects
         public string Text { get; }
 
         public ExternalUserId(string text) =>
-            (this.Text) = (text);
+            this.Text = text;
 
         public override bool Equals(object? obj) =>
             obj is ExternalUserId o && this.Equals(o);
@@ -29,15 +29,9 @@ namespace Domain.Security.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Text);
 
-        public static bool operator ==(ExternalUserId left, ExternalUserId right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(ExternalUserId left, ExternalUserId right) => left.Equals(right);
 
-        public static bool operator !=(ExternalUserId left, ExternalUserId right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(ExternalUserId left, ExternalUserId right) => !(left == right);
 
         public override string ToString() => string.Format($"{this.Text}");
     }

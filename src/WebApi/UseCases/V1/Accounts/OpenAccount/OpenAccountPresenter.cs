@@ -7,19 +7,16 @@ namespace WebApi.UseCases.V1.Accounts.OpenAccount
     using ViewModels;
 
     /// <summary>
-    /// Generates the Register presentations.
+    ///     Generates the Register presentations.
     /// </summary>
     public sealed class OpenAccountPresenter : IOpenAccountOutputPort
     {
         private readonly Notification _notification;
 
-        public OpenAccountPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public OpenAccountPresenter(Notification notification) => this._notification = notification;
 
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }

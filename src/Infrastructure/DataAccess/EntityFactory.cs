@@ -33,24 +33,22 @@ namespace Infrastructure.DataAccess
         public Credit NewCredit(
             Account account,
             PositiveMoney amountToDeposit,
-            DateTime transactionDate)
-        {
-            return new Entities.Credit(new CreditId(Guid.NewGuid()), account.AccountId, transactionDate, amountToDeposit.Amount, amountToDeposit.Currency.Code);
-        }
+            DateTime transactionDate) =>
+            new Entities.Credit(new CreditId(Guid.NewGuid()), account.AccountId, transactionDate,
+                amountToDeposit.Amount, amountToDeposit.Currency.Code);
 
         /// <inheritdoc />
         public Debit NewDebit(
             Account account,
             PositiveMoney amountToWithdraw,
-            DateTime transactionDate)
-        {
-            return new Entities.Debit(new DebitId(Guid.NewGuid()), account.AccountId, transactionDate, amountToWithdraw.Amount, amountToWithdraw.Currency.Code);
-        }
-
-        public User NewUser(ExternalUserId externalUserId) =>
-            new Entities.User(new UserId(Guid.NewGuid()),  externalUserId);
+            DateTime transactionDate) =>
+            new Entities.Debit(new DebitId(Guid.NewGuid()), account.AccountId, transactionDate, amountToWithdraw.Amount,
+                amountToWithdraw.Currency.Code);
 
         public Customer NewCustomer(SSN ssn, Name firstName, Name lastName, UserId userId) =>
             new Entities.Customer(new CustomerId(Guid.NewGuid()), firstName, lastName, ssn, userId);
+
+        public User NewUser(ExternalUserId externalUserId) =>
+            new Entities.User(new UserId(Guid.NewGuid()), externalUserId);
     }
 }

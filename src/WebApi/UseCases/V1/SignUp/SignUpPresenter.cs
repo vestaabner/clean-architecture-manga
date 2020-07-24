@@ -6,7 +6,7 @@ namespace WebApi.UseCases.V1.SignUp
     using ViewModels;
 
     /// <summary>
-    /// Generates the Signup presentations.
+    ///     Generates the Signup presentations.
     /// </summary>
     public sealed class SignUpPresenter : ISignUpOutputPort
     {
@@ -17,7 +17,7 @@ namespace WebApi.UseCases.V1.SignUp
 
         public void Successful(User user) =>
             this.ViewModel = PresenterUtils.Created(
-                new { userId = user.UserId.Id, version = "1.0" },
+                new {userId = user.UserId.Id, version = "1.0"},
                 new SignUpCustomerResponse(new UserModel(user)));
     }
 }

@@ -22,14 +22,13 @@ namespace Application.UseCases.UpdateCustomer
     public sealed class UpdateCustomerUseCase : IUpdateCustomerUseCase
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly Notification _notification;
         private readonly IUpdateCustomerOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
-        private readonly Notification _notification;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="outputPort"></param>
         /// <param name="unitOfWork"></param>

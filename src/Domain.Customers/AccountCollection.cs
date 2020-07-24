@@ -24,7 +24,7 @@ namespace Domain.Customers
         /// <returns>ReadOnlyCollection.</returns>
         public IEnumerable<AccountId> GetAccountIds()
         {
-            var accountIds = new ReadOnlyCollection<AccountId>(this);
+            ReadOnlyCollection<AccountId> accountIds = new ReadOnlyCollection<AccountId>(this);
             return accountIds;
         }
     }

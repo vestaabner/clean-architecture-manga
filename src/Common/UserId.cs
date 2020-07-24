@@ -20,7 +20,7 @@ namespace Common
         public Guid Id { get; }
 
         public UserId(Guid id) =>
-            (this.Id) = (id);
+            this.Id = id;
 
         public override bool Equals(object? obj) =>
             obj is UserId o && this.Equals(o);
@@ -30,15 +30,9 @@ namespace Common
         public override int GetHashCode() =>
             HashCode.Combine(this.Id);
 
-        public static bool operator ==(UserId left, UserId right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(UserId left, UserId right) => left.Equals(right);
 
-        public static bool operator !=(UserId left, UserId right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(UserId left, UserId right) => !(left == right);
 
         public override string ToString() => this.Id.ToString();
     }

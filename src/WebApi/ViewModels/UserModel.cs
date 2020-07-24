@@ -18,8 +18,7 @@ namespace WebApi.ViewModels
             this.UserId = user.UserId.Id;
         }
 
-        [Required]
-        public string ExternalUserId { get; }
+        [Required] public string ExternalUserId { get; }
 
         /// <summary>
         ///     Gets Amount.

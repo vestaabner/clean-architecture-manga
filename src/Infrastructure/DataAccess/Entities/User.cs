@@ -20,7 +20,6 @@ namespace Infrastructure.DataAccess.Entities
         }
 
         /// <summary>
-        /// 
         /// </summary>
         public override UserId UserId { get; }
 

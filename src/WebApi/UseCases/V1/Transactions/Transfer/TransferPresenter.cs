@@ -14,13 +14,10 @@ namespace WebApi.UseCases.V1.Transactions.Transfer
     {
         private readonly Notification _notification;
 
-        public TransferPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public TransferPresenter(Notification notification) => this._notification = notification;
 
         /// <summary>
-        /// ViewModel result.
+        ///     ViewModel result.
         /// </summary>
         /// <returns>IActionResult</returns>
         public IActionResult? ViewModel { get; private set; }

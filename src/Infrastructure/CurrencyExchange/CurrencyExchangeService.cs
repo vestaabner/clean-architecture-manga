@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Net.Http;
     using System.Threading.Tasks;
     using Application.Services;
@@ -14,15 +15,16 @@
     public sealed class CurrencyExchangeService : ICurrencyExchange
     {
         public const string HttpClientName = "Fixer";
+
+        [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
+        private const string _exchangeUrl = "https://api.exchangeratesapi.io/latest?base=USD";
+
         private readonly IHttpClientFactory _httpClientFactory;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
-        private const string _exchangeUrl = "https://api.exchangeratesapi.io/latest?base=USD";
+        private readonly Dictionary<Currency, decimal> _usdRates = new Dictionary<Currency, decimal>();
 
         public CurrencyExchangeService(IHttpClientFactory httpClientFactory) =>
             this._httpClientFactory = httpClientFactory;
-
-        private readonly Dictionary<Currency, decimal> _usdRates = new Dictionary<Currency, decimal>();
 
         /// <summary>
         ///     Converts allowed currencies into USD.
@@ -49,8 +51,8 @@
             decimal destinationAmount = this._usdRates[destinationCurrency] / usdAmount;
 
             return new PositiveMoney(
-                    destinationAmount,
-                    destinationCurrency);
+                destinationAmount,
+                destinationCurrency);
         }
 
         private void ParseCurrencies(string responseJson)

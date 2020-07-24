@@ -44,10 +44,10 @@ namespace WebApi.UseCases.V1.Transactions.Transfer
         public async Task<IActionResult> Transfer(
             [FromServices] ITransferUseCase useCase,
             [FromServices] TransferPresenter presenter,
-            [FromRoute][Required] Guid accountId,
-            [FromRoute][Required] Guid destinationAccountId,
-            [FromForm][Required] decimal amount,
-            [FromForm][Required] string currency)
+            [FromRoute] [Required] Guid accountId,
+            [FromRoute] [Required] Guid destinationAccountId,
+            [FromForm] [Required] decimal amount,
+            [FromForm] [Required] string currency)
         {
             await useCase.Execute(
                     accountId,

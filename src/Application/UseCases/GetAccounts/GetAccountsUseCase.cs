@@ -24,12 +24,12 @@ namespace Application.UseCases.GetAccounts
     /// </summary>
     public sealed class GetAccountsUseCase : IGetAccountsUseCase
     {
-        private readonly Notification _notification;
         private readonly IAccountRepository _accountRepository;
-        private readonly IGetAccountsOutputPort _outputPort;
-        private readonly IUserService _userService;
         private readonly ICustomerRepository _customerRepository;
+        private readonly Notification _notification;
+        private readonly IGetAccountsOutputPort _outputPort;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="GetAccountsUseCase" /> class.

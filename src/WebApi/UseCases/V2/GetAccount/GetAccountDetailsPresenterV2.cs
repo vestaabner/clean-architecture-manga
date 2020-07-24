@@ -15,10 +15,7 @@ namespace WebApi.UseCases.V2.GetAccount
     {
         private readonly Notification _notification;
 
-        public GetAccountDetailsPresenterV2(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public GetAccountDetailsPresenterV2(Notification notification) => this._notification = notification;
 
         /// <summary>
         /// </summary>

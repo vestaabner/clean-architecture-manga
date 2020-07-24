@@ -40,9 +40,9 @@ namespace WebApi.UseCases.V1.Customers.UpdateCustomer
         public async Task<IActionResult> Post(
             [FromServices] IUpdateCustomerUseCase useCase,
             [FromServices] UpdateCustomerPresenter presenter,
-            [FromForm][Required] string firstName,
-            [FromForm][Required] string lastName,
-            [FromForm][Required] string ssn)
+            [FromForm] [Required] string firstName,
+            [FromForm] [Required] string lastName,
+            [FromForm] [Required] string ssn)
         {
             await useCase.Execute(
                     firstName,

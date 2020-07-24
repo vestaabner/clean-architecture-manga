@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Customers.OnBoardCustomer
         /// <summary>
         ///     The Response Registration Constructor.
         /// </summary>
-        public OnBoardCustomerResponse(CustomerModel customerModel)
-        {
-            this.Customer = customerModel;
-        }
+        public OnBoardCustomerResponse(CustomerModel customerModel) => this.Customer = customerModel;
 
         /// <summary>
         ///     Gets customer.

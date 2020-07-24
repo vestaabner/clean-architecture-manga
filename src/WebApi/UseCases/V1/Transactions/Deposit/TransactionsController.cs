@@ -40,9 +40,9 @@ namespace WebApi.UseCases.V1.Transactions.Deposit
         public async Task<IActionResult> Deposit(
             [FromServices] IDepositUseCase useCase,
             [FromServices] DepositPresenter presenter,
-            [FromRoute][Required] Guid accountId,
-            [FromForm][Required] decimal amount,
-            [FromForm][Required] string currency)
+            [FromRoute] [Required] Guid accountId,
+            [FromForm] [Required] decimal amount,
+            [FromForm] [Required] string currency)
         {
             await useCase.Execute(accountId, amount, currency)
                 .ConfigureAwait(false);

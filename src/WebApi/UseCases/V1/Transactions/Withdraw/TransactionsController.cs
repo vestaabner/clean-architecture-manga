@@ -40,9 +40,9 @@ namespace WebApi.UseCases.V1.Transactions.Withdraw
         public async Task<IActionResult> Withdraw(
             [FromServices] IWithdrawUseCase useCase,
             [FromServices] WithdrawPresenter presenter,
-            [FromRoute][Required] Guid accountId,
-            [FromForm][Required] decimal amount,
-            [FromForm][Required] string currency)
+            [FromRoute] [Required] Guid accountId,
+            [FromForm] [Required] decimal amount,
+            [FromForm] [Required] string currency)
         {
             await useCase.Execute(
                     accountId,

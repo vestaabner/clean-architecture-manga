@@ -5,7 +5,7 @@
 namespace Domain.Customers.ValueObjects
 {
     using System;
-
+    using System.Diagnostics.CodeAnalysis;
 
     /// <summary>
     ///     SSN
@@ -15,13 +15,13 @@ namespace Domain.Customers.ValueObjects
     ///     </see>
     ///     .
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>")]
+    [SuppressMessage("Minor Code Smell", "S101:Types should be named in PascalCase", Justification = "<Pending>")]
     public readonly struct SSN : IEquatable<SSN>
     {
         public string Text { get; }
 
         public SSN(string text) =>
-            (this.Text) = (text);
+            this.Text = text;
 
         public override bool Equals(object? obj) =>
             obj is SSN o && this.Equals(o);
@@ -31,15 +31,9 @@ namespace Domain.Customers.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Text);
 
-        public static bool operator ==(SSN left, SSN right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(SSN left, SSN right) => left.Equals(right);
 
-        public static bool operator !=(SSN left, SSN right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(SSN left, SSN right) => !(left == right);
 
         public override string ToString() => string.Format($"{this.Text}");
     }

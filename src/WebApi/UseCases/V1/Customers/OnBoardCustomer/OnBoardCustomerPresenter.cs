@@ -7,16 +7,13 @@ namespace WebApi.UseCases.V1.Customers.OnBoardCustomer
     using ViewModels;
 
     /// <summary>
-    /// Generates the Register presentations.
+    ///     Generates the Register presentations.
     /// </summary>
     public sealed class OnBoardCustomerPresenter : IOnBoardCustomerOutputPort
     {
         private readonly Notification _notification;
 
-        public OnBoardCustomerPresenter(Notification notification)
-        {
-            this._notification = notification;
-        }
+        public OnBoardCustomerPresenter(Notification notification) => this._notification = notification;
 
         public IActionResult? ViewModel { get; private set; }
 

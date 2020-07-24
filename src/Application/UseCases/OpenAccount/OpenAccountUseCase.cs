@@ -24,14 +24,14 @@ namespace Application.UseCases.OpenAccount
     /// </summary>
     public sealed class OpenAccountUseCase : IOpenAccountUseCase
     {
+        private readonly IAccountFactory _accountFactory;
         private readonly IAccountRepository _accountRepository;
         private readonly ICustomerRepository _customerRepository;
+        private readonly Notification _notification;
         private readonly IOpenAccountOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserService _userService;
-        private readonly Notification _notification;
-        private readonly IAccountFactory _accountFactory;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         public OpenAccountUseCase(
             IAccountRepository accountRepository,

@@ -23,13 +23,13 @@ namespace Application.UseCases.CloseAccount
     /// </summary>
     public sealed class CloseAccountUseCase : ICloseAccountUseCase
     {
-        private readonly ICloseAccountOutputPort _outputPort;
         private readonly IAccountRepository _accountRepository;
         private readonly ICustomerRepository _customerRepository;
-        private readonly IUserService _userService;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly Notification _notification;
+        private readonly ICloseAccountOutputPort _outputPort;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="CloseAccountUseCase" /> class.

@@ -1,6 +1,7 @@
 namespace WebApi.Modules.Common.Swagger
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Reflection;
     using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,7 @@ namespace WebApi.Modules.Common.Swagger
         /// <summary>
         ///     Add Swagger Configuration dependencies.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
+        [SuppressMessage("Minor Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>")]
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
@@ -49,10 +50,10 @@ namespace WebApi.Modules.Common.Swagger
                             {
                                 Implicit = new OpenApiOAuthFlow
                                 {
-                                    TokenUrl = new Uri(uriString: "https://www.googleapis.com/oauth2/v4/token"),
+                                    TokenUrl = new Uri("https://www.googleapis.com/oauth2/v4/token"),
                                     AuthorizationUrl =
                                         new Uri("https://accounts.google.com/o/oauth2/v2/auth"),
-                                    Scopes = { { "openid", "OpenID" }, { "profile", "Profile" }, { "email", "E-mail" } }
+                                    Scopes = {{"openid", "OpenID"}, {"profile", "Profile"}, {"email", "E-mail"}}
                                 }
                             }
                         });

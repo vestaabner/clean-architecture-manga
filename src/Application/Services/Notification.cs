@@ -3,7 +3,6 @@
     using System.Collections.Generic;
 
     /// <summary>
-    /// 
     /// </summary>
     public sealed class Notification
     {
@@ -21,7 +20,6 @@
 
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="key"></param>
         /// <param name="message"></param>

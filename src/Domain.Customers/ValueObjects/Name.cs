@@ -19,7 +19,7 @@ namespace Domain.Customers.ValueObjects
         public string Text { get; }
 
         public Name(string text) =>
-            (this.Text) = (text);
+            this.Text = text;
 
         public override bool Equals(object? obj) =>
             obj is Name o && this.Equals(o);
@@ -29,15 +29,9 @@ namespace Domain.Customers.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Text);
 
-        public static bool operator ==(Name left, Name right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(Name left, Name right) => left.Equals(right);
 
-        public static bool operator !=(Name left, Name right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(Name left, Name right) => !(left == right);
 
         public override string ToString() => string.Format($"{this.Text}");
     }

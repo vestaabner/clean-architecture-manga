@@ -11,10 +11,7 @@ namespace WebApi.UseCases.V1.Transactions.Withdraw
         /// <summary>
         ///     Withdraw Response constructor.
         /// </summary>
-        public WithdrawResponse(DebitModel debitModel)
-        {
-            this.Transaction = debitModel;
-        }
+        public WithdrawResponse(DebitModel debitModel) => this.Transaction = debitModel;
 
         /// <summary>
         ///     Gets Transaction.

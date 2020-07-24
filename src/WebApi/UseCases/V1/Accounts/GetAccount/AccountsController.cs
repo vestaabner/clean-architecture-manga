@@ -37,7 +37,7 @@ namespace WebApi.UseCases.V1.Accounts.GetAccount
         public async Task<IActionResult> Get(
             [FromServices] IGetAccountUseCase useCase,
             [FromServices] GetAccountPresenter presenter,
-            [FromRoute][Required] Guid accountId)
+            [FromRoute] [Required] Guid accountId)
         {
             await useCase.Execute(accountId)
                 .ConfigureAwait(false);

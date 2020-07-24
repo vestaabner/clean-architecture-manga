@@ -10,14 +10,14 @@
     /// </summary>
     public sealed class CurrencyExchangeFake : ICurrencyExchange
     {
-        private readonly Dictionary<Currency, decimal> _usdRates = new Dictionary<Currency, decimal>()
+        private readonly Dictionary<Currency, decimal> _usdRates = new Dictionary<Currency, decimal>
         {
             {Currency.Dollar, 1m},
             {Currency.Euro, 0.89021m},
             {Currency.Canadian, 1.35737m},
             {Currency.BritishPound, 0.80668m},
             {Currency.Krona, 9.31944m},
-            {Currency.Real, 5.46346m},
+            {Currency.Real, 5.46346m}
         };
 
         public Task<PositiveMoney> Convert(PositiveMoney originalAmount, Currency destinationCurrency)

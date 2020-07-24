@@ -18,16 +18,6 @@ namespace Domain.Accounts.Debits
     public abstract class Debit : IDebit
     {
         /// <summary>
-        ///     Gets or sets Id.
-        /// </summary>
-        public abstract DebitId DebitId { get; }
-
-        /// <summary>
-        ///     Gets or sets Amount.
-        /// </summary>
-        public abstract PositiveMoney Amount { get; }
-
-        /// <summary>
         ///     Gets Description.
         /// </summary>
         public static string Description => "Debit";
@@ -36,6 +26,16 @@ namespace Domain.Accounts.Debits
         ///     Gets or sets Transaction Date.
         /// </summary>
         public abstract DateTime TransactionDate { get; }
+
+        /// <summary>
+        ///     Gets or sets Id.
+        /// </summary>
+        public abstract DebitId DebitId { get; }
+
+        /// <summary>
+        ///     Gets or sets Amount.
+        /// </summary>
+        public abstract PositiveMoney Amount { get; }
 
         /// <summary>
         ///     Calculates the sum of amounts.

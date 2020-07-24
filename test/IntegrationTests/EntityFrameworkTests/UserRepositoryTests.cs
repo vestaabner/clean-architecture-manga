@@ -7,7 +7,6 @@ namespace IntegrationTests.EntityFrameworkTests
     using Domain.Security;
     using Domain.Security.ValueObjects;
     using Infrastructure.DataAccess;
-    using Infrastructure.DataAccess.Entities;
     using Infrastructure.DataAccess.Repositories;
     using Microsoft.EntityFrameworkCore;
     using Xunit;

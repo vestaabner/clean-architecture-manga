@@ -24,7 +24,6 @@ namespace Application.UseCases.Transfer
         void NotFound();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="originAccount"></param>
         /// <param name="debit"></param>
@@ -33,7 +32,6 @@ namespace Application.UseCases.Transfer
         void Successful(Account originAccount, Debit debit, Account destinationAccount, Credit credit);
 
         /// <summary>
-        /// 
         /// </summary>
         void OutOfFunds();
     }

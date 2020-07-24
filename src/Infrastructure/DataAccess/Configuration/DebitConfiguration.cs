@@ -6,9 +6,9 @@ namespace Infrastructure.DataAccess.Configuration
 {
     using System;
     using Domain.Accounts.ValueObjects;
+    using Entities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Debit = Entities.Debit;
 
     /// <summary>
     ///     Debit Configuration.

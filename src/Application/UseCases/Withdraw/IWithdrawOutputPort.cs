@@ -28,7 +28,6 @@ namespace Application.UseCases.Withdraw
         void NotFound();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="debit"></param>
         /// <param name="account"></param>

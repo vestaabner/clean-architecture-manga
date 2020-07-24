@@ -39,8 +39,8 @@ namespace WebApi.UseCases.V1.Accounts.OpenAccount
         public async Task<IActionResult> Post(
             [FromServices] IOpenAccountUseCase useCase,
             [FromServices] OpenAccountPresenter presenter,
-            [FromForm][Required] decimal amount,
-            [FromForm][Required] string currency)
+            [FromForm] [Required] decimal amount,
+            [FromForm] [Required] string currency)
         {
             await useCase.Execute(
                     amount,

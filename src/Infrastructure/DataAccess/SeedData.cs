@@ -11,8 +11,6 @@ namespace Infrastructure.DataAccess
     using Domain.Security.ValueObjects;
     using Entities;
     using Microsoft.EntityFrameworkCore;
-    using Credit = Entities.Credit;
-    using Debit = Entities.Debit;
 
     /// <summary>
     /// </summary>
@@ -45,11 +43,7 @@ namespace Infrastructure.DataAccess
 
             builder.Entity<User>()
                 .HasData(
-                    new
-                    {
-                        UserId = DefaultUserId,
-                        ExternalUserId = DefaultExternalUserId
-                    });
+                    new {UserId = DefaultUserId, ExternalUserId = DefaultExternalUserId});
 
             builder.Entity<Customer>()
                 .HasData(
@@ -64,12 +58,7 @@ namespace Infrastructure.DataAccess
 
             builder.Entity<Account>()
                 .HasData(
-                    new
-                    {
-                        AccountId = DefaultAccountId,
-                        CustomerId = DefaultCustomerId,
-                        Currency = Currency.Dollar
-                    });
+                    new {AccountId = DefaultAccountId, CustomerId = DefaultCustomerId, Currency = Currency.Dollar});
 
             builder.Entity<Credit>()
                 .HasData(
@@ -92,8 +81,6 @@ namespace Infrastructure.DataAccess
                         Value = 400m,
                         Currency = Currency.Dollar.Code
                     });
-
-
         }
     }
 }

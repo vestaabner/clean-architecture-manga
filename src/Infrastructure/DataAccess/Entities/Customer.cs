@@ -14,7 +14,6 @@ namespace Infrastructure.DataAccess.Entities
     {
         public Customer()
         {
-            
         }
 
         public Customer(CustomerId id, Name firstName, Name lastName, SSN ssn, UserId userId)
@@ -30,7 +29,6 @@ namespace Infrastructure.DataAccess.Entities
         public override CustomerId CustomerId { get; }
 
         /// <summary>
-        /// 
         /// </summary>
         public UserId UserId { get; }
 

@@ -1,8 +1,6 @@
 namespace ComponentTests.V2
 {
     using System;
-    using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
@@ -28,13 +26,14 @@ namespace ComponentTests.V2
                 .ConfigureAwait(false);
 
             using StringReader stringReader = new StringReader(actualResponseString);
-            using JsonTextReader reader = new JsonTextReader(stringReader) { DateParseHandling = DateParseHandling.None };
+            using JsonTextReader reader = new JsonTextReader(stringReader) {DateParseHandling = DateParseHandling.None};
 
             JObject jsonResponse = await JObject.LoadAsync(reader)
                 .ConfigureAwait(false);
 
             Guid.TryParse(jsonResponse["accounts"]![0]!["accountId"]!.Value<string>(), out Guid accountId);
-            decimal.TryParse(jsonResponse["accounts"]![0]!["currentBalance"]!.Value<string>(), out decimal currentBalance);
+            decimal.TryParse(jsonResponse["accounts"]![0]!["currentBalance"]!.Value<string>(),
+                out decimal currentBalance);
 
             return new Tuple<Guid, decimal>(accountId, currentBalance);
         }

@@ -21,12 +21,12 @@ namespace Application.UseCases.Deposit
     /// </summary>
     public sealed class DepositUseCase : IDepositUseCase
     {
+        private readonly IAccountFactory _accountFactory;
         private readonly IAccountRepository _accountRepository;
+        private readonly ICurrencyExchange _currencyExchange;
+        private readonly Notification _notification;
         private readonly IDepositOutputPort _outputPort;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly Notification _notification;
-        private readonly IAccountFactory _accountFactory;
-        private readonly ICurrencyExchange _currencyExchange;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DepositUseCase" /> class.
@@ -81,7 +81,8 @@ namespace Application.UseCases.Deposit
 
             if (this._notification.IsValid)
             {
-                return this.DepositInternal(new AccountId(accountId), new PositiveMoney(amount, new Currency(currency)));
+                return this.DepositInternal(new AccountId(accountId),
+                    new PositiveMoney(amount, new Currency(currency)));
             }
 
             this._outputPort.Invalid();

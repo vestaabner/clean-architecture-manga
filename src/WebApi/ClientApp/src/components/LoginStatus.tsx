@@ -51,10 +51,12 @@ class LoginStatus extends React.PureComponent<UserProps> {
             return (
                 <React.Fragment>
                     <NavItem>
-                        <button className="text-dark nav-link" onClick={this.loginWithGitHub.bind(this)}>Login with GitHub</button>
+                        <button className="text-dark nav-link" onClick={this.loginWithGitHub.bind(this)
+}>Login with GitHub</button>
                     </NavItem>
                     <NavItem>
-                        <button className="text-dark nav-link" onClick={this.loginWithGoogle.bind(this)}>Login with Google</button>
+                        <button className="text-dark nav-link" onClick={this.loginWithGoogle.bind(this)
+}>Login with Google</button>
                     </NavItem>
                 </React.Fragment>
             );

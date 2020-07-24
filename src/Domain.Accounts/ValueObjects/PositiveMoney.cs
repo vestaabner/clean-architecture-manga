@@ -33,25 +33,14 @@ namespace Domain.Accounts.ValueObjects
         public override int GetHashCode() =>
             HashCode.Combine(this.Amount, this.Currency);
 
-        public static bool operator ==(PositiveMoney left, PositiveMoney right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(PositiveMoney left, PositiveMoney right) => left.Equals(right);
 
-        public static bool operator !=(PositiveMoney left, PositiveMoney right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(PositiveMoney left, PositiveMoney right) => !(left == right);
 
-        public Money Subtract(PositiveMoney totalDebits)
-        {
-            return new Money(Math.Round(this.Amount - totalDebits.Amount, 2), this.Currency);
-        }
+        public Money Subtract(PositiveMoney totalDebits) =>
+            new Money(Math.Round(this.Amount - totalDebits.Amount, 2), this.Currency);
 
-        public Money Add(Money amount)
-        {
-            return new Money(Math.Round(this.Amount + amount.Amount, 2), this.Currency);
-        }
+        public Money Add(Money amount) => new Money(Math.Round(this.Amount + amount.Amount, 2), this.Currency);
 
         public override string ToString() => string.Format($"{this.Amount} {this.Currency}");
     }

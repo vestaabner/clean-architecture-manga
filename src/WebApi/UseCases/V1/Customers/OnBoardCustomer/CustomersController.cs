@@ -40,9 +40,9 @@ namespace WebApi.UseCases.V1.Customers.OnBoardCustomer
         public async Task<IActionResult> Post(
             [FromServices] IOnBoardCustomerUseCase useCase,
             [FromServices] OnBoardCustomerPresenter presenter,
-            [FromForm][Required] string firstName,
-            [FromForm][Required] string lastName,
-            [FromForm][Required] string ssn)
+            [FromForm] [Required] string firstName,
+            [FromForm] [Required] string lastName,
+            [FromForm] [Required] string ssn)
         {
             await useCase.Execute(
                     firstName,

@@ -24,15 +24,15 @@ namespace Application.UseCases.Withdraw
     /// </summary>
     public sealed class WithdrawUseCase : IWithdrawUseCase
     {
-        private readonly IAccountRepository _accountRepository;
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IWithdrawOutputPort _outputPort;
-        private readonly Notification _notification;
         private readonly IAccountFactory _accountFactory;
-        private readonly IUserService _userService;
-        private readonly IUserRepository _userRepository;
-        private readonly ICustomerRepository _customerRepository;
+        private readonly IAccountRepository _accountRepository;
         private readonly ICurrencyExchange _currencyExchange;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly Notification _notification;
+        private readonly IWithdrawOutputPort _outputPort;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserService _userService;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="WithdrawUseCase" /> class.
@@ -96,7 +96,8 @@ namespace Application.UseCases.Withdraw
 
             if (this._notification.IsValid)
             {
-                return this.WithdrawInternal(new AccountId(accountId), new PositiveMoney(amount, new Currency(currency)));
+                return this.WithdrawInternal(new AccountId(accountId),
+                    new PositiveMoney(amount, new Currency(currency)));
             }
 
             this._outputPort.Invalid();
