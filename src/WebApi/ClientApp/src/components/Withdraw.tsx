@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
 import NumberInput from "../components/NumberInput";
 import { RouteComponentProps } from "react-router";
